@@ -1,6 +1,5 @@
-# app1
-
-A new Flutter project.
+# APP Cliente (Usuario) - Delivery APP
+APP de lado del cliente para explorar restaurantes y hacer pedidos.
 
 ## Getting Started
 
