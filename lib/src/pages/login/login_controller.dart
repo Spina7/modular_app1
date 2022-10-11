@@ -6,7 +6,6 @@ import 'package:app1/src/models/user.dart';
 import 'package:app1/src/providers/users_provider.dart';
 
 class LoginController extends GetxController {
-
   User user = User.fromJson(GetStorage().read('user') ?? {});
 
   TextEditingController emailController = TextEditingController();
@@ -26,27 +25,25 @@ class LoginController extends GetxController {
     print('Password ${password}');
 
     if (isValidForm(email, password)) {
-
       ResponseApi responseApi = await usersProvider.login(email, password);
 
       print('Response Api: ${responseApi.toJson()}');
 
       if (responseApi.success == true) {
-        GetStorage().write('user', responseApi.data); // DATOS DEL USUARIO EN SESION
+        GetStorage()
+            .write('user', responseApi.data); // DATOS DEL USUARIO EN SESION
         goToHomePage();
-      }
-      else {
+      } else {
         Get.snackbar('Login fallido', responseApi.message ?? '');
       }
     }
   }
 
   void goToHomePage() {
-    Get.toNamed('/home');
+    Get.offNamedUntil('/home', (route) => false);
   }
 
   bool isValidForm(String email, String password) {
-
     if (email.isEmpty) {
       Get.snackbar('Formulario no valido', 'Debes ingresar el email');
       return false;
@@ -64,5 +61,4 @@ class LoginController extends GetxController {
 
     return true;
   }
-
 }

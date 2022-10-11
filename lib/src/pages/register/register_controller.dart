@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:app1/src/models/user.dart';
 import 'package:app1/src/providers/users_provider.dart';
+import 'package:image_picker/image_picker.dart';
 
 class RegisterController extends GetxController {
   TextEditingController emailController = TextEditingController();
@@ -12,6 +14,8 @@ class RegisterController extends GetxController {
   TextEditingController confirmPasswordController = TextEditingController();
 
   UsersProvider usersProvider = UsersProvider();
+  ImagePicker picker = ImagePicker();
+  File? imageFile;
 
   void register() async {
     String email = emailController.text.trim();
@@ -87,5 +91,50 @@ class RegisterController extends GetxController {
     }
 
     return true;
+  }
+
+  Future selectImage(ImageSource imageSource) async {
+    XFile? image = await picker.pickImage(source: imageSource);
+
+    if (image != null) {
+      imageFile = File(image.path);
+      update();
+    }
+  }
+
+  void showAlertDialog(BuildContext context) {
+    Widget galleryButton = ElevatedButton(
+        onPressed: () {
+          selectImage(ImageSource.gallery);
+          Get.back();
+        },
+        child: Text(
+          'Galeria',
+          style: TextStyle(color: Colors.white),
+        ));
+    Widget cameraButton = ElevatedButton(
+        onPressed: () {
+          selectImage(ImageSource.camera);
+          Get.back();
+        },
+        child: Text(
+          'Camara',
+          style: TextStyle(color: Colors.white),
+        ));
+
+    AlertDialog alertDialog = AlertDialog(
+      title: Text('Selecciona una opcion'),
+      content: Text('Selecciona una opcion para subir tu foto de perfil'),
+      actions: [
+        galleryButton,
+        cameraButton,
+      ],
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alertDialog;
+        });
   }
 }

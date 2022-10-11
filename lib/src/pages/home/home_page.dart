@@ -9,7 +9,13 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('HOME PAGE'),
+        child: ElevatedButton(
+          onPressed: () => con.signOut(),
+          child: Text(
+            'Cerrar Sesion',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
       ),
     );
   }
