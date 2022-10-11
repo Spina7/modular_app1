@@ -1,15 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:app1/src/models/response_api.dart';
+import 'package:app1/src/models/user.dart';
+import 'package:app1/src/providers/users_provider.dart';
 
 class LoginController extends GetxController {
+
+  User user = User.fromJson(GetStorage().read('user') ?? {});
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  UsersProvider usersProvider = UsersProvider();
 
   void goToRegisterPage() {
     Get.toNamed('/register');
   }
 
-  void login() {
+  void login() async {
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
 
@@ -17,14 +26,29 @@ class LoginController extends GetxController {
     print('Password ${password}');
 
     if (isValidForm(email, password)) {
-      Get.snackbar(
-          'Formulario valido', 'Estas listo para enviar la peticion http');
+
+      ResponseApi responseApi = await usersProvider.login(email, password);
+
+      print('Response Api: ${responseApi.toJson()}');
+
+      if (responseApi.success == true) {
+        GetStorage().write('user', responseApi.data); // DATOS DEL USUARIO EN SESION
+        goToHomePage();
+      }
+      else {
+        Get.snackbar('Login fallido', responseApi.message ?? '');
+      }
     }
   }
 
+  void goToHomePage() {
+    Get.toNamed('/home');
+  }
+
   bool isValidForm(String email, String password) {
+
     if (email.isEmpty) {
-      Get.snackbar('Formulario no valido', 'El email es requerido');
+      Get.snackbar('Formulario no valido', 'Debes ingresar el email');
       return false;
     }
 
@@ -34,9 +58,11 @@ class LoginController extends GetxController {
     }
 
     if (password.isEmpty) {
-      Get.snackbar('Formulario no valido', 'El password es requerido');
+      Get.snackbar('Formulario no valido', 'Debes ingresar el password');
+      return false;
     }
 
     return true;
   }
+
 }
