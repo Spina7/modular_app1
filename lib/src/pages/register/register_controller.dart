@@ -44,6 +44,7 @@ class RegisterController extends GetxController {
         phone: phone,
         password: password,
       );
+      
       Stream stream = await usersProvider.createWithImage(user, imageFile!);
       stream.listen((res) {
         progressDialog.close();

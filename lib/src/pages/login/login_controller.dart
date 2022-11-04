@@ -25,14 +25,17 @@ class LoginController extends GetxController {
     print('Password ${password}');
 
     if (isValidForm(email, password)) {
+
       ResponseApi responseApi = await usersProvider.login(email, password);
 
       print('Response Api: ${responseApi.toJson()}');
 
       if (responseApi.success == true) {
-        GetStorage()
-            .write('user', responseApi.data); // DATOS DEL USUARIO EN SESION
-        goToHomePage();
+
+        GetStorage().write('user', responseApi.data); // DATOS DEL USUARIO EN SESION
+        //goToHomePage();
+        goToRolesPage();
+
       } else {
         Get.snackbar('Login fallido', responseApi.message ?? '');
       }
@@ -42,6 +45,11 @@ class LoginController extends GetxController {
   void goToHomePage() {
     Get.offNamedUntil('/home', (route) => false);
   }
+
+  void goToRolesPage() {
+    Get.offNamedUntil('/roles', (route) => false);
+  }
+
 
   bool isValidForm(String email, String password) {
     if (email.isEmpty) {
