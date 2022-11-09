@@ -33,8 +33,17 @@ class LoginController extends GetxController {
       if (responseApi.success == true) {
 
         GetStorage().write('user', responseApi.data); // DATOS DEL USUARIO EN SESION
-        //goToHomePage();
-        goToRolesPage();
+        User myUser = User.fromJson(GetStorage().read('user') ?? {});
+
+        if(myUser.roles!.length > 1){
+          goToRolesPage();
+
+        }else{  //SI TIENE SOLO UN ROL
+
+          goToClientProductPage();
+
+        }
+        
 
       } else {
         Get.snackbar('Login fallido', responseApi.message ?? '');
@@ -42,8 +51,8 @@ class LoginController extends GetxController {
     }
   }
 
-  void goToHomePage() {
-    Get.offNamedUntil('/home', (route) => false);
+  void goToClientProductPage() {
+    Get.offNamedUntil('/client/products/list', (route) => false);
   }
 
   void goToRolesPage() {

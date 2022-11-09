@@ -1,4 +1,7 @@
+import 'package:app1/src/pages/client/products/list/client_products_list_page.dart';
+import 'package:app1/src/pages/delivery/orders/list/delivery_orders_list_page.dart';
 import 'package:app1/src/pages/home/home_page.dart';
+import 'package:app1/src/pages/restaurant/orders/list/restaurant_orders_list_page.dart';
 import 'package:app1/src/pages/roles/roles_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,12 +35,20 @@ class _MyAppState extends State<MyApp> {
     return GetMaterialApp(
       title: 'Delivery Udemy',
       debugShowCheckedModeBanner: false,
-      initialRoute: userSession.id != null ? '/home' : '/',
+      //Inicializacion de inicio de sesion
+      initialRoute: userSession.id != null ? userSession.roles!.length > 1 ? '/roles' : '/client/products/list' : '/',
       getPages: [
+
         GetPage(name: '/', page: () => LoginPage()),
         GetPage(name: '/register', page: () => RegisterPage()),
         GetPage(name: '/home', page: () => HomePage()),
         GetPage(name: '/roles', page: () => RolesPage()),
+
+        //RUTAS ENLAZADAS CON LA RUTA DE LA BASE DE DATOS (EDUARDO)
+        GetPage(name: '/restaurant/orders/list', page: () => RestaurantOrdersListPage()),
+        GetPage(name: '/delivery/orders/list', page: () => DeliveryOrdersListPage()),
+        GetPage(name: '/client/products/list', page: () => ClientProductsListPage()),
+
       ],
       theme: ThemeData(
         primaryColor: Color(0xeaea5153),
