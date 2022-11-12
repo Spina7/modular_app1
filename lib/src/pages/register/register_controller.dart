@@ -11,6 +11,7 @@ import 'package:app1/src/providers/users_provider.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
 class RegisterController extends GetxController {
+
   TextEditingController emailController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController lastnameController = TextEditingController();
@@ -19,6 +20,7 @@ class RegisterController extends GetxController {
   TextEditingController confirmPasswordController = TextEditingController();
 
   UsersProvider usersProvider = UsersProvider();
+
   ImagePicker picker = ImagePicker();
   File? imageFile;
 
@@ -65,8 +67,14 @@ class RegisterController extends GetxController {
     Get.offNamedUntil('/client/products/list', (route) => false);
   }
 
-  bool isValidForm(String email, String name, String lastname, String phone,
-      String password, String confirmPassword) {
+  bool isValidForm(
+    String email, 
+    String name, 
+    String lastname, 
+    String phone,
+    String password, 
+    String confirmPassword
+    ) {
     if (email.isEmpty) {
       Get.snackbar('Formulario no valido', 'Debes ingresar el email');
       return false;

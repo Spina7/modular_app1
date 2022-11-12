@@ -1,6 +1,7 @@
 
 
 import 'package:app1/src/pages/client/products/list/client_products_list_controller.dart';
+import 'package:app1/src/pages/client/profile/info/client_profile_info_page.dart';
 import 'package:app1/src/pages/delivery/orders/list/delivery_orders_list_page.dart';
 import 'package:app1/src/pages/register/register_page.dart';
 import 'package:app1/src/pages/restaurant/orders/list/restaurant_orders_list_page.dart';
@@ -29,9 +30,11 @@ class ClientProductsListPage extends StatelessWidget {
       body: Obx(() =>  IndexedStack(
           index: con.indexTab.value,
           children: [
-          RestaurantOrdersListPage(),
-          DeliveryOrdersListPage(),
-          RegisterPage()
+
+            RestaurantOrdersListPage(),
+            DeliveryOrdersListPage(),
+            ClientProfileInfoPage(),
+            
           ],
         )
       )
@@ -43,7 +46,7 @@ class ClientProductsListPage extends StatelessWidget {
   Widget _bottomBar(){
     return Obx(() => CustomAnimatedBottomBar(
       containerHeight: 70,
-      backgroundColor: Colors.amber,
+      backgroundColor: Color(0xeaea5153),
       showElevation: true,  //Sombra 
       itemCornerRadius: 24, //bordes redondeados 
       curve: Curves.easeIn,

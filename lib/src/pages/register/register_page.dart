@@ -177,10 +177,10 @@ class RegisterPage extends StatelessWidget {
   Widget _buttonBack() {
     return SafeArea(
         child: Container(
-      margin: EdgeInsets.only(
-        left: 20,
-      ),
-      child: IconButton(
+        margin: EdgeInsets.only(
+          left: 20,
+        ),
+        child: IconButton(
         onPressed: () => Get.back(),
         icon: Icon(Icons.arrow_back_ios),
         color: Colors.black,
