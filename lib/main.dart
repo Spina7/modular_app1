@@ -1,8 +1,10 @@
+import 'package:app1/src/pages/client/home/client_home_page.dart';
 import 'package:app1/src/pages/client/products/list/client_products_list_page.dart';
 import 'package:app1/src/pages/client/profile/info/client_profile_info_page.dart';
 import 'package:app1/src/pages/client/profile/update/client_profile_update_page.dart';
 import 'package:app1/src/pages/delivery/orders/list/delivery_orders_list_page.dart';
 import 'package:app1/src/pages/home/home_page.dart';
+import 'package:app1/src/pages/restaurant/home/restaurant_home_page.dart';
 import 'package:app1/src/pages/restaurant/orders/list/restaurant_orders_list_page.dart';
 import 'package:app1/src/pages/roles/roles_page.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +41,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Delivery Udemy',
       debugShowCheckedModeBanner: false,
       //Inicializacion de inicio de sesion
-      initialRoute: userSession.id != null ? userSession.roles!.length > 1 ? '/roles' : '/client/products/list' : '/',
+      initialRoute: userSession.id != null ? userSession.roles!.length > 1 ? '/roles' : '/client/home' : '/',
       getPages: [
 
         GetPage(name: '/', page: () => LoginPage()),
@@ -52,8 +54,10 @@ class _MyAppState extends State<MyApp> {
         GetPage(name: '/delivery/orders/list', page: () => DeliveryOrdersListPage()),
         GetPage(name: '/client/products/list', page: () => ClientProductsListPage()),
 
-        GetPage(name: '/client/profile/info', page: () => ClientProfileInfoPage()),
+        GetPage(name: '/client/home', page: () => ClientHomePage()),
+        GetPage(name: '/restaurant/home', page: () => RestaurantHomePage()),
 
+        GetPage(name: '/client/profile/info', page: () => ClientProfileInfoPage()),
         GetPage(name: '/client/profile/update', page: () => ClientProfileUpdatePage()),
       ],
       theme: ThemeData(

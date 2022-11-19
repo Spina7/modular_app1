@@ -24,61 +24,8 @@ class ClientProductsListPage extends StatelessWidget {
 
     
      return Scaffold(
-
-      bottomNavigationBar: _bottomBar(),
-
-      body: Obx(() =>  IndexedStack(
-          index: con.indexTab.value,
-          children: [
-
-            RestaurantOrdersListPage(),
-            DeliveryOrdersListPage(),
-            ClientProfileInfoPage(),
-            
-          ],
-        )
-      )
-    );
-  }
-
-  //
-
-  Widget _bottomBar(){
-    return Obx(() => CustomAnimatedBottomBar(
-      containerHeight: 70,
-      backgroundColor: Color(0xeaea5153),
-      showElevation: true,  //Sombra 
-      itemCornerRadius: 24, //bordes redondeados 
-      curve: Curves.easeIn,
-      selectedIndex: con.indexTab.value,  //indice seleccionado
-      onItemSelected: (index) => con.changeTab(index),
-      items: [
-        //ELEMENTOS REFLEJADOS DENTRO DEL BOTTOM BAR
-        BottomNavyBarItem(
-          icon: Icon(Icons.apps), 
-          title: Text('HOME'),
-          activeColor: Colors.white,
-          inactiveColor: Colors.black,
-        ),
-
-        BottomNavyBarItem(
-          icon: Icon(Icons.list), 
-          title: Text('Mis Pedidos'),
-          activeColor: Colors.white,
-          inactiveColor: Colors.black,
-        ),
-
-        BottomNavyBarItem(
-          icon: Icon(Icons.person), 
-          title: Text('Perfil'),
-          activeColor: Colors.white,
-          inactiveColor: Colors.black,
-        ),
-
-
-        ],
-      )
-    );
+      body: Center(child: Text('CLIENT PRODUCTS LIST')), 
+      );
   }
 
 
