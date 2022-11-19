@@ -56,12 +56,15 @@ class ClientProfileUpdateController extends GetxController{
         
       );
 
-      if(imageFile == null){  //ACTUALIZAR SIN IMAGEN 
+      if(imageFile == null){  //ACTUALIZAR SIN IMAGEN
+
         ResponseApi responseApi = await usersProvider.update(myUser);
+        print('Response api update: ${responseApi.data}');
         Get.snackbar('Proceso terminado', responseApi.message ?? '');
         progressDialog.close();
+
         if(responseApi.success == true){
-          
+
           GetStorage().write('user', responseApi.data);
           clientProfileInfoController.user.value = User.fromJson(GetStorage().read('user') ?? {});
         }
@@ -73,10 +76,13 @@ class ClientProfileUpdateController extends GetxController{
             progressDialog.close();
             ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
             Get.snackbar('Proceso terminado', responseApi.message ?? '');
+            print('Response api update: ${responseApi.data}');
+            
             if (responseApi.success == true) {
               
               GetStorage().write('user', responseApi.data);
               clientProfileInfoController.user.value = User.fromJson(GetStorage().read('user') ?? {});
+            
             } else {
               Get.snackbar('Registro fallido', responseApi.message ?? '');
             }
