@@ -1,10 +1,17 @@
+//FRONT END PAGINA "CREAR NUEVA CATEGORIA" Y LLAMADO DE FUNCIONES 
+
+import 'package:app1/src/pages/restaurant/categories/create/restaurant_categories_create_controller.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class RestaurantCategoriesCreatePage extends StatelessWidget {
     
+  //CONTROLADOR DE LA CLASE 
+  RestaurantCategoriesCreateController con = Get.put(RestaurantCategoriesCreateController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,25 +57,30 @@ class RestaurantCategoriesCreatePage extends StatelessWidget {
               _textYourInfo(),
               _textFieldName(),
               _textFieldDescription(),
-              _buttonUpdate(context)
+              _buttonCreate(context)
             ],
           ),
         ));
   }
 
-  Widget _buttonUpdate(BuildContext context) {
+  Widget _buttonCreate(BuildContext context) {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            con.createCategory();
+          },
           style: ElevatedButton.styleFrom(
             padding: EdgeInsets.symmetric(vertical: 15),
           ),
           child: const Text(
             'CREAR CATEGORIA',
-            style: TextStyle(color: Colors.white),
-          )),
+            style: TextStyle(
+              color: Colors.white
+            ),
+          )
+      ),
     );
   }
 
@@ -86,7 +98,7 @@ class RestaurantCategoriesCreatePage extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30),
       child: TextField(
-        //controller: con.lastnameController,
+        controller: con.nameController,
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
             hintText: 'Nombre',
@@ -101,7 +113,7 @@ class RestaurantCategoriesCreatePage extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       child: TextField(
-        //controller: con.nameController,
+        controller: con.descriptionController,
         keyboardType: TextInputType.text,
         maxLines: 4,
         decoration: InputDecoration(
