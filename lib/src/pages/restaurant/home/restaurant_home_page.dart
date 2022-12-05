@@ -8,6 +8,7 @@ import 'package:app1/src/pages/register/register_page.dart';
 import 'package:app1/src/pages/restaurant/categories/create/restaurant_categories_create_page.dart';
 import 'package:app1/src/pages/restaurant/home/restaurant_home_controller.dart';
 import 'package:app1/src/pages/restaurant/orders/list/restaurant_orders_list_page.dart';
+import 'package:app1/src/pages/restaurant/products/create/restaurant_products_create_page.dart';
 import 'package:app1/src/utils/custom_animated_bottom_bar.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -35,7 +36,7 @@ class RestaurantHomePage extends StatelessWidget {
           children: [
             RestaurantOrdersListPage(),
             RestaurantCategoriesCreatePage(),
-            DeliveryOrdersListPage(),
+            RestaurantProductsCreatePage(),
             ClientProfileInfoPage(),
             
           ],

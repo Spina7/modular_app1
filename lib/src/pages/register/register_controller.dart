@@ -170,4 +170,6 @@ class RegisterController extends GetxController {
           return alertDialog;
         });
   }
+
+  
 }

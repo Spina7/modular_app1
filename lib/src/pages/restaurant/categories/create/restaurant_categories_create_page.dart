@@ -120,7 +120,7 @@ class RestaurantCategoriesCreatePage extends StatelessWidget {
             hintText: 'Descripcion',
             labelText: 'Descripcion',
             prefixIcon: Container(
-              //margin: EdgeInsets.only(bottom: 50),
+              margin: EdgeInsets.only(bottom: 50),
               child: Icon(
                 Icons.description
               )
@@ -129,8 +129,8 @@ class RestaurantCategoriesCreatePage extends StatelessWidget {
       ),
     );
   }
-
- 
+  //NOTA!!! EL ICONO Y EL TEXTO NO ESTAN EMPAREJADOS
+ //POR EL MARGIN
 
  
 
