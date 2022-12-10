@@ -113,10 +113,10 @@ class RestaurantProductsCreatePage extends StatelessWidget {
           ),
         ),
         items: _dropDownItems(categories),
-        //value: con.idCategory,
+        value: con.idCategory.value == '' ? null : con.idCategory.value,
         onChanged: (option){
           print('opcion seleccionada ${option}');
-          con.idCategory = option.toString();
+          con.idCategory.value = option.toString();
         },
       ),
     );
@@ -164,7 +164,7 @@ class RestaurantProductsCreatePage extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       child: ElevatedButton(
           onPressed: () {
-            con.createCategory();
+            con.createProduct(context);
           },
           style: ElevatedButton.styleFrom(
             padding: EdgeInsets.symmetric(vertical: 15),
