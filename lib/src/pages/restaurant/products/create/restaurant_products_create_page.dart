@@ -122,7 +122,7 @@ class RestaurantProductsCreatePage extends StatelessWidget {
     );
   }
 
-  List<DropdownMenuItem<String?>> _dropDownItems(List<Category> categories){
+  List<DropdownMenuItem<String>> _dropDownItems(List<Category> categories){
     List<DropdownMenuItem<String>> list = [];
 
     categories.forEach((category) { 

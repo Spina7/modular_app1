@@ -52,15 +52,16 @@ class RestaurantProductsCreateController extends GetxController {
     print('DESCRIPTION: ${description}');
     print('PRICE: ${price}');
     print('ID CATEGORY: ${idCategory}');
+
     ProgressDialog progressDialog = ProgressDialog(context: context);
 
     if(isValidFrom(name, description, price)){
-    Product product = Product(
-      name: name,
-      description: description,
-      price: double.parse(price),
-      idCategory: idCategory.value
-    );
+      Product product = Product(
+        name: name,
+        description: description,
+        price: double.parse(price),
+        idCategory: idCategory.value
+      );
 
     progressDialog.show(max: 100, msg: 'Espere un momento...');
 
@@ -86,38 +87,38 @@ class RestaurantProductsCreateController extends GetxController {
   }
 
   bool isValidFrom(String name, String description, String price){
-    if(name.isNotEmpty){
-      Get.snackbar(('Formulario no valido'), 'Ingresa el nombre del producto');
+    if(name.isEmpty){
+      Get.snackbar('Formulario no valido', 'Ingresa el nombre del producto');
       return false;
     }
 
-    if(description.isNotEmpty){
-      Get.snackbar(('Formulario no valido'), 'Ingresa la descripcion del producto');
+    if(description.isEmpty){
+      Get.snackbar('Formulario no valido', 'Ingresa la descripcion del producto');
       return false;
     }
 
-    if(price.isNotEmpty){
-      Get.snackbar(('Formulario no valido'), 'Ingresa el precio del producto');
+    if(price.isEmpty){
+      Get.snackbar('Formulario no valido', 'Ingresa el precio del producto');
       return false;
     }
 
     if(idCategory.value == ''){
-      Get.snackbar(('Formulario no valido'), 'Debes seleccionar la categoria del producto');
+      Get.snackbar('Formulario no valido', 'Debes seleccionar la categoria del producto');
       return false;
     }
 
     if(imageFile1 == null){
-      Get.snackbar(('Formulario no valido'), 'Selecciona la imagen del producto numero 1');
+      Get.snackbar('Formulario no valido', 'Selecciona la imagen del producto numero 1');
       return false;
     }
 
     if(imageFile2 == null){
-      Get.snackbar(('Formulario no valido'), 'Selecciona la imagen del producto numero 2');
+      Get.snackbar('Formulario no valido', 'Selecciona la imagen del producto numero 2');
       return false;
     }
 
     if(imageFile3 == null){
-      Get.snackbar(('Formulario no valido'), 'Selecciona la imagen del producto numero 3');
+      Get.snackbar('Formulario no valido', 'Selecciona la imagen del producto numero 3');
       return false;
     }
 

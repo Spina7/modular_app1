@@ -19,7 +19,7 @@ class ProductsProvider extends GetConnect{
     final request = http.MultipartRequest('POST', uri);
     request.headers['Authorization'] = userSession.sessionToken ?? '';
 
-    for(int i = 0; i < images.length; i++){
+    for(int i = 0; i < images.length; i++){ //for para recoger los archivos que le envia el usuario
       request.files.add(http.MultipartFile(
           'image',
           http.ByteStream(images[i].openRead().cast()),

@@ -25,14 +25,14 @@ class ClientProductsListPage extends StatelessWidget {
 
     
      return DefaultTabController(
-       length: con.categories.length,
+       length: con.categories.length,   //CUANTAS CATEGORIAS VAMOS A MOSTRAR
        child: Scaffold(
          appBar: PreferredSize(
            preferredSize: Size.fromHeight(50),
            child: AppBar(
             bottom: TabBar(
               isScrollable: true,
-              indicatorColor: Colors.redAccent,
+              indicatorColor: Colors.redAccent,   //AJUSTAR COLORES
               labelColor: Colors.red,
               unselectedLabelColor: Colors.grey[400],
               tabs: List<Widget>.generate(con.categories.length, (index) {
