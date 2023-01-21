@@ -11,15 +11,24 @@ class ClientProductsDetailPage extends StatelessWidget {
   
   Product? product;
 
-  ClientProductsDetailController con = Get.put(ClientProductsDetailController());
+  late ClientProductsDetailController con;
 
-  ClientProductsDetailPage({ @required this.product });
+  var counter = 0.obs;  
+  var price = 0.0.obs;
+
+  ClientProductsDetailPage({@required this.product}){
+    con =  Get.put(ClientProductsDetailController());
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+
+    con.checkIfProductsWasAdded(product!, price, counter);
+
+    return Obx(() =>  Scaffold(
 
       bottomNavigationBar: Container(
+        color: const Color.fromRGBO(245, 245, 245, 1.0),  //FARTA AJUSTAR COLOR 
         height: 100,
         child: _buttonsAddToBag(),
       ),
@@ -32,7 +41,7 @@ class ClientProductsDetailPage extends StatelessWidget {
           _textPriceProduct()
         ],
       )
-    );
+    ));
   }
 
 
@@ -102,8 +111,8 @@ class ClientProductsDetailPage extends StatelessWidget {
           child: Row(
             children: [
 
-              ElevatedButton(
-                onPressed: (){}, 
+              ElevatedButton(   //BOTON - (MENOS)
+                onPressed: () => con.removeItem(product!, price, counter), 
                 child: Text(
                   '-',
                   style: TextStyle(
@@ -113,6 +122,7 @@ class ClientProductsDetailPage extends StatelessWidget {
                 ),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.white,
+                  minimumSize: Size(45, 37),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(25),
@@ -125,7 +135,7 @@ class ClientProductsDetailPage extends StatelessWidget {
               ElevatedButton(
                 onPressed: (){}, 
                 child: Text(
-                  '0',
+                  '${counter.value}',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 22
@@ -137,8 +147,8 @@ class ClientProductsDetailPage extends StatelessWidget {
                 ),
               ),
 
-              ElevatedButton(
-                onPressed: (){}, 
+              ElevatedButton(     //BOTON + (MAS)
+                onPressed: () => con.addItem(product!, price, counter), 
                 child: Text(
                   '+',
                   style: TextStyle(
@@ -148,6 +158,7 @@ class ClientProductsDetailPage extends StatelessWidget {
                 ),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.white,
+                  minimumSize: Size(45, 37),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(25),
@@ -158,17 +169,17 @@ class ClientProductsDetailPage extends StatelessWidget {
               ),
 
               Spacer(),
-              ElevatedButton(
-                onPressed: (){}, 
+              ElevatedButton(     //BOTON "AGREGAR"
+                onPressed: () => con.addToBag(product!, price, counter), 
                 child: Text(
-                  'Agregar  ${product?.price ?? ''}',
+                  'Agregar  ${price.value}',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.redAccent,
+                  primary: Colors.redAccent,     //FALTA AJUSTAR COLOR 
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25)
                   )
@@ -184,49 +195,43 @@ class ClientProductsDetailPage extends StatelessWidget {
   }
 
   Widget _imageSlideshow(BuildContext context){
-    return SafeArea(
-      child: Stack(   //POSICIONAR ELEMENTOS UNO ENCIMA DE OTRO
-        children: [
-          ImageSlideshow(
+    return ImageSlideshow(
 
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height *0.4,
-            initialPage: 0,
-            indicatorColor: Colors.redAccent,
-            indicatorBackgroundColor: Colors.grey,
+      width: double.infinity,
+      height: MediaQuery.of(context).size.height *0.4,
+      initialPage: 0,
+      indicatorColor: Colors.redAccent,
+      indicatorBackgroundColor: Colors.grey,
 
-            children: [
+      children: [
 
-              FadeInImage(
-                fit: BoxFit.cover,
-                fadeInDuration: Duration(milliseconds: 50),
-                placeholder: AssetImage('assets/img/no-image.png'), 
-                image: product!.image1 != null
-                      ? NetworkImage(product!.image1!)
-                      : AssetImage('assets/img/no-image.png') as ImageProvider
-              ),
+        FadeInImage(
+          fit: BoxFit.cover,
+          fadeInDuration: Duration(milliseconds: 50),
+          placeholder: AssetImage('assets/img/no-image.png'), 
+          image: product!.image1 != null
+                ? NetworkImage(product!.image1!)
+                : AssetImage('assets/img/no-image.png') as ImageProvider
+        ),
 
-              FadeInImage(
-                fit: BoxFit.cover,
-                fadeInDuration: Duration(milliseconds: 50),
-                placeholder: AssetImage('assets/img/no-image.png'), 
-                image: product!.image2 != null
-                      ? NetworkImage(product!.image2!)
-                      : AssetImage('assets/img/no-image.png') as ImageProvider
-              ),
+        FadeInImage(
+          fit: BoxFit.cover,
+          fadeInDuration: Duration(milliseconds: 50),
+          placeholder: AssetImage('assets/img/no-image.png'), 
+          image: product!.image2 != null
+                ? NetworkImage(product!.image2!)
+                : AssetImage('assets/img/no-image.png') as ImageProvider
+        ),
 
-              FadeInImage(
-                fit: BoxFit.cover,
-                fadeInDuration: Duration(milliseconds: 50),
-                placeholder: AssetImage('assets/img/no-image.png'), 
-                image: product!.image3 != null
-                      ? NetworkImage(product!.image3!)
-                      : AssetImage('assets/img/no-image.png') as ImageProvider
-              ),
-            ]
-          )
-        ],
-      )
+        FadeInImage(
+          fit: BoxFit.cover,
+          fadeInDuration: Duration(milliseconds: 50),
+          placeholder: AssetImage('assets/img/no-image.png'), 
+          image: product!.image3 != null
+                ? NetworkImage(product!.image3!)
+                : AssetImage('assets/img/no-image.png') as ImageProvider
+        ),
+      ]
     );
   }
 

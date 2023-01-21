@@ -1,6 +1,4 @@
 
-
-
 import 'package:app1/src/models/category.dart';
 import 'package:app1/src/models/product.dart';
 import 'package:app1/src/pages/client/products/list/client_products_list_controller.dart';
@@ -17,8 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 
-              
-
 class ClientProductsListPage extends StatelessWidget {
   
   ClientProductsListController con = Get.put(ClientProductsListController());
@@ -31,8 +27,21 @@ class ClientProductsListPage extends StatelessWidget {
       length: con.categories.length,   //CUANTAS CATEGORIAS VAMOS A MOSTRAR
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(50),
+          preferredSize: Size.fromHeight(110),
           child: AppBar(
+
+            flexibleSpace: Container(
+              margin: EdgeInsets.only(top: 15),
+              alignment: Alignment.topCenter,
+              child:  Wrap(
+                direction: Axis.horizontal,
+                children: [
+                  _textFieldSearch(context),
+                  _iconShoppingBag()
+                ],
+              ),
+            ),
+
             bottom: TabBar(
               isScrollable: true,
               indicatorColor: Colors.white,   
@@ -44,7 +53,7 @@ class ClientProductsListPage extends StatelessWidget {
                 );
               }),
             ),
-           ),
+          ),
          ),
         body:TabBarView(
           children: con.categories.map((Category category) {
@@ -74,6 +83,57 @@ class ClientProductsListPage extends StatelessWidget {
       ),
     ));
   }
+
+  Widget _iconShoppingBag(){
+    return SafeArea(
+      child: Container(
+        margin: EdgeInsets.only(left: 10),
+        child: IconButton(
+          onPressed: () => con.goToOrderCreate(), 
+          icon: Icon(
+            Icons.shopping_bag_outlined,
+            size: 30,
+          )
+        ), 
+      ),
+    );
+  }
+
+  Widget _textFieldSearch(BuildContext context){    //BARRA DE BUSQUEDA
+    return SafeArea(
+      child: Container(
+
+        width: MediaQuery.of(context).size.width * 0.75,
+
+        child: TextField(
+          decoration: InputDecoration(
+            hintText: 'Buscar Producto',
+            suffixIcon: Icon(Icons.search, color: Colors.grey),
+            hintStyle: TextStyle(
+              fontSize: 17,
+              color: Colors.grey
+            ),
+
+            fillColor: Colors.white,    //FALTA AJUSTAR COLOR
+            filled: true,
+
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15),
+              borderSide: BorderSide(color: Colors.grey)
+            ),
+
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15),
+              borderSide: BorderSide(color: Colors.grey)
+            ),
+            contentPadding: EdgeInsets.all(15)
+          ),
+        ),
+      )
+    );
+  }
+
+
 
   //MOSTRAR LAS PRODUCTOS EN UN "CARD"
   Widget _cardProduct(BuildContext context, Product product){
