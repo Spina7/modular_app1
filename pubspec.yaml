@@ -40,7 +40,11 @@ dependencies:
   image_picker: ^0.8.6
   http: ^0.13.5
   sn_progress_dialog: ^1.0.8
-  modal_bottom_sheet: ^2.1.2
+  modal_bottom_sheet: 
+    git: 
+      url: https://github.com/CoolDude53/modal_bottom_sheet.git
+      ref: main
+      path: modal_bottom_sheet
   flutter_image_slideshow: ^0.1.4
   fluttertoast: ^8.1.2
 
