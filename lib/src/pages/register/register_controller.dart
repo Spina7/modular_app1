@@ -36,6 +36,7 @@ class RegisterController extends GetxController {
     print('Password ${password}');
 
     if (isValidForm(email, name, lastname, phone, password, confirmPassword)) {
+      
       ProgressDialog progressDialog = ProgressDialog(context: context);
       progressDialog.show(max: 100, msg: 'Registrando...');
 
@@ -49,6 +50,7 @@ class RegisterController extends GetxController {
       
       Stream stream = await usersProvider.createWithImage(user, imageFile!);
       stream.listen((res) {
+        
         progressDialog.close();
         ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
 
@@ -64,7 +66,8 @@ class RegisterController extends GetxController {
   }
 
   void goToHomePage() {
-    Get.offNamedUntil('/client/products/list', (route) => false);
+    //Get.offNamedUntil('/client/products/list', (route) => false);
+    Get.offNamedUntil('/client/home/page', (route) => false);
   }
 
   bool isValidForm(
