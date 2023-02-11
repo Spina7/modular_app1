@@ -14,7 +14,7 @@ class RestaurantOrdersListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('Restaurant Orders List'),
+        child: Text('Restaurant Orders List PRUEBA'),
         ),
     );
   }
