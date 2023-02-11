@@ -85,7 +85,9 @@ class RegisterPage extends StatelessWidget {
             style: TextStyle(
               color: Colors.black,
               fontSize: 15,
-            )));
+            )
+        ),
+    );
   }
 
   Widget _textFieldEmail() {
@@ -195,7 +197,10 @@ class RegisterPage extends StatelessWidget {
         margin: EdgeInsets.only(top: 20),
         alignment: Alignment.topCenter,
         child: GestureDetector(
-            onTap: () => con.showAlertDialog(context),
+            //onTap: () => con.showAlertDialog(context),
+            onTap: (){
+              con.showAlertDialog(context);
+            },
             child: GetBuilder<RegisterController>(
               builder: (value) => CircleAvatar(
                 backgroundImage: con.imageFile != null
@@ -205,7 +210,8 @@ class RegisterPage extends StatelessWidget {
                 radius: 60,
                 backgroundColor: Colors.white,
               ),
-            )),
+            )
+          ),
       ),
     );
   }

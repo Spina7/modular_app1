@@ -78,7 +78,7 @@ class _MyAppState extends State<MyApp> {
             background: Colors.grey,
             onSecondary: Colors.grey),
       ),
-      navigatorKey: Get.key,
+      navigatorKey: Get.key
     );
   }
 }

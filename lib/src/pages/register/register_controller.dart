@@ -168,7 +168,8 @@ class RegisterController extends GetxController {
         context: context,
         builder: (BuildContext context) {
           return alertDialog;
-        });
+        }
+    );
   }
 
   

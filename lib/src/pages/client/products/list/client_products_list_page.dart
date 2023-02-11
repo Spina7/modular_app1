@@ -70,11 +70,11 @@ class ClientProductsListPage extends StatelessWidget {
                       }
                     );
                   }else{
-                    return NoDataWidget(text: 'No hay productos',);
+                    return NoDataWidget(text: 'No hay productos');
                   }
  
                 } else{
-                  return NoDataWidget(text: 'No hay productos',);
+                  return NoDataWidget(text: 'No hay productos');
                 }
               }
             );
