@@ -24,4 +24,8 @@ class Environment{
 
   static const String API_URL_OLD = "54.219.28.243:32770";
   */
+
+  static const String API_KEY_MAPS = "AIzaSyBvWyfpq91LEBzciAd4IPSK0zW6gdxqaXA";
+
+
 }

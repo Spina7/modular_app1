@@ -1,3 +1,4 @@
+import 'package:app1/src/pages/client/address/create/client_address_create_page.dart';
 import 'package:app1/src/pages/client/home/client_home_page.dart';
 import 'package:app1/src/pages/client/orders/create/client_orders_create_page.dart';
 import 'package:app1/src/pages/client/products/list/client_products_list_page.dart';
@@ -63,6 +64,9 @@ class _MyAppState extends State<MyApp> {
         GetPage(name: '/client/profile/update', page: () => ClientProfileUpdatePage()),
 
         GetPage(name: '/client/orders/create', page: () => ClientOrdersCreatePage()),
+
+        GetPage(name: '/client/address/create', page: () => ClientAddressCreatePage()),
+        GetPage(name: '/client/address/list', page: () => ClientProductsListPage()),
       ],
       theme: ThemeData(
         primaryColor: Color(0xeaea5153),
