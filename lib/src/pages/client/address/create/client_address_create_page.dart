@@ -26,7 +26,7 @@ class ClientAddressCreatePage extends StatelessWidget {
           margin: EdgeInsets.only(left: 15),
           child: IconButton(
               onPressed: () => Get.back(),
-              icon: Icon(Icons.arrow_back, size: 30)
+              icon: Icon(Icons.arrow_back_ios, size: 30)
           ),
         )
     );
@@ -64,9 +64,13 @@ class ClientAddressCreatePage extends StatelessWidget {
             children: [     //Campos que se actualizarán
               _textYourInfo(),
               _textFieldAddress(),
+              SizedBox(height: 15),
+
               _textFieldNeighbor(),
+              SizedBox(height: 15),
+              
               _textFieldRefPoint(context),
-              SizedBox(height: 20,),
+              SizedBox(height: 20),
               _buttonCreate(context)
             ],
           ),
@@ -158,7 +162,7 @@ class ClientAddressCreatePage extends StatelessWidget {
               Icon(
                 Icons.location_on,
                 size: 100,
-                color: Colors.white,
+                color: Colors.black,
               ),
 
               Text(

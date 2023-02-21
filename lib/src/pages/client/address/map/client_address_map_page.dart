@@ -62,6 +62,7 @@ class ClientAddressMapPage extends StatelessWidget {
       width: double.infinity,
       alignment: Alignment.topCenter,
       margin: EdgeInsets.symmetric(vertical: 30),
+      
       child: Card(
         color: Colors.grey[800],
         shape: RoundedRectangleBorder(
@@ -84,7 +85,7 @@ class ClientAddressMapPage extends StatelessWidget {
 
   Widget _iconMyLocation(){
     return Container(
-      margin: EdgeInsets.only(bottom: 30),
+      margin: EdgeInsets.only(bottom: 40),
       child: Center(
           child: Image.asset(
             'assets/img/my_location.png',

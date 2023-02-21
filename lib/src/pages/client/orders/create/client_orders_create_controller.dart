@@ -61,7 +61,10 @@ class ClientOrdersCreateController extends GetxController {
       GetStorage().write('shopping_bag', selectedProducts);
       getTotal();
     }
-    
+  }
+
+  void goToAddressList(){
+    Get.toNamed('/client/address/list');
   }
 
 }

@@ -1,3 +1,4 @@
+//LISTA DE DIRECCIONES 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:app1/src/pages/client/address/list/client_address_list_controller.dart';
@@ -19,10 +20,10 @@ class ClientAddressListPage extends StatelessWidget {
         title: Text(
             'Mis Direcciones',
             style: TextStyle(
-                color: Colors.black
+                color: Colors.black //FALTA AJUSTAR COLOR
             )
         ),
-        actions: [
+        actions: [  //Para agregar el icono
           _iconAddressCreate()
         ],
       ),
@@ -34,7 +35,7 @@ class ClientAddressListPage extends StatelessWidget {
         onPressed: () => con.goToAddressCreate(),
         icon: Icon(
           Icons.add,
-          color: Colors.white,
+          color: Colors.white,  //FALTA AJUSTAR COLOR
         )
     );
   }

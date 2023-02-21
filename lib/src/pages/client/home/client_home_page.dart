@@ -1,5 +1,4 @@
 
-
 import 'package:app1/src/pages/client/home/client_home_controller.dart';
 import 'package:app1/src/pages/client/products/list/client_products_list_controller.dart';
 import 'package:app1/src/pages/client/products/list/client_products_list_page.dart';
@@ -15,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 
-              
+             
 
 class ClientHomePage extends StatelessWidget {
   
@@ -32,7 +31,7 @@ class ClientHomePage extends StatelessWidget {
       body: Obx(() =>  IndexedStack(
           index: con.indexTab.value,
           children: [
-
+            
             ClientProductsListPage(),
             DeliveryOrdersListPage(),
             ClientProfileInfoPage(),
