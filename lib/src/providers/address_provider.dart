@@ -1,4 +1,4 @@
-// CATEGORIAS 
+
 
 import 'package:app1/src/models/category.dart';
 import 'package:app1/src/models/response_api.dart';
@@ -6,19 +6,19 @@ import 'package:get/get.dart';
 import 'package:app1/src/environment/environment.dart';
 import 'package:app1/src/models/user.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:app1/src/models/address.dart';
 
+class AddressProvider extends GetConnect {
 
-class CategoriesProvider extends GetConnect {
-
-  String url = Environment.API_URL + 'api/categories';
+  String url = Environment.API_URL + 'api/address';
   
 
   User userSession = User.fromJson(GetStorage().read('user') ?? {} );
 
-  //MOSTRAR TODAS LAS CATEGORIAS 
-  Future<List<Category>> getAll() async {
+  //METODO PARA MOSTRAR LAS DIRECCIONES(CLIENTE)
+  Future<List<Address>> findByUser(String idUser) async {
     Response response = await get(
-        '$url/getAll',
+        '$url/findByUser/$idUser',
         
         headers: {
           'Content-Type': 'application/json',
@@ -31,15 +31,16 @@ class CategoriesProvider extends GetConnect {
       return [];
     }
 
-    List<Category> categories = Category.fromJsonList(response.body);
-    return categories;
+    List<Address> address = Address.fromJsonList(response.body);
+    return address;
   }
- 
-  //CREAR UNA NUEVA CATEGORIA (RESTAURANTE)
-  Future<ResponseApi> create(Category category) async {
+  
+
+  //CREAR UNA NUEVA DIRECCION (CLIENTE)
+  Future<ResponseApi> create(Address address) async {
     Response response = await post(
         '$url/create',
-        category.toJson(),
+        address.toJson(),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': userSession.sessionToken ?? ''

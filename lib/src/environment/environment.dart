@@ -10,20 +10,20 @@ class Environment {
 
 }*/
 
-//CONFIGURACION EDUARDO
+
 
 class Environment{
-  
-  // CONFIGUARACION BACKEND LOCAL 
+  /*
+  // CONFIGUARACION BACKEND ONLINE 
   static const String API_URL = "http://54.219.28.243:3000/";
 
   static const String API_URL_OLD = "54.219.28.243:3000";
-  /*
-  //CONFIGUARACION BACKEND EN LINEA
-  static const String API_URL = "http://54.219.28.243:32770/";
-
-  static const String API_URL_OLD = "54.219.28.243:32770";
   */
+  //CONFIGUARACION BACKEND LOCAL(COMPUTADORA EDUARDO)
+  static const String API_URL = "http://192.168.1.69:3000/";
+
+  static const String API_URL_OLD = "192.168.1.69:3000";
+  
 
   static const String API_KEY_MAPS = "AIzaSyBvWyfpq91LEBzciAd4IPSK0zW6gdxqaXA";
 

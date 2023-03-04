@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:geolocator/geolocator.dart';  //obtener nuestra direccion
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:get/get.dart';
-import 'package:location/location.dart' as location;
-import 'package:geocoding/geocoding.dart';
+import 'package:location/location.dart' as location;  //Paquete complementario para establecer nuestra localizacion
+import 'package:geocoding/geocoding.dart'; //Funcionalidad de arrastrar y obtener la direccion EN TIEMPO REAL en el mapa
 
 
 class ClientAddressMapController extends GetxController {
@@ -21,11 +21,14 @@ class ClientAddressMapController extends GetxController {
 
   Position? position;
 
-  ClientAddressMapController(){
+  
+  ClientAddressMapController(){ 
     checkGPS(); //Verificar si el gps esta activo
   }
 
+  //Establecer la direccion cuando arrastramos en el mapa.
   Future setLocationDraggableInfo() async{
+
     double lat = initialPosition.target.latitude;
     double lng = initialPosition.target.longitude;
 
@@ -37,14 +40,19 @@ class ClientAddressMapController extends GetxController {
       String city = address[0].locality ?? '';
       String department = address[0].administrativeArea ?? '';
       String country = address[0].country ?? '';
+
       addressName.value = '$direction #$street, $city, $department';
       addressLatlng = LatLng(lat, lng);
+
       print('LAT Y LNG: ${addressLatlng?.latitude ?? 0} ${addressLatlng?.longitude ?? 0} ');
     }
   }
 
+  //Mostrar el punto seleccionado
   void selectRefPoint(BuildContext context){
+
     if(addressLatlng != null){
+
       Map<String, dynamic> data = {
         'address': addressName.value,
         'lat': addressLatlng!.latitude,
@@ -54,7 +62,7 @@ class ClientAddressMapController extends GetxController {
     }
   }
 
-
+  //Para verificar si el GPS esta activado o no... 
   void checkGPS() async{
     bool isLocationEnable = await Geolocator.isLocationServiceEnabled();
 
@@ -68,7 +76,10 @@ class ClientAddressMapController extends GetxController {
     }
   }
 
+  
+
   void updateLocation() async{
+    //Asegurarnos de que nustra app no falle 
     try{
       await _determinePosition();
       position = await Geolocator.getLastKnownPosition(); //Podemos tener la latitud y longitud(ACTUAL)
@@ -93,8 +104,9 @@ class ClientAddressMapController extends GetxController {
   }
 
 
-
-  Future<Position> _determinePosition() async {
+  //Obtener la localizacion de nuestro dispositivo
+  Future<Position> _determinePosition() async { 
+    
     bool serviceEnabled;
     LocationPermission permission;
 

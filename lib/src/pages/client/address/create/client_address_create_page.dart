@@ -83,7 +83,7 @@ class ClientAddressCreatePage extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       child: ElevatedButton(
           onPressed: () {
-
+            con.createAddress();
           },
           style: ElevatedButton.styleFrom(
             padding: EdgeInsets.symmetric(vertical: 15),
