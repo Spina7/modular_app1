@@ -9,6 +9,8 @@ class ClientProfileInfoController extends GetxController {
 
 
   void signOut(){
+    GetStorage().remove('address');
+    GetStorage().remove('shopping_bag');
     GetStorage().remove('user');
 
     Get.offNamedUntil('/', (route) => false); //ELIMINAR EL HISTORIAL DE PANTALLAS
