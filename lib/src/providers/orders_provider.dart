@@ -16,11 +16,11 @@ class OrdersProvider extends GetConnect {
 
   User userSession = User.fromJson(GetStorage().read('user') ?? {} );
 
-  /*
+  
   //MOSTRAR  
-  Future<List<Category>> getAll() async {
+  Future<List<Order>> findByStatus(String status) async {
     Response response = await get(
-        '$url/getAll',
+        '$url/findByStatus/$status',
         
         headers: {
           'Content-Type': 'application/json',
@@ -33,10 +33,10 @@ class OrdersProvider extends GetConnect {
       return [];
     }
 
-    List<Category> categories = Category.fromJsonList(response.body);
-    return categories;
+    List<Order> orders = Order.fromJsonList(response.body);
+    return orders;
   }
-  */
+  
  
   //CREAR UNA NUEVA ORDEN
   Future<ResponseApi> create(Order order) async {
