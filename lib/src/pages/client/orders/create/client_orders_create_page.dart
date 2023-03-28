@@ -38,7 +38,9 @@ class ClientOrdersCreatePage extends StatelessWidget {
           return _cardProduct(product);
         }).toList(),
       )
-      : NoDataWidget(text: 'No hay ningun producto agragado aun'),
+      : Center(
+        child: NoDataWidget(text: 'No hay ningun producto agragado aun'),
+      )
     ));
   }
 

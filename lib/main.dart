@@ -9,6 +9,7 @@ import 'package:app1/src/pages/client/profile/update/client_profile_update_page.
 import 'package:app1/src/pages/delivery/orders/list/delivery_orders_list_page.dart';
 import 'package:app1/src/pages/home/home_page.dart';
 import 'package:app1/src/pages/restaurant/home/restaurant_home_page.dart';
+import 'package:app1/src/pages/restaurant/orders/detail/restaurant_orders_detail_page.dart';
 import 'package:app1/src/pages/restaurant/orders/list/restaurant_orders_list_page.dart';
 import 'package:app1/src/pages/roles/roles_page.dart';
 import 'package:flutter/material.dart';
@@ -54,23 +55,22 @@ class _MyAppState extends State<MyApp> {
         GetPage(name: '/home', page: () => HomePage()),
         GetPage(name: '/roles', page: () => RolesPage()),
 
-        //RUTAS ENLAZADAS CON LA RUTA DE LA BASE DE DATOS (EDUARDO)
-        GetPage(name: '/restaurant/orders/list', page: () => RestaurantOrdersListPage()),
-        GetPage(name: '/delivery/orders/list', page: () => DeliveryOrdersListPage()),
+        //RUTAS ENLAZADAS CON LA RUTA DE LA BASE DE DATOS
+        
         GetPage(name: '/client/products/list', page: () => ClientProductsListPage()),
-
         GetPage(name: '/client/home', page: () => ClientHomePage()),
-        GetPage(name: '/restaurant/home', page: () => RestaurantHomePage()),
-
         GetPage(name: '/client/profile/info', page: () => ClientProfileInfoPage()),
         GetPage(name: '/client/profile/update', page: () => ClientProfileUpdatePage()),
-
         GetPage(name: '/client/orders/create', page: () => ClientOrdersCreatePage()),
-
         GetPage(name: '/client/address/create', page: () => ClientAddressCreatePage()),
         GetPage(name: '/client/address/list', page: () => ClientAddressListPage()),
-
         GetPage(name: '/client/payments/create', page: () => ClientPaymentsCreatePage()),
+      
+        GetPage(name: '/restaurant/home', page: () => RestaurantHomePage()),
+        GetPage(name: '/restaurant/orders/list', page: () => RestaurantOrdersListPage()),
+        GetPage(name: '/restaurant/orders/detail', page: () => RestaurantOrdersDetailPage()),
+      
+        GetPage(name: '/delivery/orders/list', page: () => DeliveryOrdersListPage()),
       ],
       theme: ThemeData(
         primaryColor: Color(0xeaea5153),

@@ -47,7 +47,7 @@ class Order {
         lat: json["lat"],
         lng: json["lng"],
         timestamp: json["timestamp"],
-        //products: json["products"] != null ? List<Product>.from(json["products"].map((model) => model is Product ? model : Product.fromJson(model))) : [],
+        products: json["products"] != null ? List<Product>.from(json["products"].map((model) => model is Product ? model : Product.fromJson(model))) : [],
         client: json["client"] is String ? userFromJson(json["client"]) : json["client"] is User ? json["client"] : User.fromJson(json["client"] ?? {}),
         address: json["address"] is String ? addressFromJson(json["address"]) : json["address"] is Address ? json["address"] : Address.fromJson(json["address"] ?? {}),
     
