@@ -55,4 +55,21 @@ class OrdersProvider extends GetConnect {
     return responseApi;
   }
 
+  //ACTUALIZAR ESTADO A DESPACHADO
+  Future<ResponseApi> updateToDispatched(Order order) async {
+    Response response = await put(
+        '$url/updateToDispatched',
+        order.toJson(),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': userSession.sessionToken ?? ''
+        }
+    ); // ESPERAR HASTA QUE EL SERVIDOR NOS RETORNE LA RESPUESTA
+
+
+    ResponseApi  responseApi = ResponseApi.fromJson(response.body);
+
+    return responseApi;
+  }
+
 }

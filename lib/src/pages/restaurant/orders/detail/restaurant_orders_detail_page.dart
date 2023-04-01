@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:app1/src/models/product.dart';
+import 'package:app1/src/models/user.dart';
 import 'package:app1/src/pages/restaurant/orders/detail/restaurant_orders_detail_controller.dart';
 import 'package:app1/src/utils/relative_time_util.dart';
 import 'package:app1/src/widgets/no_data_widget.dart';
@@ -19,7 +20,8 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
 
       bottomNavigationBar: Container(
         color: Color.fromRGBO(245, 245, 245, 1),
-        height: MediaQuery.of(context).size.height * 0.4,
+        height: MediaQuery.of(context).size.height * 0.53,
+        padding: EdgeInsets.only(top: 15),
         child: Column(
           children: [
             
@@ -150,6 +152,20 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
       children: [
         Divider(height: 1, color: Colors.grey[400]),
         Container(
+          width: double.infinity,
+          alignment: Alignment.centerLeft,
+          margin: EdgeInsets.only(left: 30, top: 10),
+          child: Text(
+            'ASIGNAR REPARTIDOR',
+            style: TextStyle(
+              fontStyle: FontStyle.italic,
+              color: Colors.redAccent
+            ),
+          ),
+        ),
+        _dropDownDeliveryMen(con.users),
+
+        Container(
           margin: EdgeInsets.only(left: 15, top: 25),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -164,9 +180,9 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
               Container(
               
                 margin: EdgeInsets.symmetric(horizontal: 30),
-                //width: MediaQuery.of(context).size.width * 0.5,
+                
                 child: ElevatedButton(
-                  onPressed: () {}, 
+                  onPressed: () => con.updateOrder(), 
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.all(10)
                   ),
@@ -185,5 +201,68 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
       ],
     );
   }
+
+  Widget _dropDownDeliveryMen(List<User> users){
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 35),
+      margin: EdgeInsets.only(top: 15),
+      child: DropdownButton(
+        underline: Container(
+          alignment: Alignment.centerRight,
+          child: Icon(
+            Icons.arrow_drop_down_circle,
+            color: Color(0xeaea5153),    
+          ),
+        ),
+        elevation: 3,
+        isExpanded: true,
+        hint: Text(
+
+          'Seleccionar repartidor',
+          style: TextStyle(
+            //color: Colors.black,
+            fontSize: 15
+          ),
+        ),
+        items: _dropDownItems(users),
+        value: con.idDelivery.value == '' ? null : con.idDelivery.value,
+        onChanged: (option){
+          print('opcion seleccionada ${option}');
+          con.idDelivery.value = option.toString();
+        },
+      ),
+    );
+  }
+
+  List<DropdownMenuItem<String>> _dropDownItems(List<User> users){
+    List<DropdownMenuItem<String>> list = [];
+
+    users.forEach((user) { 
+      list.add(DropdownMenuItem(
+        child: Row(
+          children: [
+            Container(
+              height: 40,
+              width: 40,
+              child: FadeInImage(
+                image: user.image != null
+                      ? NetworkImage(user.image!)
+                      : AssetImage('assets/img/no-image.png') as ImageProvider,
+                fit: BoxFit.cover,
+                fadeInDuration: Duration(milliseconds: 50),
+                placeholder: AssetImage('assets/img/no-image.png'),
+              ),
+            ),
+            SizedBox(width: 15),
+            Text(user.name ?? ''),
+          ],
+        ),
+        value: user.id,
+      ));
+    });
+
+    return list;
+  }
+
 
 }
