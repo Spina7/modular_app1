@@ -11,8 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RestaurantOrdersDetailPage extends StatelessWidget {
-  RestaurantOrdersDetailController con =
-      Get.put(RestaurantOrdersDetailController());
+
+
+  RestaurantOrdersDetailController con = Get.put(RestaurantOrdersDetailController());
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,9 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
 
       bottomNavigationBar: Container(
         color: Color.fromRGBO(245, 245, 245, 1),
-        height: MediaQuery.of(context).size.height * 0.53,
+        height: con.order.status == 'PAGADO' 
+          ? MediaQuery.of(context).size.height * 0.53
+          : MediaQuery.of(context).size.height * 0.48,
         padding: EdgeInsets.only(top: 15),
         child: Column(
           children: [
@@ -28,6 +31,7 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
             _dataDate(),
             _dataClient(),
             _dataAddress(),
+            _dataDelivery(),
             _totalToPay(context),
           ],
         ),
@@ -69,6 +73,21 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _dataDelivery(){
+    return con.order.status != 'PAGADO' 
+    ? Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: ListTile(
+        title: Text('Repartidor Asignado'),
+        subtitle: Text('${con.order.delivery?.name ?? ''} ${con.order.delivery?.lastname ?? ''} - ${con.order.delivery?.phone ?? ''}'),
+        trailing: Icon(
+          Icons.delivery_dining
+        ),
+      ),
+    )
+    : Container();
   }
 
    Widget _dataAddress(){
@@ -151,7 +170,9 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
     return Column(
       children: [
         Divider(height: 1, color: Colors.grey[400]),
-        Container(
+
+        con.order.status == 'PAGADO' 
+        ? Container(
           width: double.infinity,
           alignment: Alignment.centerLeft,
           margin: EdgeInsets.only(left: 30, top: 10),
@@ -162,13 +183,19 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
               color: Colors.redAccent
             ),
           ),
-        ),
-        _dropDownDeliveryMen(con.users),
+        )
+        : Container(),
+        
+        con.order.status == 'PAGADO' 
+        ? _dropDownDeliveryMen(con.users) 
+        : Container(),
 
         Container(
           margin: EdgeInsets.only(left: 15, top: 25),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: con.order.status == 'PAGADO' 
+              ? MainAxisAlignment.center
+              : MainAxisAlignment.start,
             children: [
               Text(
                 'TOTAL: \$${con.total.value}',
@@ -177,8 +204,8 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
                   fontSize: 18
                 ),
               ),
-              Container(
-              
+              con.order.status == 'PAGADO' 
+              ? Container(
                 margin: EdgeInsets.symmetric(horizontal: 30),
                 
                 child: ElevatedButton(
@@ -194,6 +221,7 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
                   )
                 )
               )
+              : Container()
             ],
           ),
         )

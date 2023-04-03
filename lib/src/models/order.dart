@@ -20,8 +20,10 @@ class Order {
     int? timestamp;
     List<Product>? products = [];
     User? client;
+    User? delivery;
     Address? address;
 
+    
     Order({
         this.id,
         this.idClient,
@@ -33,6 +35,7 @@ class Order {
         this.timestamp,
         this.products,
         this.client,
+        this.delivery,
         this.address
     });
 
@@ -49,6 +52,7 @@ class Order {
         timestamp: json["timestamp"],
         products: json["products"] != null ? List<Product>.from(json["products"].map((model) => model is Product ? model : Product.fromJson(model))) : [],
         client: json["client"] is String ? userFromJson(json["client"]) : json["client"] is User ? json["client"] : User.fromJson(json["client"] ?? {}),
+        delivery: json["delivery"] is String ? userFromJson(json["delivery"]) : json["delivery"] is User ? json["delivery"] : User.fromJson(json["delivery"] ?? {}),
         address: json["address"] is String ? addressFromJson(json["address"]) : json["address"] is Address ? json["address"] : Address.fromJson(json["address"] ?? {}),
     
     );
@@ -75,6 +79,7 @@ class Order {
         "timestamp": timestamp,
         "products": products,
         "client": client,
+        "delivery": delivery,
         "address": address,
     };
 }
