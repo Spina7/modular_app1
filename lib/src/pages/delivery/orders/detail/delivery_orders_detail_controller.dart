@@ -27,7 +27,6 @@ class DeliveryOrdersDetailController extends GetxController {
   void updateOrder() async {
 
       ResponseApi responseApi = await ordersProvider.updateToOnTheWay(order);
-    
       Fluttertoast.showToast(
         msg: responseApi.message ?? '', 
         toastLength:Toast.LENGTH_LONG 
@@ -39,7 +38,7 @@ class DeliveryOrdersDetailController extends GetxController {
      
   }
 
-  void goToOrderMap(){
+  void goToOrderMap() async {
     Get.toNamed('/delivery/orders/map', arguments: {
       'order': order.toJson()
     });

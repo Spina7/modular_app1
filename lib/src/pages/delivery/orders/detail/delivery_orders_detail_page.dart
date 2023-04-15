@@ -18,19 +18,18 @@ class DeliveryOrdersDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Scaffold(
+    return Obx(() =>  Scaffold(
 
       bottomNavigationBar: Container(
         color: Color.fromRGBO(245, 245, 245, 1),
         height: MediaQuery.of(context).size.height *0.4,
         padding: EdgeInsets.only(top: 15),
         child: Column(
-          children: [
-            
-            _dataDate(),
-            _dataClient(),
-            _dataAddress(),
-            _totalToPay(context),
+          children:  [
+             _dataClient(),
+             _dataAddress(),
+             _dataDate(),
+            _totalToPay(context)
           ],
         ),
       ),
