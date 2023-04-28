@@ -56,6 +56,26 @@ class OrdersProvider extends GetConnect {
     List<Order> orders = Order.fromJsonList(response.body);
     return orders;
   }
+
+  //MOSTRAR  
+  Future<List<Order>> findByClientAndStatus(String idClient, String status) async {
+    Response response = await get(
+        '$url/findByClientAndStatus/$idClient/$status',
+        
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': userSession.sessionToken ?? ''
+        }
+    ); // ESPERAR HASTA QUE EL SERVIDOR NOS RETORNE LA RESPUESTA
+
+    if(response.statusCode == 401){
+      Get.snackbar('Peticion Denegada', 'Tu usuario no tiene permitido leer esta informacion');
+      return [];
+    }
+
+    List<Order> orders = Order.fromJsonList(response.body);
+    return orders;
+  }
   
  
   //CREAR UNA NUEVA ORDEN
