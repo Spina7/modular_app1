@@ -166,7 +166,7 @@ class ClientOrdersMapController extends GetxController {
     try{
       await _determinePosition();
       position = await Geolocator.getLastKnownPosition(); //Podemos tener la latitud y longitud(ACTUAL)
-      saveLocation();
+      
       animateCameraPosition(order.lat ?? 20.7123519, order.lng ?? -103.4113297);
 
       addMarker(
@@ -207,15 +207,6 @@ class ClientOrdersMapController extends GetxController {
       animateCameraPosition(position!.latitude, position!.longitude);
     }
     
-  }
-
-  void saveLocation() async {
-    if(position != null){
-      order.lat = position!.latitude;
-      order.lng = position!.longitude;
-      await ordersProvider.updateLatLng(order);
-    }
-
   }
 
 

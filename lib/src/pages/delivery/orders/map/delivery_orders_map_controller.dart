@@ -10,10 +10,17 @@ import 'package:geolocator/geolocator.dart';  //obtener nuestra direccion
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart' as location;  //Paquete complementario para establecer nuestra localizacion
-import 'package:geocoding/geocoding.dart'; //Funcionalidad de arrastrar y obtener la direccion EN TIEMPO REAL en el mapa
+import 'package:geocoding/geocoding.dart';
+import 'package:socket_io_client/socket_io_client.dart'; //Funcionalidad de arrastrar y obtener la direccion EN TIEMPO REAL en el mapa
 
 
 class DeliveryOrdersMapController extends GetxController {
+
+  Socket socket = io('${ Environment.API_URL }orders/delivery', <String, dynamic> {
+    'transports': ['websocket'],
+    'autoConnect': false
+
+  });
 
   Order order = Order.fromJson(Get.arguments['order'] ?? {});
   OrdersProvider ordersProvider = OrdersProvider();
@@ -47,6 +54,14 @@ class DeliveryOrdersMapController extends GetxController {
     print('Order: ${order.toJson()}');
 
     checkGPS(); //Verificar si el gps esta activo
+    connectAndListen();
+  }
+
+  void connectAndListen(){
+    socket.connect();
+    socket.onConnect((data) {
+      print('ESTE DISPOSITIVO SE CONECTO A SOCKET IO');
+    });
   }
 
   //Establecer la direccion cuando arrastramos en el mapa.
@@ -295,6 +310,7 @@ class DeliveryOrdersMapController extends GetxController {
   @override
   void onClose(){
     super.onClose();
+    socket.disconnect();
     positionSubscribe?.cancel();
   }
 }
