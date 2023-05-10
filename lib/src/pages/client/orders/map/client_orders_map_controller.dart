@@ -6,14 +6,21 @@ import 'package:app1/src/providers/orders_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';  //obtener nuestra direccion
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart' as location;  //Paquete complementario para establecer nuestra localizacion
 import 'package:geocoding/geocoding.dart'; //Funcionalidad de arrastrar y obtener la direccion EN TIEMPO REAL en el mapa
-
+import 'package:socket_io_client/socket_io_client.dart';
 
 class ClientOrdersMapController extends GetxController {
+
+  Socket socket = io('${ Environment.API_URL }orders/delivery', <String, dynamic> {
+    'transports': ['websocket'],
+    'autoConnect': false
+
+  });
 
   Order order = Order.fromJson(Get.arguments['order'] ?? {});
   OrdersProvider ordersProvider = OrdersProvider();
@@ -47,6 +54,41 @@ class ClientOrdersMapController extends GetxController {
     print('Order: ${order.toJson()}');
 
     checkGPS(); //Verificar si el gps esta activo
+    connectAndListen();
+  }
+
+  void connectAndListen(){  //METODO QUE NOS PERMITE CONECTARNOS A SOCKET IO
+    socket.connect();
+    socket.onConnect((data) {
+      print('ESTE DISPOSITIVO SE CONECTO A SOCKET IO');
+    });
+    listenPosition();
+    listenToDelivered();
+  }
+
+  void listenPosition(){
+    socket.on('position/${order.id}', (data) {
+
+      addMarker(
+        'delivery', 
+        data['lat'], 
+        data['lng'],
+        'Tu repartidor', 
+        '', 
+        deliveryMarker!
+      );
+
+    });
+  }
+
+  void listenToDelivered(){
+    socket.on('delivered/${order.id}', (data) {
+      Fluttertoast.showToast(
+        msg: 'El estado de la orden se actualizo a Entregado',
+        toastLength: Toast.LENGTH_LONG
+      );
+      Get.offNamedUntil('/client/home', (route) => false);
+    });
   }
 
   //Establecer la direccion cuando arrastramos en el mapa.
@@ -265,6 +307,7 @@ class ClientOrdersMapController extends GetxController {
   @override
   void onClose(){
     super.onClose();
+    socket.disconnect();
     positionSubscribe?.cancel();
   }
 }

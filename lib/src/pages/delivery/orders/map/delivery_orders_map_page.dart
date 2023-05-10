@@ -210,7 +210,7 @@ class DeliveryOrdersMapPage extends StatelessWidget {
       width: double.infinity,
       margin: EdgeInsets.only(left: 30, right: 30),
       child: ElevatedButton(
-        onPressed: () => con.selectRefPoint(context),
+        onPressed: con.isClose == true ? () => con.updateToDelivered() : null,
         child: Text(
           'ENTREGAR PEDIDO',
           style: TextStyle(
