@@ -52,8 +52,8 @@ class _MyAppState extends State<MyApp> {
       title: 'Delivery Udemy',
       debugShowCheckedModeBanner: false,
       //Inicializacion de inicio de sesion
-      //initialRoute: userSession.id != null ? userSession.roles!.length > 1 ? '/roles' : '/client/home' : '/',
-      initialRoute: '/client/payments/create',
+      initialRoute: userSession.id != null ? userSession.roles!.length > 1 ? '/roles' : '/client/home' : '/',
+      //initialRoute: '/client/payments/create',
       getPages: [
 
         GetPage(name: '/', page: () => LoginPage()),

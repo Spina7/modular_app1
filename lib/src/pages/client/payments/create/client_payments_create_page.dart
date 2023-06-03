@@ -1,3 +1,4 @@
+import 'package:app1/src/models/mercado_pago_document_type.dart';
 import 'package:app1/src/pages/client/payments/create/client_payments_create_controller.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -109,10 +110,28 @@ class ClientPaymentsCreatePage extends StatelessWidget {
 
             ),
           ),
-
+          /*
+          //SELECTOR DE DOCUMENTOS MERCADO PAGO - API
+          _dropDownWidget(con.documents),
+          _textFieldDocumentNumber()
+          */
         ],
       )
     ));
+  }
+
+  Widget _textFieldDocumentNumber() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      child: TextField(
+        controller: con.documentNumberController,
+        keyboardType: TextInputType.phone,
+        decoration: InputDecoration(
+            hintText: 'Numero de documento',
+            labelText: 'Numero de documento',
+            suffixIcon: Icon(Icons.description)),
+      ),
+    );
   }
 
   Widget _buttonNext(BuildContext context) {
@@ -130,6 +149,51 @@ class ClientPaymentsCreatePage extends StatelessWidget {
             style: TextStyle(color: Colors.white),
           )),
     );
+  }
+
+  Widget _dropDownWidget(List<MercadoPagoDocumentType> documents){
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 30),
+      margin: EdgeInsets.only(top: 15),
+      child: DropdownButton(
+        underline: Container(
+          alignment: Alignment.centerRight,
+          child: Icon(
+            Icons.arrow_drop_down_circle,
+            color: Color(0xeaea5153),    
+          ),
+        ),
+        elevation: 3,
+        isExpanded: true,
+        hint: Text(
+
+          'Seleccionar tipo de documento',
+          style: TextStyle(
+            //color: Colors.black,
+            fontSize: 15
+          ),
+        ),
+        items: _dropDownItems(documents),
+        value: con.idDocument.value == '' ? null : con.idDocument.value,
+        onChanged: (option){
+          print('opcion seleccionada ${option}');
+          con.idDocument.value = option.toString();
+        },
+      ),
+    );
+  }
+
+  List<DropdownMenuItem<String>> _dropDownItems(List<MercadoPagoDocumentType> documents){
+    List<DropdownMenuItem<String>> list = [];
+
+    documents.forEach((document) { 
+      list.add(DropdownMenuItem(
+        child: Text(document.name ?? ''),
+        value: document.id,
+      ));
+    });
+
+    return list;
   }
 
 }
