@@ -68,18 +68,12 @@ class ClientPaymentsCreatePage extends StatelessWidget {
               themeColor: Colors.red,
               obscureCvv: true, 
               obscureNumber: true,
-              //isHolderNameVisible: true,
-              //isCardNumberVisible: true,
-              //isExpiryDateVisible: true,
               enableCvv: true,
-              cardNumberValidator: (String? cardNumber){},
-              expiryDateValidator: (String? expiryDate){},
-              cvvValidator: (String? cvv){},
-              cardHolderValidator: (String? cardHolderName){},
-              onFormComplete: () {
-              // callback to execute at the end of filling card data
-              },
-
+              //cardNumberValidator: (String? cardNumber){},
+              //expiryDateValidator: (String? expiryDate){},
+              //cvvValidator: (String? cvv){},
+              //cardHolderValidator: (String? cardHolderName){},
+            
               cardNumberDecoration: const InputDecoration(
                 //border: OutlineInputBorder(),
                 suffixIcon: Icon(Icons.credit_card),
@@ -90,7 +84,7 @@ class ClientPaymentsCreatePage extends StatelessWidget {
                 //border: OutlineInputBorder(),
                 suffixIcon: Icon(Icons.date_range),
                 labelText: 'Expiracion',
-                hintText: 'XX/XX',
+                hintText: 'MM/YY',
               ),
               cvvCodeDecoration: const InputDecoration(
                 //border: OutlineInputBorder(),
@@ -140,7 +134,7 @@ class ClientPaymentsCreatePage extends StatelessWidget {
       height: 50,
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 40),
       child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () => con.createCardToken(),
           style: ElevatedButton.styleFrom(
             padding: EdgeInsets.symmetric(vertical: 15),
           ),
