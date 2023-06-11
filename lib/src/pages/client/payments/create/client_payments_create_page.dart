@@ -20,6 +20,18 @@ class ClientPaymentsCreatePage extends StatelessWidget {
 
       bottomNavigationBar: _buttonNext(context),
 
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black   // FALTA AJUSTAR COLOR
+        ),
+        title: Text(
+          'Pagos', 
+          style: TextStyle(
+            color: Colors.black   // FALTA AJUSTAR COLOR
+          ),
+        ),
+      ),
+
       body: ListView(
         children: [
 

@@ -29,8 +29,8 @@ class Address {
         address: json["address"],
         neighborhood: json["neighborhood"],
         idUser: json["id_user"],
-        lat: json["lat"]?.toDouble(),
-        lng: json["lng"]?.toDouble(),
+        lat: json["lat"],
+        lng: json["lng"],
     );
 
     static List<Address> fromJsonList(List<dynamic> jsonList){

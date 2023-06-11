@@ -41,6 +41,8 @@ class ClientAddressListController extends GetxController{
   }
 
   void createOrder() async {
+    Get.toNamed('/client/payments/create');
+    /*
     Address a = Address.fromJson(GetStorage().read('address') ?? {});
     List<Product> products = [];
 
@@ -64,7 +66,7 @@ class ClientAddressListController extends GetxController{
       GetStorage().remove('shopping_bag');
       Get.toNamed('/client/payments/create');
     }
-
+    */
   } 
 
   void handleRadioValueChange(int? value){
