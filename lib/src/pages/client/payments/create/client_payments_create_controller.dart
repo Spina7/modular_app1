@@ -49,7 +49,9 @@ class ClientPaymentsCreateController extends GetxController{
         //documentNumber: documentNumber
       );
 
-      Get.toNamed('/client/payments/installments');
+      Get.toNamed('/client/payments/installments', arguments:{
+        'card_token': mercadoPagoCardToken.toJson()
+      });
 
       print('Mercado Pago: ${mercadoPagoCardToken.toJson()}');
     }
