@@ -120,7 +120,7 @@ class ClientPaymentsInstallmentsPage extends StatelessWidget {
                 margin: EdgeInsets.symmetric(horizontal: 30),
                 //width: MediaQuery.of(context).size.width * 0.5,
                 child: ElevatedButton(
-                  onPressed: () {}, 
+                  onPressed: () => con.createPayment(), 
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.all(10)
                   ),

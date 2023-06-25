@@ -6,6 +6,7 @@ import 'package:app1/src/pages/client/orders/detail/client_orders_detail_page.da
 import 'package:app1/src/pages/client/orders/map/client_orders_map_page.dart';
 import 'package:app1/src/pages/client/payments/create/client_payments_create_page.dart';
 import 'package:app1/src/pages/client/payments/installments/client_payments_installments_page.dart';
+import 'package:app1/src/pages/client/payments/status/client_payments_status_page.dart';
 import 'package:app1/src/pages/client/products/list/client_products_list_page.dart';
 import 'package:app1/src/pages/client/profile/info/client_profile_info_page.dart';
 import 'package:app1/src/pages/client/profile/update/client_profile_update_page.dart';
@@ -75,6 +76,7 @@ class _MyAppState extends State<MyApp> {
         GetPage(name: '/client/orders/detail', page: () => ClientOrdersDetailPage()),
         GetPage(name: '/client/orders/map', page: () => ClientOrdersMapPage()),
         GetPage(name: '/client/payments/installments', page: () => ClientPaymentsInstallmentsPage()),
+        GetPage(name: '/client/payments/status', page: () => ClientPaymentsStatusPage()),
 
         GetPage(name: '/restaurant/home', page: () => RestaurantHomePage()),
         GetPage(name: '/restaurant/orders/list', page: () => RestaurantOrdersListPage()),

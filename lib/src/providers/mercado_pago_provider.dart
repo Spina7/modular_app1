@@ -4,11 +4,17 @@ import 'package:app1/src/environment/environment.dart';
 import 'package:app1/src/models/mercado_pago_card_token.dart';
 import 'package:app1/src/models/mercado_pago_document_type.dart';
 import 'package:app1/src/models/mercado_pago_payment_method_installments.dart';
+import 'package:app1/src/models/order.dart';
+import 'package:app1/src/models/response_api.dart';
+import 'package:app1/src/models/user.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class MercadoPagoProvider extends GetConnect{
 
   String url = Environment.API_MERCADO_PAGO;
+  User userSession = User.fromJson(GetStorage().read('user') ?? {});
 
 
   Future<List<MercadoPagoDocumentType>> getDocumentsType() async {
@@ -66,6 +72,49 @@ class MercadoPagoProvider extends GetConnect{
     MercadoPagoPaymentMethodInstallments data = MercadoPagoPaymentMethodInstallments.fromJson(response.body[0]);
     
     return data;
+  }
+
+  Future<ResponseApi> createPayment({
+    @required String? token,
+    @required String? paymentMethodId,
+    @required String? paymentTypedId,
+    @required String? emailCustomer,
+    @required String? issuerId,
+    //@required String? identificationType,
+    //@required String? identificationNumber,
+    @required double? transactionAmount,
+    @required int? installments,
+    @required Order? order,
+  }) async {
+
+    Response response = await post(
+
+      '${Environment.API_URL}api/payments/create',
+      {
+        'token': token,
+        'issuer_id': issuerId,
+        'payment_method_id': paymentMethodId,
+        'transaction_amount': transactionAmount,
+        'installments': installments,
+        //description: 'Descripcion del producto',
+        'payer': {
+            'email': emailCustomer,
+        },
+        'order': order!.toJson()
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': userSession.sessionToken ?? ''
+      },
+        
+    ); // ESPERAR HASTA QUE EL SERVIDOR NOS RETORNE LA RESPUESTA
+
+    print('RESPUESTA BODY: ${response.body}');
+    print('RESPUESTA STATUS: ${response.statusCode}');
+
+    ResponseApi  responseApi = ResponseApi.fromJson(response.body);
+    
+    return responseApi;
   }
 
 
