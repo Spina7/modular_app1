@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:app1/src/models/address.dart';
 import 'package:app1/src/models/mercado_pago_card_token.dart';
 import 'package:app1/src/models/mercado_pago_installment.dart';
+import 'package:app1/src/models/mercado_pago_payment.dart';
 import 'package:app1/src/models/mercado_pago_payment_method_installments.dart';
 import 'package:app1/src/models/order.dart';
 import 'package:app1/src/models/response_api.dart';
@@ -71,7 +74,7 @@ class ClientPaymentsInstallmentsController extends GetxController{
       products: products
     );
 
-    ResponseApi responseApi = await mercadoPagoProvider.createPayment(
+    Response response = await mercadoPagoProvider.createPayment(
       token: cardToken.id,
       paymentMethodId: paymentMethodInstallments!.paymentMethodId,
       paymentTypedId: paymentMethodInstallments!.paymentTypeId,
@@ -84,13 +87,23 @@ class ClientPaymentsInstallmentsController extends GetxController{
       //identificationType: identificationType,
     );
 
-    Fluttertoast.showToast(msg: responseApi.message ?? '', toastLength: Toast.LENGTH_LONG);
-
-    if(responseApi.success == true){
+    if(response.statusCode == 201){
+      ResponseApi responseApi = ResponseApi.fromJson(response.body);
+      MercadoPagoPayment mercadoPagoPayment = MercadoPagoPayment.fromJson(responseApi.data);
       GetStorage().remove('shopping_bag'); 
-    }
+      Get.offNamedUntil('/client/payments/status', (route) => false, arguments: {
+        'mercado_pago_payment': mercadoPagoPayment.toJson()
+      });
 
-    Get.toNamed('/client/payments/status');//PANTALLA DEL ESTADO FINAL DE LA TRANSACCION
+    }else if(response.statusCode == 501){
+      
+      if(response.body['error']['status'] == 400){
+        badRequestProcess(response.body['error']);
+      }else{
+        badTokenProcess(response.body['error']['status'], paymentMethodInstallments!);
+      }
+    }
+   
   }
 
   void getInstallments() async {
@@ -117,5 +130,64 @@ class ClientPaymentsInstallmentsController extends GetxController{
       total.value = total.value + (product.quantity! * product.price!);
     });
   }
+
+  void badRequestProcess(dynamic data){
+    Map<String, String> paymentErrorCodeMap = {
+      '3034' : 'Informacion de la tarjeta invalida',
+      '3033':'La longitud de digitos de tu tarjeta es erroneo',
+      '205' : 'Ingresa el número de tu tarjeta',
+      '208' : 'Digita un mes de expiración',
+      '209' : 'Digita un año de expiración',
+      '212' : 'Ingresa tu documento',
+      '213' : 'Ingresa tu documento',
+      '214' : 'Ingresa tu documento',
+      '220' : 'Ingresa tu banco emisor',
+      '221' : 'Ingresa el nombre y apellido',
+      '224' : 'Ingresa el código de seguridad',
+      'E301' : 'Hay algo mal en el número. Vuelve a ingresarlo.',
+      'E302' : 'Revisa el código de seguridad',
+      '316' : 'Ingresa un nombre válido',
+      '322' : 'Revisa tu documento',
+      '323' : 'Revisa tu documento',
+      '324' : 'Revisa tu documento',
+      '325' : 'Revisa la fecha',
+      '326' : 'Revisa la fecha'
+    };
+    String? errorMessage;
+    print('CODIGO ERROR ${data['cause'][0]['code']}');
+
+    if(paymentErrorCodeMap.containsKey('${data['cause'][0]['code']}')){
+      print('ENTRO IF');
+      errorMessage = paymentErrorCodeMap['${data['cause'][0]['code']}'];
+    }else{
+      errorMessage = 'No pudimos procesar tu pago';
+    }
+    Get.snackbar('Error con tu informacion', errorMessage ?? '');
+    // Navigator.pop(context);
+  }
+
+  void badTokenProcess(String status, MercadoPagoPaymentMethodInstallments installments){
+    Map<String, String> badTokenErrorCodeMap = {
+      '106' : 'No puedes realizar pagos a usuarios de otros paises.',
+      '109' : '${installments.paymentMethodId} no procesa pagos en ${this.installments.value} cuotas',
+      '126' : 'No pudimos procesar tu pago.',
+      '129' : '${installments.paymentMethodId} no procesa pagos del monto seleccionado.',
+      '145' : 'No pudimos procesar tu pago',
+      '150' : 'No puedes realizar pagos',
+      '151' : 'No puedes realizar pagos',
+      '160' : 'No pudimos procesar tu pago',
+      '204' : '${installments.paymentMethodId} no está disponible en este momento.',
+      '801' : 'Realizaste un pago similar hace instantes. Intenta nuevamente en unos minutos',
+    };
+    String? errorMessage;
+    if(badTokenErrorCodeMap.containsKey(status.toString())){
+      errorMessage =  badTokenErrorCodeMap[status];
+    }else{
+      errorMessage =  'No pudimos procesar tu pago';
+    }
+    Get.snackbar('Error en la transaccion', errorMessage ?? '');
+    // Navigator.pop(context);
+  }
+
 
 }
