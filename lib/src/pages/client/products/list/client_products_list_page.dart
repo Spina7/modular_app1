@@ -88,7 +88,39 @@ class ClientProductsListPage extends StatelessWidget {
     return SafeArea(
       child: Container(
         margin: EdgeInsets.only(left: 10),
-        child: IconButton(
+        child: con.items.value > 0 
+        ? Stack(
+          children: [
+            IconButton(
+              onPressed: () => con.goToOrderCreate(), 
+              icon: Icon(
+                Icons.shopping_bag_outlined,
+                size: 35,
+              )
+            ),
+            
+            Positioned(
+              right: 5,
+              top: 12,
+              child: Container(
+                width: 16,
+                height: 16,
+                alignment: Alignment.center,
+                child: Text(
+                  '${con.items.value}',
+                  style: TextStyle(
+                    fontSize: 12
+                  ),
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.all(Radius.circular(30))
+                ),
+              )
+            )
+          ],
+        )
+        :  IconButton(
           onPressed: () => con.goToOrderCreate(), 
           icon: Icon(
             Icons.shopping_bag_outlined,

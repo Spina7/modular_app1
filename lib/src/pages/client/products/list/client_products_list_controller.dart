@@ -15,10 +15,30 @@ class ClientProductsListController extends GetxController {
   CategoriesProvider categoriesProvider = CategoriesProvider();
   ProductsProvider productsProvider = ProductsProvider();
 
+  List<Product> selectedProducts = [];
+  
   List<Category> categories = <Category>[].obs;
-
+  var items = 0.obs;
+  
+  
   ClientProductsListController(){
     getCategories();
+
+    //LOS PRODUCTOS ALMACENADOS EN SESION 
+    if(GetStorage().read('shopping_bag') != null){
+
+      if(GetStorage().read('shopping_bag') is List<Product>){
+        selectedProducts = GetStorage().read('shopping_bag');
+      }else{
+        selectedProducts = Product.fromJsonList(GetStorage().read('shopping_bag'));
+      }
+
+      selectedProducts.forEach((p) { 
+        items.value = items.value + (p.quantity!);
+      });
+
+    }
+
   }
 
   void getCategories() async {
