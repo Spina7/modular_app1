@@ -58,7 +58,7 @@ class ClientProductsListPage extends StatelessWidget {
         body:TabBarView(
           children: con.categories.map((Category category) {
             return  FutureBuilder(
-              future: con.getProducts(category.id ?? '1'),
+              future: con.getProducts(category.id ?? '1', con.productName.value),
               builder: (context, AsyncSnapshot<List<Product>> snapshot){
                 if(snapshot.hasData){ //SI HAY INFORMACION
                   
@@ -138,6 +138,7 @@ class ClientProductsListPage extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.75,
 
         child: TextField(
+          onChanged: con.onChangeText,
           decoration: InputDecoration(
             hintText: 'Buscar Producto',
             suffixIcon: Icon(Icons.search, color: Colors.grey),
@@ -176,7 +177,7 @@ class ClientProductsListPage extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(top: 15, left: 20, right: 20),
+            margin: EdgeInsets.only(top: 15, left: 7, right: 7),
             child: ListTile(
               title: Text(product.name ?? ''),
               subtitle: Column(

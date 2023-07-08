@@ -18,11 +18,11 @@ class NoDataWidget extends StatelessWidget {
         children: [
           Image.asset(
             'assets/img/no_items.png',
-            height: 400,
-            width: 400,
+            height: 200,
+            width: 200,
           ),
           SizedBox(
-            height: 15,
+            height: 5,
           ),
           Text(
             text,

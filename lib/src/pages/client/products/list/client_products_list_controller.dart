@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:app1/src/models/category.dart';
 import 'package:app1/src/models/product.dart';
 import 'package:app1/src/pages/client/products/detail/client_products_detail_page.dart';
@@ -20,7 +22,9 @@ class ClientProductsListController extends GetxController {
   List<Category> categories = <Category>[].obs;
   var items = 0.obs;
   
-  
+  var productName = ''.obs;
+  Timer? searchOnStoppedTyping;
+
   ClientProductsListController(){
     getCategories();
 
@@ -41,6 +45,18 @@ class ClientProductsListController extends GetxController {
 
   }
 
+  void onChangeText(String text){
+    const duration = Duration(milliseconds: 800);
+    if(searchOnStoppedTyping != null){
+      searchOnStoppedTyping?.cancel();
+    }
+
+    searchOnStoppedTyping = Timer(duration, () {
+      productName.value = text; 
+      print('TEXTO COMPLETO ${text}');
+     });
+  }
+
   void getCategories() async {
     var result = await categoriesProvider.getAll();
     categories.clear();
@@ -48,8 +64,15 @@ class ClientProductsListController extends GetxController {
   }
 
   //OBTENER PRODUCTOS
-  Future<List<Product>> getProducts(String idCategory) async {
-    return await productsProvider.findByCategory(idCategory);
+  Future<List<Product>> getProducts(String idCategory, String productName) async {
+    
+    if(productName.isEmpty){
+      return await productsProvider.findByCategory(idCategory);
+    }else{
+      return await productsProvider.findByNameAndCategory(idCategory, productName);
+    }
+    
+    
   }
 
   void goToOrderCreate(){
