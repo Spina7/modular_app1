@@ -19,6 +19,10 @@ import 'package:app1/src/pages/restaurant/home/restaurant_home_page.dart';
 import 'package:app1/src/pages/restaurant/orders/detail/restaurant_orders_detail_page.dart';
 import 'package:app1/src/pages/restaurant/orders/list/restaurant_orders_list_page.dart';
 import 'package:app1/src/pages/roles/roles_page.dart';
+import 'package:app1/src/providers/push_notifications_provider.dart';
+import 'package:app1/src/utils/firebase_config.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -27,8 +31,26 @@ import 'package:app1/src/pages/login/login_page.dart';
 import 'package:app1/src/pages/register/register_page.dart';
 
 User userSession = User.fromJson(GetStorage().read('user') ?? {});
+PushNotificationsProvider pushNotificationsProvider = PushNotificationsProvider();
+
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(options: FirebaseConfig.currentPlatform);
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  print('Recibiendo notificacion en segundo plano ${message.messageId}');
+}
+
+
 void main() async {
   await GetStorage.init();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: FirebaseConfig.currentPlatform
+  );
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  pushNotificationsProvider.initPushNotifications();
+
   runApp(const MyApp());
 }
 
@@ -46,6 +68,7 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
     super.initState();
     print('EL TOKEN DE SESION DEL USUARIO: ${userSession.sessionToken}');
+    pushNotificationsProvider.onMessageListener();
   }
 
   @override
