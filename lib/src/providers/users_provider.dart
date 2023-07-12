@@ -74,6 +74,35 @@ class UsersProvider extends GetConnect {
     return responseApi;
   }
 
+  Future<ResponseApi> updateNotificationToken(String id, String token) async {
+    Response response = await put(
+        '$url/updateNotificationToken',
+        {
+          'id': id,
+          'token': token
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': userSession.sessionToken ?? ''
+        }
+    ); // ESPERAR HASTA QUE EL SERVIDOR NOS RETORNE LA RESPUESTA
+
+    if(response.body == null){
+      Get.snackbar('Error', 'No se pudo actualizar la informacion');
+      return ResponseApi();
+    }
+
+    //VALIDAR RESPUESTA 401 PARA QUE NO SE QUEDE ATASCADA LA APP 
+    if(response.statusCode == 401){
+      Get.snackbar('Error', 'No esta autorizado para realizar esta peticion');
+      return ResponseApi();
+    }
+
+    ResponseApi responseApi = ResponseApi.fromJson(response.body);
+  
+    return responseApi;
+  }
+
   Future<Stream> createWithImage(User user, File image) async {
     Uri uri = Uri.http(Environment.API_URL_OLD, '/api/users/createWithImage');
     final request = http.MultipartRequest('POST', uri);

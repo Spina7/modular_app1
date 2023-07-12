@@ -1,3 +1,4 @@
+import 'package:app1/src/providers/users_provider.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -69,5 +70,12 @@ class PushNotificationsProvider {
     }
   }
 
+  void saveToken(String idUser) async{
+    String? token = await FirebaseMessaging.instance.getToken();
+    UsersProvider usersProvider = UsersProvider();
+    if(token != null){
+      await usersProvider.updateNotificationToken(idUser, token);
+    }
+  }
 
 }
