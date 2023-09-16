@@ -1,5 +1,6 @@
 import 'package:app1/src/pages/client/address/create/client_address_create_page.dart';
 import 'package:app1/src/pages/client/address/list/client_address_list_page.dart';
+import 'package:app1/src/pages/client/restaurant_list/client_restaurant_list_page.dart';
 import 'package:app1/src/pages/client/home/client_home_page.dart';
 import 'package:app1/src/pages/client/orders/create/client_orders_create_page.dart';
 import 'package:app1/src/pages/client/payments/create/client_payments_create_page.dart';
@@ -45,7 +46,7 @@ class _MyAppState extends State<MyApp> {
     return GetMaterialApp(
       title: 'Delivery Udemy',
       debugShowCheckedModeBanner: false,
-      //Inicializacion de inicio de sesion
+      //INICIALIZACION DE INICIO DE SESION
       initialRoute: userSession.id != null ? userSession.roles!.length > 1 ? '/roles' : '/client/home' : '/',
       getPages: [
 
@@ -60,6 +61,7 @@ class _MyAppState extends State<MyApp> {
         GetPage(name: '/client/products/list', page: () => ClientProductsListPage()),
 
         GetPage(name: '/client/home', page: () => ClientHomePage()),
+        GetPage(name: '/client/restaurant_list', page: () => ClientRestaurantListPage()),
         GetPage(name: '/restaurant/home', page: () => RestaurantHomePage()),
 
         GetPage(name: '/client/profile/info', page: () => ClientProfileInfoPage()),

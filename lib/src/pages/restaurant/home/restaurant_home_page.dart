@@ -1,6 +1,6 @@
 
 
-import 'package:app1/src/pages/client/home/client_home_controller.dart';
+import 'package:app1/src/pages/client/restaurant_list/client_restaurant_list_controller.dart';
 import 'package:app1/src/pages/client/products/list/client_products_list_controller.dart';
 import 'package:app1/src/pages/client/profile/info/client_profile_info_page.dart';
 import 'package:app1/src/pages/delivery/orders/list/delivery_orders_list_page.dart';

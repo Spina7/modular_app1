@@ -1,5 +1,6 @@
-
 import 'package:app1/src/pages/client/home/client_home_controller.dart';
+import 'package:app1/src/pages/client/restaurant_list/client_restaurant_list_controller.dart';
+import 'package:app1/src/pages/client/restaurant_list/client_restaurant_list_page.dart';
 import 'package:app1/src/pages/client/products/list/client_products_list_controller.dart';
 import 'package:app1/src/pages/client/products/list/client_products_list_page.dart';
 import 'package:app1/src/pages/client/profile/info/client_profile_info_page.dart';
@@ -9,12 +10,8 @@ import 'package:app1/src/pages/restaurant/orders/list/restaurant_orders_list_pag
 import 'package:app1/src/utils/custom_animated_bottom_bar.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-
-             
 
 class ClientHomePage extends StatelessWidget {
   
@@ -32,7 +29,7 @@ class ClientHomePage extends StatelessWidget {
           index: con.indexTab.value,
           children: [
             
-            ClientProductsListPage(),
+            ClientRestaurantListPage(),
             DeliveryOrdersListPage(),
             ClientProfileInfoPage(),
             
@@ -41,8 +38,6 @@ class ClientHomePage extends StatelessWidget {
       )
     );
   }
-
-  //
 
   Widget _bottomBar(){
     return Obx(() => CustomAnimatedBottomBar(
@@ -57,7 +52,7 @@ class ClientHomePage extends StatelessWidget {
         //ELEMENTOS REFLEJADOS DENTRO DEL BOTTOM BAR
         BottomNavyBarItem(
           icon: Icon(Icons.apps), 
-          title: Text('Productos'),
+          title: Text('Restaurantes'),
           activeColor: Colors.white,
           inactiveColor: Colors.black,
         ),
