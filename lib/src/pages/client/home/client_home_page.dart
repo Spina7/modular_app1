@@ -4,6 +4,7 @@ import 'package:app1/src/pages/client/orders/list/client_orders_list_page.dart';
 import 'package:app1/src/pages/client/products/list/client_products_list_controller.dart';
 import 'package:app1/src/pages/client/products/list/client_products_list_page.dart';
 import 'package:app1/src/pages/client/profile/info/client_profile_info_page.dart';
+import 'package:app1/src/pages/client/restaurants/client_restaurants_list_page.dart';
 import 'package:app1/src/pages/delivery/orders/list/delivery_orders_list_page.dart';
 import 'package:app1/src/pages/register/register_page.dart';
 import 'package:app1/src/pages/restaurant/orders/list/restaurant_orders_list_page.dart';
@@ -33,7 +34,7 @@ class ClientHomePage extends StatelessWidget {
           index: con.indexTab.value,
           children: [
             
-            ClientProductsListPage(),
+            ClientRestaurantsListPage(),
             ClientOrdersListPage(),
             ClientProfileInfoPage(),
             
@@ -58,7 +59,7 @@ class ClientHomePage extends StatelessWidget {
         //ELEMENTOS REFLEJADOS DENTRO DEL BOTTOM BAR
         BottomNavyBarItem(
           icon: Icon(Icons.apps), 
-          title: Text('Productos'),
+          title: Text('Restaurants'),
           activeColor: Colors.white,
           inactiveColor: Colors.black,
         ),

@@ -10,6 +10,7 @@ import 'package:app1/src/pages/client/payments/status/client_payments_status_pag
 import 'package:app1/src/pages/client/products/list/client_products_list_page.dart';
 import 'package:app1/src/pages/client/profile/info/client_profile_info_page.dart';
 import 'package:app1/src/pages/client/profile/update/client_profile_update_page.dart';
+import 'package:app1/src/pages/client/restaurants/client_restaurants_list_page.dart';
 import 'package:app1/src/pages/delivery/home/delivery_home_page.dart';
 import 'package:app1/src/pages/delivery/orders/detail/delivery_orders_detail_page.dart';
 import 'package:app1/src/pages/delivery/orders/list/delivery_orders_list_page.dart';
@@ -101,6 +102,7 @@ class _MyAppState extends State<MyApp> {
         GetPage(name: '/client/orders/map', page: () => ClientOrdersMapPage()),
         GetPage(name: '/client/payments/installments', page: () => ClientPaymentsInstallmentsPage()),
         GetPage(name: '/client/payments/status', page: () => ClientPaymentsStatusPage()),
+        GetPage(name: '/client/restaurants', page: () => ClientRestaurantsListPage()),
 
         GetPage(name: '/restaurant/home', page: () => RestaurantHomePage()),
         GetPage(name: '/restaurant/orders/list', page: () => RestaurantOrdersListPage()),
