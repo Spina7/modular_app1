@@ -36,7 +36,7 @@ class ClientRestaurantsListController extends GetxController {
   
   ClientRestaurantsListController(){
     getCategories();
-    getRestaurants();
+    //getRestaurants();
     
 
     //LOS PRODUCTOS ALMACENADOS EN SESION 
@@ -76,10 +76,11 @@ class ClientRestaurantsListController extends GetxController {
   }
 
   //OBTENER RESTAURANTES
-  Future<List<Restaurant>> getRestaurants() async {
+  Future<List<Restaurant>> getRestaurants(String restaurantName) async {
     
     
-    return await restaurantProvider.getAll();
+    //return await restaurantProvider.getAll();
+    return await restaurantProvider.findByName(restaurantName);
   }
 
   /*

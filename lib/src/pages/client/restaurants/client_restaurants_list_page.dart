@@ -57,28 +57,32 @@ class ClientRestaurantsListPage extends StatelessWidget {
             ),
           ),
          ),
-        body:TabBarView(
+        body: TabBarView(
           children: con.categories.map((Category category) {
-            return  FutureBuilder(
-              future: con.getRestaurants(),
-              builder: (context, AsyncSnapshot<List<Restaurant>> snapshot){
-                if(snapshot.hasData){ //SI HAY INFORMACION
-                  
-                  if(snapshot.data!.length > 0){
-                    return ListView.builder(
-                      itemCount: snapshot.data?.length ?? 0,
-                      itemBuilder: (_, index){
-                        return _cardRestaurant(context, Product(), Restaurant());
-                      }
-                    );
-                  }else{
-                    return NoDataWidget(text: 'No hay productos');
-                  }
- 
-                } else{
-                  return NoDataWidget(text: 'No hay productos');
+            return FutureBuilder(
+              future: con.getRestaurants(con.restaurantName.value),
+              builder: (context, AsyncSnapshot<List<Restaurant>> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  // Mientras se está cargando la información, puedes mostrar un indicador de carga
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  // Si hay un error en la solicitud, muestra un mensaje de error
+                  return Text('Error: ${snapshot.error}');
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  // Si no hay datos o la lista está vacía, muestra un mensaje de que no hay productos
+                  return NoDataWidget(text: 'No hay restaurantes');
+                } else {
+                  // Si hay datos disponibles, construye la lista de restaurantes
+                  return ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (_, index) {
+                      // Aquí puedes usar los datos del snapshot para construir cada tarjeta de restaurante
+                      Restaurant restaurant = snapshot.data![index];
+                      return _cardRestaurant(context, Product(), restaurant);
+                    },
+                  );
                 }
-              }
+              },
             );
           }).toList(),
         )
@@ -179,7 +183,7 @@ class ClientRestaurantsListPage extends StatelessWidget {
     return GestureDetector(
 
       onTap: () => con.openBottomSheet(context, product),
-
+      
       child: Column(
         children: [
           Container(
