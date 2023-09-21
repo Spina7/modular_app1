@@ -5,6 +5,8 @@ import 'package:app1/src/models/category.dart';
 import 'package:app1/src/models/product.dart';
 import 'package:app1/src/models/restaurant.dart';
 import 'package:app1/src/pages/client/products/detail/client_products_detail_page.dart';
+import 'package:app1/src/pages/client/restaurants/detail/client_restaurants_detail_contoller.dart';
+import 'package:app1/src/pages/client/restaurants/detail/client_restaurants_detail_page.dart';
 import 'package:app1/src/providers/categories_provider.dart';
 import 'package:app1/src/providers/restaurant_provider.dart';
 import 'package:app1/src/providers/products_provider.dart';
@@ -36,7 +38,7 @@ class ClientRestaurantsListController extends GetxController {
   
   ClientRestaurantsListController(){
     getCategories();
-    //getRestaurants();
+  
     
 
     //LOS PRODUCTOS ALMACENADOS EN SESION 
@@ -75,12 +77,16 @@ class ClientRestaurantsListController extends GetxController {
     categories.addAll(result);
   }
 
+
+
   //OBTENER RESTAURANTES
   Future<List<Restaurant>> getRestaurants(String restaurantName) async {
     
-    
-    //return await restaurantProvider.getAll();
-    return await restaurantProvider.findByName(restaurantName);
+    if(restaurantName.isEmpty){
+      return await restaurantProvider.getAll();
+    }else{
+      return await restaurantProvider.findByName(restaurantName);
+    }
   }
 
   /*
@@ -93,18 +99,18 @@ class ClientRestaurantsListController extends GetxController {
       return await productsProvider.findByNameAndCategory(idCategory, productName);
     }
     
-    
   }
 
-  */
+  
   void goToOrderCreate(){
     Get.toNamed('/client/orders/create');
   }
-
-  void openBottomSheet(BuildContext context, Product product){
+  */
+  
+  void openBottomSheet(BuildContext context, Restaurant restaurant){
     showMaterialModalBottomSheet(
       context: context, 
-      builder: (context) => ClientProductsDetailPage(product: product)
+      builder: (context) => ClientRestaurantsDetailPage(restaurant: restaurant)
     );
   }
  

@@ -20,74 +20,57 @@ import 'package:get/get.dart';
 class ClientRestaurantsListPage extends StatelessWidget {
   
   ClientRestaurantsListController con = Get.put(ClientRestaurantsListController());
- 
+  ClientProductsListController conProduct = Get.put(ClientProductsListController());
+
   @override
   Widget build(BuildContext context) {
 
     
-    return Obx(() => DefaultTabController(
-      length: con.categories.length,   //CUANTAS CATEGORIAS VAMOS A MOSTRAR
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(110),
-          child: AppBar(
-
-            flexibleSpace: Container(
-              margin: EdgeInsets.only(top: 15),
-              alignment: Alignment.topCenter,
-              child:  Wrap(
-                direction: Axis.horizontal,
-                children: [
-                  _textFieldSearch(context),
-                  _iconShoppingBag()
-                ],
-              ),
-            ),
-
-            bottom: TabBar(
-              isScrollable: true,
-              indicatorColor: Colors.white,   
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.grey[400],
-              tabs: List<Widget>.generate(con.categories.length, (index) {
-                return Tab(
-                  child: Text(con.categories[index].name ?? ''),
-                );
-              }),
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(110),
+        child: AppBar(
+          flexibleSpace: Container(
+            margin: EdgeInsets.only(top: 15),
+            alignment: Alignment.topCenter,
+            child: Wrap(
+              direction: Axis.horizontal,
+              children: [
+                _textFieldSearch(context),
+                _iconShoppingBag(),
+              ],
             ),
           ),
-         ),
-        body: TabBarView(
-          children: con.categories.map((Category category) {
-            return FutureBuilder(
-              future: con.getRestaurants(con.restaurantName.value),
-              builder: (context, AsyncSnapshot<List<Restaurant>> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  // Mientras se está cargando la información, puedes mostrar un indicador de carga
-                  return CircularProgressIndicator();
-                } else if (snapshot.hasError) {
-                  // Si hay un error en la solicitud, muestra un mensaje de error
-                  return Text('Error: ${snapshot.error}');
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  // Si no hay datos o la lista está vacía, muestra un mensaje de que no hay productos
-                  return NoDataWidget(text: 'No hay restaurantes');
-                } else {
-                  // Si hay datos disponibles, construye la lista de restaurantes
-                  return ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (_, index) {
-                      // Aquí puedes usar los datos del snapshot para construir cada tarjeta de restaurante
-                      Restaurant restaurant = snapshot.data![index];
-                      return _cardRestaurant(context, Product(), restaurant);
-                    },
-                  );
-                }
-              },
-            );
-          }).toList(),
-        )
+        ),
       ),
-    ));
+  body: FutureBuilder(
+    future: con.getRestaurants(con.restaurantName.value),
+    builder: (context, AsyncSnapshot<List<Restaurant>> snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        // Mientras se está cargando la información, puedes mostrar un indicador de carga
+        return Center(child: CircularProgressIndicator());
+      } else if (snapshot.hasError) {
+        // Si hay un error en la solicitud, muestra un mensaje de error
+        return Center(child: Text('Error: ${snapshot.error}'));
+      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+        // Si no hay datos o la lista está vacía, muestra un mensaje de que no hay restaurantes
+        return Center(child: NoDataWidget(text: 'No hay restaurantes'));
+      } else {
+        // Si hay datos disponibles, construye la lista de restaurantes
+        return ListView.builder(
+          itemCount: snapshot.data!.length,
+          itemBuilder: (_, index) {
+            // Aquí puedes usar los datos del snapshot para construir cada tarjeta de restaurante
+            Restaurant restaurant = snapshot.data![index];
+            return _cardRestaurant(context, Product(), restaurant);
+          },
+        );
+      }
+    },
+  ),
+);
+
+    
   }
 
 
@@ -99,7 +82,7 @@ class ClientRestaurantsListPage extends StatelessWidget {
         ? Stack(
           children: [
             IconButton(
-              onPressed: () => con.goToOrderCreate(), 
+              onPressed: () => conProduct.goToOrderCreate(), 
               icon: Icon(
                 Icons.shopping_bag_outlined,
                 size: 35,
@@ -128,7 +111,7 @@ class ClientRestaurantsListPage extends StatelessWidget {
           ],
         )
         :  IconButton(
-          onPressed: () => con.goToOrderCreate(), 
+          onPressed: () => conProduct.goToOrderCreate(), 
           icon: Icon(
             Icons.shopping_bag_outlined,
             size: 30,
@@ -182,7 +165,7 @@ class ClientRestaurantsListPage extends StatelessWidget {
 
     return GestureDetector(
 
-      onTap: () => con.openBottomSheet(context, product),
+      onTap: () => con.openBottomSheet(context, restaurant),
       
       child: Column(
         children: [

@@ -1,4 +1,5 @@
 import 'package:app1/src/models/product.dart';
+import 'package:app1/src/models/restaurant.dart';
 import 'package:app1/src/pages/client/products/detail/client_products_detail_contoller.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -7,16 +8,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:get/get.dart';
 
-class ClientProductsDetailPage extends StatelessWidget {
+class ClientRestaurantsDetailPage extends StatelessWidget {
   
   Product? product;
+  Restaurant? restaurant;
 
   late ClientProductsDetailController con;
 
   var counter = 0.obs;  
   var price = 0.0.obs;
 
-  ClientProductsDetailPage({@required this.product}){
+  ClientRestaurantsDetailPage({@required this.restaurant}){
     con =  Get.put(ClientProductsDetailController());
   }
 
