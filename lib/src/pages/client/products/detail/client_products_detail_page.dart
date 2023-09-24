@@ -235,4 +235,6 @@ class ClientProductsDetailPage extends StatelessWidget {
     );
   }
 
+
+
 }

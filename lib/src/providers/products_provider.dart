@@ -16,6 +16,26 @@ class ProductsProvider extends GetConnect{
 
   String url = Environment.API_URL + 'api/products';
 
+  Future<List<Product>> getAll() async {
+    Response response = await get(
+        '$url/getAll',
+        
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': userSession.sessionToken ?? ''
+        }
+    ); // ESPERAR HASTA QUE EL SERVIDOR NOS RETORNE LA RESPUESTA
+
+    if(response.statusCode == 401){
+      Get.snackbar('Peticion Denegada', 'Tu usuario no tiene permitido leer esta informacion');
+      return [];
+    }
+
+    List<Product> products = Product.fromJsonList(response.body);
+    return products;
+    
+  }
+
   //MOSTRAR TODOS LOS PRODUCTOS 
   Future<List<Product>> findByCategory(String idCategory) async {
     Response response = await get(

@@ -1,6 +1,7 @@
 import 'package:app1/src/models/product.dart';
 import 'package:app1/src/models/restaurant.dart';
 import 'package:app1/src/pages/client/products/list/client_products_list_controller.dart';
+import 'package:app1/src/providers/products_provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -10,6 +11,10 @@ class ClientRestaurantsDetailController extends GetxController {
   
   List<Restaurant> selectedRestaurants = [];
   ClientRestaurantsDetailController clientRestaurantDetailController = Get.find();
+
+  ProductsProvider productsProvider = ProductsProvider();
+
+  List<Product> selectedProducts = [];
 
   ClientRestaurantsDetailController(){}  //CONSTRUCTOR
 

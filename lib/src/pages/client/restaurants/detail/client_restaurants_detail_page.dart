@@ -1,102 +1,155 @@
 import 'package:app1/src/models/product.dart';
 import 'package:app1/src/models/restaurant.dart';
 import 'package:app1/src/pages/client/products/detail/client_products_detail_contoller.dart';
+import 'package:app1/src/pages/client/products/list/client_products_list_controller.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-
+import 'package:app1/src/widgets/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+
 
 class ClientRestaurantsDetailPage extends StatelessWidget {
   
   Product? product;
   Restaurant? restaurant;
 
+  ClientProductsListController conProduct = Get.put(ClientProductsListController());
+
+
   late ClientProductsDetailController con;
 
   var counter = 0.obs;  
   var price = 0.0.obs;
 
-  ClientRestaurantsDetailPage({@required this.restaurant}){
-    con =  Get.put(ClientProductsDetailController());
-  }
+  ClientRestaurantsDetailPage({@required this.restaurant}){}
 
   @override
   Widget build(BuildContext context) {
-
-    con.checkIfProductsWasAdded(product!, price, counter);
-
-    return Obx(() =>  Scaffold(
-
+    return Scaffold(
       bottomNavigationBar: Container(
-        color: const Color.fromRGBO(245, 245, 245, 1.0),  //FARTA AJUSTAR COLOR 
+        color: const Color.fromRGBO(245, 245, 245, 1.0),
         height: 100,
-        child: _buttonsAddToBag(),
+        //child: _buttonsAddToBag(),
       ),
-
-      body: Column(
+      body: ListView(
         children: [
-          _imageSlideshow(context),
-          _textNameProduct(),
-          _textDescriptionProduct(),
-          _textPriceProduct()
+          SizedBox(height: 20),
+          //_imageSlideshow(context),
+          _textNameRestaurant(),
+          _textAddressRestaurant(),
+          _textHourDetail(),
+          _buildProductList(context),
         ],
-      )
-    ));
+      ),
+    );
   }
 
+  Widget _buildProductList(BuildContext context) {
+    return FutureBuilder(
+      future: conProduct.getAll(),
+      builder: (context, AsyncSnapshot<List<Product>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error al cargar los productos: ${snapshot.error}');
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return NoDataWidget(text: 'No hay productos');
+        } else {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  'Productos',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: snapshot.data!.length,
+                itemBuilder: (_, index) {
+                  final product = snapshot.data![index];
+                  return _cardProduct(context, product);
+                },
+              ),
+            ],
+          );
+        }
+      },
+    );
+  }
 
-  Widget _textNameProduct(){
+  
+  Widget _textNameRestaurant() {
     return Container(
-
-      alignment: Alignment.centerLeft,
-      margin: EdgeInsets.only(top: 30, left: 30, right: 30),
-
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10 ),
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
       child: Text(
-        product?.name  ?? '',
+        restaurant?.name ?? '',
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 22,
-          color: Colors.black
+          color: Colors.black,
         ),
       ),
     );
   }
-
-  Widget _textDescriptionProduct(){
+  
+  
+  Widget _textAddressRestaurant() {
     return Container(
-
-      alignment: Alignment.centerLeft,
-      margin: EdgeInsets.only(top: 30, left: 30, right: 30),
-
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Text(
-        product?.description  ?? '',
+        restaurant?.address ?? '',
         style: TextStyle(
-          //fontWeight: FontWeight.bold,
           fontSize: 16,
-          //color: Colors.black
+          color: Colors.grey,
         ),
       ),
     );
   }
 
-  Widget _textPriceProduct(){
+
+  Widget _textHourDetail() {
+    final initialWorkingHour = restaurant?.initial_working_hour;
+    final formattedHour = initialWorkingHour != null
+      ? DateFormat('HH:mm:ss').format(DateTime.parse(initialWorkingHour))
+      : '';
+
     return Container(
-
-      alignment: Alignment.centerLeft,
-      margin: EdgeInsets.only(top: 15, left: 30, right: 30),
-
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Text(
-        '\$${product?.price.toString()  ?? ''}',
+        formattedHour,
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 16,
-          color: Colors.black
+          color: Colors.black,
         ),
       ),
     );
   }
+
 
   Widget _buttonsAddToBag(){
     return Column(
@@ -196,45 +249,64 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _imageSlideshow(BuildContext context){
-    return ImageSlideshow(
+   //MOSTRAR LAS PRODUCTOS EN UN "CARD"
+  Widget _cardProduct(BuildContext context, Product product){
+    return GestureDetector(
 
-      width: double.infinity,
-      height: MediaQuery.of(context).size.height *0.4,
-      initialPage: 0,
-      indicatorColor: Colors.redAccent,
-      indicatorBackgroundColor: Colors.grey,
+      onTap: () => conProduct.openBottomSheet(context, product),
 
-      children: [
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: 15, left: 7, right: 7),
+            child: ListTile(
+              title: Text(product.name ?? ''),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 10),
+                  Text(
+                    product.description ?? '',
+                    maxLines: 2,
+                    style: TextStyle(
+                      fontSize: 12
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    '\$${product.price.toString()}', //PARA MOSTRAR SINGO DE PESOS
+                    style: TextStyle(
+                      color: Colors.redAccent,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                ],
+              ),
 
-        FadeInImage(
-          fit: BoxFit.cover,
-          fadeInDuration: Duration(milliseconds: 50),
-          placeholder: AssetImage('assets/img/no-image.png'), 
-          image: product!.image1 != null
-                ? NetworkImage(product!.image1!)
-                : AssetImage('assets/img/no-image.png') as ImageProvider
-        ),
-
-        FadeInImage(
-          fit: BoxFit.cover,
-          fadeInDuration: Duration(milliseconds: 50),
-          placeholder: AssetImage('assets/img/no-image.png'), 
-          image: product!.image2 != null
-                ? NetworkImage(product!.image2!)
-                : AssetImage('assets/img/no-image.png') as ImageProvider
-        ),
-
-        FadeInImage(
-          fit: BoxFit.cover,
-          fadeInDuration: Duration(milliseconds: 50),
-          placeholder: AssetImage('assets/img/no-image.png'), 
-          image: product!.image3 != null
-                ? NetworkImage(product!.image3!)
-                : AssetImage('assets/img/no-image.png') as ImageProvider
-        ),
-      ]
+              trailing: Container(
+                height: 70,
+                width: 60,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: FadeInImage(
+                    image: product.image1 != null
+                          ? NetworkImage(product.image1!)
+                          : AssetImage('assets/img/no-image.png') as ImageProvider,
+                    fit: BoxFit.cover,
+                    fadeInDuration: Duration(milliseconds: 50),
+                    placeholder: AssetImage('assets/img/no-image.png'),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Divider(height: 1, color: Colors.grey[300], indent: 37, endIndent: 37)
+        ],
+      ),
     );
   }
+ 
+
 
 }

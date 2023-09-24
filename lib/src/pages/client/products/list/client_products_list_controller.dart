@@ -71,9 +71,14 @@ class ClientProductsListController extends GetxController {
     }else{
       return await productsProvider.findByNameAndCategory(idCategory, productName);
     }
-    
-    
   }
+
+  
+  Future<List<Product>> getAll() async {
+    
+    return await productsProvider.getAll();
+  }
+  
 
   void goToOrderCreate(){
     Get.toNamed('/client/orders/create');
