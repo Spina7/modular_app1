@@ -10,6 +10,7 @@ import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import 'package:app1/src/models/category.dart';
 
 class ClientRestaurantsDetailPage extends StatelessWidget {
   
@@ -18,76 +19,97 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
 
   ClientProductsListController conProduct = Get.put(ClientProductsListController());
 
+ 
 
   late ClientProductsDetailController con;
 
   var counter = 0.obs;  
   var price = 0.0.obs;
+ 
+
 
   ClientRestaurantsDetailPage({@required this.restaurant}){}
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: Container(
-        color: const Color.fromRGBO(245, 245, 245, 1.0),
-        height: 100,
-        //child: _buttonsAddToBag(),
-      ),
-      body: ListView(
-        children: [
-          SizedBox(height: 20),
-          //_imageSlideshow(context),
-          _textNameRestaurant(),
-          _textAddressRestaurant(),
-          _textHourDetail(),
-          _buildProductList(context),
-        ],
+    return DefaultTabController(
+      length: conProduct.categories.length,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(restaurant?.name ?? ''),
+          bottom: TabBar(
+            isScrollable: true,
+            indicatorColor: Colors.white,
+            labelColor: Colors.black,
+            unselectedLabelColor: Colors.grey[400],
+            tabs: conProduct.categories.map((Category category) {
+              return Tab(
+                child: Text(category.name ?? ''),
+              );
+            }).toList(),
+          ),
+        ),
+        body: Column(
+          children: [
+            _imageSlideshow(context),
+            _textAddressRestaurant(),
+            _textHourDetail(),
+            Expanded(
+              child: TabBarView(
+                children: conProduct.categories.map((Category category) {
+                  return FutureBuilder(
+                    future: conProduct.getProducts(category.id ?? '1', conProduct.productName.value),
+                    builder: (context, AsyncSnapshot<List<Product>> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return NoDataWidget(text: 'No hay productos');
+                      } else {
+                        return ListView.builder(
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (_, index) {
+                            return _cardProduct(context, snapshot.data![index]);
+                          },
+                        );
+                      }
+                    },
+                  );
+                }).toList(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildProductList(BuildContext context) {
-    return FutureBuilder(
-      future: conProduct.getAll(),
-      builder: (context, AsyncSnapshot<List<Product>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
-        } else if (snapshot.hasError) {
-          return Text('Error al cargar los productos: ${snapshot.error}');
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return NoDataWidget(text: 'No hay productos');
-        } else {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text(
-                  'Productos',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: snapshot.data!.length,
-                itemBuilder: (_, index) {
-                  final product = snapshot.data![index];
-                  return _cardProduct(context, product);
-                },
-              ),
-            ],
-          );
-        }
-      },
+    final conProduct = Get.put(ClientProductsListController());
+
+    return Expanded(
+      child: Obx(() => FutureBuilder(
+        future: conProduct.getProducts('2', conProduct.productName.value),
+        builder: (context, AsyncSnapshot<List<Product>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator(); // Show a loading indicator while fetching data.
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return NoDataWidget(text: 'No hay productos');
+          } else {
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (_, index) {
+                return _cardProduct(context, snapshot.data![index]);
+              },
+            );
+          }
+        },
+      )),
     );
   }
-
   
   Widget _textNameRestaurant() {
     return Container(
@@ -307,6 +329,48 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
     );
   }
  
+
+  Widget _imageSlideshow(BuildContext context){
+    return ImageSlideshow(
+
+      width: double.infinity,
+      height: MediaQuery.of(context).size.height *0.4,
+      initialPage: 0,
+      indicatorColor: Colors.redAccent,
+      indicatorBackgroundColor: Colors.grey,
+
+      children: [
+        /*
+        FadeInImage(
+          fit: BoxFit.cover,
+          fadeInDuration: Duration(milliseconds: 50),
+          placeholder: AssetImage('assets/img/no-image.png'), 
+          image: product!.image1 != null
+                ? NetworkImage(product!.image1!)
+                : AssetImage('assets/img/no-image.png') as ImageProvider
+        ),
+
+        FadeInImage(
+          fit: BoxFit.cover,
+          fadeInDuration: Duration(milliseconds: 50),
+          placeholder: AssetImage('assets/img/no-image.png'), 
+          image: product!.image2 != null
+                ? NetworkImage(product!.image2!)
+                : AssetImage('assets/img/no-image.png') as ImageProvider
+        ),
+
+        FadeInImage(
+          fit: BoxFit.cover,
+          fadeInDuration: Duration(milliseconds: 50),
+          placeholder: AssetImage('assets/img/no-image.png'), 
+          image: product!.image3 != null
+                ? NetworkImage(product!.image3!)
+                : AssetImage('assets/img/no-image.png') as ImageProvider
+        ),
+        */
+      ]
+    );
+  }
 
 
 }

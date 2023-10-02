@@ -35,6 +35,7 @@ class ClientHomePage extends StatelessWidget {
           children: [
             
             ClientRestaurantsListPage(),
+            ClientProductsListPage(),
             ClientOrdersListPage(),
             ClientProfileInfoPage(),
             
@@ -60,6 +61,13 @@ class ClientHomePage extends StatelessWidget {
         BottomNavyBarItem(
           icon: Icon(Icons.apps), 
           title: Text('Restaurants'),
+          activeColor: Colors.white,
+          inactiveColor: Colors.black,
+        ),
+
+        BottomNavyBarItem(
+          icon: Icon(Icons.apps), 
+          title: Text('Productos'),
           activeColor: Colors.white,
           inactiveColor: Colors.black,
         ),

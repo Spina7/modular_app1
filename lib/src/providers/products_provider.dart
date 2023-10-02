@@ -16,9 +16,9 @@ class ProductsProvider extends GetConnect{
 
   String url = Environment.API_URL + 'api/products';
 
-  Future<List<Product>> getAll() async {
+  Future<List<Product>> findByIdRestaurant(List<String> restaurantIds) async {
     Response response = await get(
-        '$url/getAll',
+        '$url/findByIdRestaurant',
         
         headers: {
           'Content-Type': 'application/json',
@@ -76,7 +76,6 @@ class ProductsProvider extends GetConnect{
     return products;
   }
 
-
   Future<Stream> create(Product product, List<File> images) async {
     Uri uri = Uri.http(Environment.API_URL_OLD, '/api/products/create');
     final request = http.MultipartRequest('POST', uri);
@@ -94,6 +93,28 @@ class ProductsProvider extends GetConnect{
     request.fields['product'] = json.encode(product);
     final response = await request.send();
     return response.stream.transform(utf8.decoder);
+  }
+
+
+  Future<List<String>> getRestaurantIds() async {
+    Response response = await get(
+      '$url/getRestaurantIds',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': userSession.sessionToken ?? '',
+      },
+    );
+
+    if (response.statusCode == 401) {
+      Get.snackbar(
+        'Peticion Denegada',
+        'Tu usuario no tiene permitido leer esta informacion',
+      );
+      return [];
+    }
+
+    List<String> restaurantIds = List<String>.from(json.decode(response.body));
+    return restaurantIds;
   }
 
 }
