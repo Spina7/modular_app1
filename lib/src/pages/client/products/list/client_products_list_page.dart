@@ -19,8 +19,11 @@ class ClientProductsListPage extends StatelessWidget {
   
   ClientProductsListController con = Get.put(ClientProductsListController());
 
+  
+
   @override
   Widget build(BuildContext context) {
+
 
     
     return Obx(() => DefaultTabController(
@@ -58,7 +61,7 @@ class ClientProductsListPage extends StatelessWidget {
         body:TabBarView(
           children: con.categories.map((Category category) {
             return  FutureBuilder(
-              future: con.getProducts(category.id ?? '1', con.productName.value),
+              future: con.getProducts(category.id ?? '1', '1', con.productName.value),
               builder: (context, AsyncSnapshot<List<Product>> snapshot){
                 if(snapshot.hasData){ //SI HAY INFORMACION
                   

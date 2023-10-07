@@ -58,7 +58,7 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
               child: TabBarView(
                 children: conProduct.categories.map((Category category) {
                   return FutureBuilder(
-                    future: conProduct.getProducts(category.id ?? '1', conProduct.productName.value),
+                    future: conProduct.getProducts(category.id ?? '1', restaurant?.id ?? '1', conProduct.productName.value),
                     builder: (context, AsyncSnapshot<List<Product>> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return CircularProgressIndicator();
@@ -90,7 +90,7 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
 
     return Expanded(
       child: Obx(() => FutureBuilder(
-        future: conProduct.getProducts('2', conProduct.productName.value),
+        future: conProduct.getProducts('2', restaurant?.id ?? '1', conProduct.productName.value),
         builder: (context, AsyncSnapshot<List<Product>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator(); // Show a loading indicator while fetching data.

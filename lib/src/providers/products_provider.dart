@@ -37,9 +37,9 @@ class ProductsProvider extends GetConnect{
   }
 
   //MOSTRAR TODOS LOS PRODUCTOS 
-  Future<List<Product>> findByCategory(String idCategory) async {
+  Future<List<Product>> findByCategory(String idCategory, String idRestaurant) async {
     Response response = await get(
-        '$url/findByCategory/$idCategory',
+        '$url/findByCategory/$idCategory/$idRestaurant',
         
         headers: {
           'Content-Type': 'application/json',

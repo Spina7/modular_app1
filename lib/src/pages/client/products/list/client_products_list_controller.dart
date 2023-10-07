@@ -22,7 +22,7 @@ class ClientProductsListController extends GetxController {
   List<Category> categories = <Category>[].obs;
   var items = 0.obs;
   
-  List<String> restaurantIds = <String>[].obs; // Lista para almacenar los IDs de los restaurantes
+  //List<String> restaurantIds = <String>[].obs; // Lista para almacenar los IDs de los restaurantes
 
   var productName = ''.obs;
   Timer? searchOnStoppedTyping;
@@ -75,10 +75,10 @@ class ClientProductsListController extends GetxController {
   }
 
   //OBTENER PRODUCTOS
-  Future<List<Product>> getProducts(String idCategory, String productName) async {
+  Future<List<Product>> getProducts(String idCategory, String idRestaurant,  String productName) async {
     
     if(productName.isEmpty){
-      return await productsProvider.findByCategory(idCategory);
+      return await productsProvider.findByCategory(idCategory, idRestaurant);
     }else{
       return await productsProvider.findByNameAndCategory(idCategory, productName);
     }
