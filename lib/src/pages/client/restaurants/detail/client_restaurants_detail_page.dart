@@ -13,22 +13,18 @@ import 'package:intl/intl.dart';
 import 'package:app1/src/models/category.dart';
 
 class ClientRestaurantsDetailPage extends StatelessWidget {
-  
   Product? product;
   Restaurant? restaurant;
 
-  ClientProductsListController conProduct = Get.put(ClientProductsListController());
-
- 
+  ClientProductsListController conProduct =
+      Get.put(ClientProductsListController());
 
   late ClientProductsDetailController con;
 
-  var counter = 0.obs;  
+  var counter = 0.obs;
   var price = 0.0.obs;
- 
 
-
-  ClientRestaurantsDetailPage({@required this.restaurant}){}
+  ClientRestaurantsDetailPage({@required this.restaurant}) {}
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +54,8 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
               child: TabBarView(
                 children: conProduct.categories.map((Category category) {
                   return FutureBuilder(
-                    future: conProduct.getProducts(category.id ?? '1', restaurant?.id ?? '1', conProduct.productName.value),
+                    future: conProduct.getProducts(category.id ?? '1',
+                        restaurant?.id ?? '1', conProduct.productName.value),
                     builder: (context, AsyncSnapshot<List<Product>> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return CircularProgressIndicator();
@@ -85,35 +82,38 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
     );
   }
 
+  /*
   Widget _buildProductList(BuildContext context) {
     final conProduct = Get.put(ClientProductsListController());
 
     return Expanded(
       child: Obx(() => FutureBuilder(
-        future: conProduct.getProducts('2', restaurant?.id ?? '1', conProduct.productName.value),
-        builder: (context, AsyncSnapshot<List<Product>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator(); // Show a loading indicator while fetching data.
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return NoDataWidget(text: 'No hay productos');
-          } else {
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (_, index) {
-                return _cardProduct(context, snapshot.data![index]);
-              },
-            );
-          }
-        },
-      )),
+            future: conProduct.getProducts(
+                '2', restaurant?.id ?? '1', conProduct.productName.value),
+            builder: (context, AsyncSnapshot<List<Product>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator(); // Show a loading indicator while fetching data.
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return NoDataWidget(text: 'No hay productos');
+              } else {
+                return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (_, index) {
+                    return _cardProduct(context, snapshot.data![index]);
+                  },
+                );
+              }
+            },
+          )),
     );
   }
-  
+  */
+
   Widget _textNameRestaurant() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10 ),
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -137,8 +137,7 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
       ),
     );
   }
-  
-  
+
   Widget _textAddressRestaurant() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -152,12 +151,11 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
     );
   }
 
-
   Widget _textHourDetail() {
     final initialWorkingHour = restaurant?.initial_working_hour;
     final formattedHour = initialWorkingHour != null
-      ? DateFormat('HH:mm:ss').format(DateTime.parse(initialWorkingHour))
-      : '';
+        ? DateFormat('HH:mm:ss').format(DateTime.parse(initialWorkingHour))
+        : '';
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -172,111 +170,82 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
     );
   }
 
-
-  Widget _buttonsAddToBag(){
+  Widget _buttonsAddToBag() {
     return Column(
       children: [
         Divider(
           height: 1,
           color: Colors.grey[400],
         ),
-
         Container(
-
           margin: EdgeInsets.only(left: 20, right: 20, top: 25),
-
           child: Row(
             children: [
-
-              ElevatedButton(   //BOTON - (MENOS)
-                onPressed: () => con.removeItem(product!, price, counter), 
+              ElevatedButton(
+                //BOTON - (MENOS)
+                onPressed: () => con.removeItem(product!, price, counter),
                 child: Text(
                   '-',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 22
-                  ),
+                  style: TextStyle(color: Colors.black, fontSize: 22),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
-                  minimumSize: Size(45, 37),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
+                    primary: Colors.white,
+                    minimumSize: Size(45, 37),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(25),
-                      bottomLeft: Radius.circular(25), 
-                    )
-                  )
-                ),
+                      bottomLeft: Radius.circular(25),
+                    ))),
               ),
-
               ElevatedButton(
-                onPressed: (){}, 
+                onPressed: () {},
                 child: Text(
                   '${counter.value}',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 22
-                  ),
+                  style: TextStyle(color: Colors.black, fontSize: 22),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
-                  minimumSize: Size(40, 37)
-                ),
+                    primary: Colors.white, minimumSize: Size(40, 37)),
               ),
-
-              ElevatedButton(     //BOTON + (MAS)
-                onPressed: () => con.addItem(product!, price, counter), 
+              ElevatedButton(
+                //BOTON + (MAS)
+                onPressed: () => con.addItem(product!, price, counter),
                 child: Text(
                   '+',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 22
-                  ),
+                  style: TextStyle(color: Colors.black, fontSize: 22),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
-                  minimumSize: Size(45, 37),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
+                    primary: Colors.white,
+                    minimumSize: Size(45, 37),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
                       topRight: Radius.circular(25),
-                      bottomRight: Radius.circular(25), 
-                    )
-                  )
-                ),
+                      bottomRight: Radius.circular(25),
+                    ))),
               ),
-
               Spacer(),
-              ElevatedButton(     //BOTON "AGREGAR"
-                onPressed: () => con.addToBag(product!, price, counter), 
+              ElevatedButton(
+                //BOTON "AGREGAR"
+                onPressed: () => con.addToBag(product!, price, counter),
                 child: Text(
                   'Agregar  ${price.value}',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15
-                  ),
+                  style: TextStyle(color: Colors.black, fontSize: 15),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.redAccent,     //FALTA AJUSTAR COLOR 
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25)
-                  )
-                ),
+                    primary: Colors.redAccent, //FALTA AJUSTAR COLOR
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25))),
               ),
-
             ],
-          ), 
-
+          ),
         )
       ],
     );
   }
 
-   //MOSTRAR LAS PRODUCTOS EN UN "CARD"
-  Widget _cardProduct(BuildContext context, Product product){
+  //MOSTRAR LAS PRODUCTOS EN UN "CARD"
+  Widget _cardProduct(BuildContext context, Product product) {
     return GestureDetector(
-
       onTap: () => conProduct.openBottomSheet(context, product),
-
       child: Column(
         children: [
           Container(
@@ -290,22 +259,17 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
                   Text(
                     product.description ?? '',
                     maxLines: 2,
-                    style: TextStyle(
-                      fontSize: 12
-                    ),
+                    style: TextStyle(fontSize: 12),
                   ),
                   SizedBox(height: 10),
                   Text(
                     '\$${product.price.toString()}', //PARA MOSTRAR SINGO DE PESOS
                     style: TextStyle(
-                      color: Colors.redAccent,
-                      fontWeight: FontWeight.bold
-                    ),
+                        color: Colors.redAccent, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 20),
                 ],
               ),
-
               trailing: Container(
                 height: 70,
                 width: 60,
@@ -313,8 +277,9 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   child: FadeInImage(
                     image: product.image1 != null
-                          ? NetworkImage(product.image1!)
-                          : AssetImage('assets/img/no-image.png') as ImageProvider,
+                        ? NetworkImage(product.image1!)
+                        : AssetImage('assets/img/no-image.png')
+                            as ImageProvider,
                     fit: BoxFit.cover,
                     fadeInDuration: Duration(milliseconds: 50),
                     placeholder: AssetImage('assets/img/no-image.png'),
@@ -328,19 +293,16 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
       ),
     );
   }
- 
 
-  Widget _imageSlideshow(BuildContext context){
+  Widget _imageSlideshow(BuildContext context) {
     return ImageSlideshow(
-
-      width: double.infinity,
-      height: MediaQuery.of(context).size.height *0.4,
-      initialPage: 0,
-      indicatorColor: Colors.redAccent,
-      indicatorBackgroundColor: Colors.grey,
-
-      children: [
-        /*
+        width: double.infinity,
+        height: MediaQuery.of(context).size.height * 0.4,
+        initialPage: 0,
+        indicatorColor: Colors.redAccent,
+        indicatorBackgroundColor: Colors.grey,
+        children: [
+          /*
         FadeInImage(
           fit: BoxFit.cover,
           fadeInDuration: Duration(milliseconds: 50),
@@ -368,9 +330,6 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
                 : AssetImage('assets/img/no-image.png') as ImageProvider
         ),
         */
-      ]
-    );
+        ]);
   }
-
-
 }

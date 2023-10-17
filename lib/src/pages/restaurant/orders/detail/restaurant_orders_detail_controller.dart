@@ -24,19 +24,18 @@ class RestaurantOrdersDetailController extends GetxController {
   }
 
   void updateOrder() async {
-    if(idDelivery.value != ''){ //EL USUARIO SI SELECCIONO EL REPARTIDOR
+    if (idDelivery.value != '') {
+      //EL USUARIO SI SELECCIONO EL REPARTIDOR
       order.idDelivery = idDelivery.value;
       ResponseApi responseApi = await ordersProvider.updateToDispatched(order);
-    
-      Fluttertoast.showToast(
-        msg: responseApi.message ?? '', 
-        toastLength:Toast.LENGTH_LONG 
-      );
 
-      if(responseApi.success == true){
+      Fluttertoast.showToast(
+          msg: responseApi.message ?? '', toastLength: Toast.LENGTH_LONG);
+
+      if (responseApi.success == true) {
         Get.offNamedUntil('/restaurant/home', (route) => false);
       }
-    }else{
+    } else {
       Get.snackbar('Peticion Denegada', 'Debes asignar el repartidor');
     }
   }
@@ -47,7 +46,7 @@ class RestaurantOrdersDetailController extends GetxController {
     users.addAll(result);
   }
 
-  void getTotal(){
+  void getTotal() {
     total.value = 0.0;
     order.products!.forEach((product) {
       total.value = total.value + (product.quantity! * product.price!);
