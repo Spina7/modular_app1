@@ -9,9 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-class ClientAddressListController extends GetxController{
-
-
+class ClientAddressListController extends GetxController {
   List<Address> address = [];
   AddressProvider addressProvider = AddressProvider();
   OrdersProvider ordersProvider = OrdersProvider();
@@ -20,28 +18,29 @@ class ClientAddressListController extends GetxController{
 
   var radioValue = 0.obs;
 
-  ClientAddressListController(){  //CONSTRUCTOR DE LA CLASE
+  ClientAddressListController() {
+    //CONSTRUCTOR DE LA CLASE
     print('LA DIRECCION DE SESION: ${GetStorage().read('address')}');
   }
 
-
   Future<List<Address>> getAddress() async {
-
     address = await addressProvider.findByUser(user.id ?? '');
-    
+
     //DIRECCION SELECCIONADA POR EL USUARIO
     Address a = Address.fromJson(GetStorage().read('address') ?? {});
-    int index = address.indexWhere((ad) => ad.id == a.id );
+    int index = address.indexWhere((ad) => ad.id == a.id);
 
-    if(index != -1){//LA DIRRECCION DE SESION COINCIDE CON ALMENOS UN DATO EN LA LISTA DE DIRECCIONES
+    if (index != -1) {
+      //LA DIRRECCION DE SESION COINCIDE CON ALMENOS UN DATO EN LA LISTA DE DIRECCIONES
       radioValue.value = index;
     }
-    
+
     return address;
   }
 
   void createOrder() async {
     Get.toNamed('/client/payments/create');
+    //Get.toNamed('/client/payments/status');
     /*
     Address a = Address.fromJson(GetStorage().read('address') ?? {});
     List<Product> products = [];
@@ -67,16 +66,16 @@ class ClientAddressListController extends GetxController{
       Get.toNamed('/client/payments/create');
     }
     */
-  } 
+  }
 
-  void handleRadioValueChange(int? value){
+  void handleRadioValueChange(int? value) {
     radioValue.value = value!;
     print('VALOR SELECCIONADO: ${value}');
     GetStorage().write('address', address[value].toJson());
     update();
   }
-  
-  void goToAddressCreate(){
+
+  void goToAddressCreate() {
     Get.toNamed('/client/address/create');
   }
 }

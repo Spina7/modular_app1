@@ -1,23 +1,21 @@
-import 'package:app1/src/models/mercado_pago_payment.dart';
+//import 'package:app1/src/models/mercado_pago_payment.dart';
 import 'package:get/get.dart';
 
 class ClientPaymentsStatusController extends GetxController {
-
-
-  MercadoPagoPayment mercadoPagoPayment = MercadoPagoPayment.fromJson(Get.arguments['mercado_pago_payment']);
+  //MercadoPagoPayment mercadoPagoPayment = MercadoPagoPayment.fromJson(Get.arguments['mercado_pago_payment']);
   var errorMessage = ''.obs;
 
-
-  ClientPaymentsStatusController(){//CONSTRUCTOR 
-    if(mercadoPagoPayment.status == 'rejected'){
-      createErrorMessage();
-    }
+  ClientPaymentsStatusController() {
+    //CONSTRUCTOR
+    //if (mercadoPagoPayment.status == 'rejected') {
+    //createErrorMessage();
+    //}
   }
 
-  void finishShopping(){
+  void finishShopping() {
     Get.offNamedUntil('/client/home', (route) => false);
   }
-
+  /*
   void  createErrorMessage() {
     if (mercadoPagoPayment.statusDetail == 'cc_rejected_bad_filled_card_number') {
       errorMessage.value = 'Revisa el número de tarjeta';
@@ -65,5 +63,5 @@ class ClientPaymentsStatusController extends GetxController {
       errorMessage.value = 'Elige otra tarjeta u otro medio de pago';
     }
   }
-
+  */
 }

@@ -6,6 +6,7 @@ import 'package:app1/src/pages/client/orders/detail/client_orders_detail_page.da
 import 'package:app1/src/pages/client/orders/map/client_orders_map_page.dart';
 import 'package:app1/src/pages/client/payments/create/client_payments_create_page.dart';
 import 'package:app1/src/pages/client/payments/installments/client_payments_installments_page.dart';
+import 'package:app1/src/pages/client/payments/payInCash/client_payments_payInCash_page.dart';
 import 'package:app1/src/pages/client/payments/status/client_payments_status_page.dart';
 import 'package:app1/src/pages/client/products/list/client_products_list_page.dart';
 import 'package:app1/src/pages/client/profile/info/client_profile_info_page.dart';
@@ -32,8 +33,8 @@ import 'package:app1/src/pages/login/login_page.dart';
 import 'package:app1/src/pages/register/register_page.dart';
 
 User userSession = User.fromJson(GetStorage().read('user') ?? {});
-PushNotificationsProvider pushNotificationsProvider = PushNotificationsProvider();
-
+PushNotificationsProvider pushNotificationsProvider =
+    PushNotificationsProvider();
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: FirebaseConfig.currentPlatform);
@@ -43,13 +44,10 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   //pushNotificationsProvider.showNotification(message);
 }
 
-
 void main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: FirebaseConfig.currentPlatform
-  );
+  await Firebase.initializeApp(options: FirebaseConfig.currentPlatform);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   pushNotificationsProvider.initPushNotifications();
 
@@ -63,7 +61,6 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
@@ -76,60 +73,97 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Delivery Udemy',
-      debugShowCheckedModeBanner: false,
-      //Inicializacion de inicio de sesion
-      initialRoute: userSession.id != null ? userSession.roles!.length > 1 ? '/roles' : '/client/home' : '/',
-      //initialRoute: '/client/payments/create',
-      getPages: [
+        title: 'Delivery Udemy',
+        debugShowCheckedModeBanner: false,
+        //Inicializacion de inicio de sesion
+        initialRoute: userSession.id != null
+            ? userSession.roles!.length > 1
+                ? '/roles'
+                : '/client/home'
+            : '/',
+        //initialRoute: '/client/payments/create',
+        getPages: [
+          GetPage(name: '/', page: () => LoginPage()),
+          GetPage(name: '/register', page: () => RegisterPage()),
+          GetPage(name: '/home', page: () => HomePage()),
+          GetPage(name: '/roles', page: () => RolesPage()),
 
-        GetPage(name: '/', page: () => LoginPage()),
-        GetPage(name: '/register', page: () => RegisterPage()),
-        GetPage(name: '/home', page: () => HomePage()),
-        GetPage(name: '/roles', page: () => RolesPage()),
+          //RUTAS ENLAZADAS CON LA RUTA DE LA BASE DE DATOS
 
-        //RUTAS ENLAZADAS CON LA RUTA DE LA BASE DE DATOS
-        
-        GetPage(name: '/client/products/list', page: () => ClientProductsListPage()),
-        GetPage(name: '/client/home', page: () => ClientHomePage()),
-        GetPage(name: '/client/profile/info', page: () => ClientProfileInfoPage()),
-        GetPage(name: '/client/profile/update', page: () => ClientProfileUpdatePage()),
-        GetPage(name: '/client/orders/create', page: () => ClientOrdersCreatePage()),
-        GetPage(name: '/client/address/create', page: () => ClientAddressCreatePage()),
-        GetPage(name: '/client/address/list', page: () => ClientAddressListPage()),
-        GetPage(name: '/client/payments/create', page: () => ClientPaymentsCreatePage()),
-        GetPage(name: '/client/orders/detail', page: () => ClientOrdersDetailPage()),
-        GetPage(name: '/client/orders/map', page: () => ClientOrdersMapPage()),
-        GetPage(name: '/client/payments/installments', page: () => ClientPaymentsInstallmentsPage()),
-        GetPage(name: '/client/payments/status', page: () => ClientPaymentsStatusPage()),
-        GetPage(name: '/client/restaurants', page: () => ClientRestaurantsListPage()),
+          GetPage(
+              name: '/client/products/list',
+              page: () => ClientProductsListPage()),
+          GetPage(name: '/client/home', page: () => ClientHomePage()),
+          GetPage(
+              name: '/client/profile/info',
+              page: () => ClientProfileInfoPage()),
+          GetPage(
+              name: '/client/profile/update',
+              page: () => ClientProfileUpdatePage()),
+          GetPage(
+              name: '/client/orders/create',
+              page: () => ClientOrdersCreatePage()),
+          GetPage(
+              name: '/client/address/create',
+              page: () => ClientAddressCreatePage()),
+          GetPage(
+              name: '/client/address/list',
+              page: () => ClientAddressListPage()),
+          GetPage(
+              name: '/client/payments/create',
+              page: () => ClientPaymentsCreatePage()),
+          GetPage(
+              name: '/client/orders/detail',
+              page: () => ClientOrdersDetailPage()),
+          GetPage(
+              name: '/client/orders/map', page: () => ClientOrdersMapPage()),
+          GetPage(
+              name: '/client/payments/installments',
+              page: () => ClientPaymentsInstallmentsPage()),
+          GetPage(
+              name: '/client/payments/payInCash',
+              page: () => ClientPaymentsPayInCashPage()),
+          GetPage(
+              name: '/client/payments/status',
+              page: () => ClientPaymentsStatusPage()),
+          GetPage(
+              name: '/client/restaurants',
+              page: () => ClientRestaurantsListPage()),
 
-        GetPage(name: '/restaurant/home', page: () => RestaurantHomePage()),
-        GetPage(name: '/restaurant/orders/list', page: () => RestaurantOrdersListPage()),
-        GetPage(name: '/restaurant/orders/detail', page: () => RestaurantOrdersDetailPage()),
+          GetPage(name: '/restaurant/home', page: () => RestaurantHomePage()),
+          GetPage(
+              name: '/restaurant/orders/list',
+              page: () => RestaurantOrdersListPage()),
+          GetPage(
+              name: '/restaurant/orders/detail',
+              page: () => RestaurantOrdersDetailPage()),
 
-        GetPage(name: '/delivery/home', page: () => DeliveryHomePage()),      
-        GetPage(name: '/delivery/orders/list', page: () => DeliveryOrdersListPage()),
-        GetPage(name: '/delivery/orders/detail', page: () => DeliveryOrdersDetailPage()),
-        GetPage(name: '/delivery/orders/map', page: () => DeliveryOrdersMapPage()),      
-      
-      ],
-      theme: ThemeData(
-        primaryColor: Color(0xeaea5153),
-        colorScheme: ColorScheme(
-            secondary: Colors.grey,
-            primary: Color(0xeaea5153),
-            brightness: Brightness.light,
-            onBackground: Colors.grey,
-            onPrimary: Colors.grey,
-            surface: Colors.grey,
-            onSurface: Colors.grey,
-            error: Colors.grey,
-            onError: Colors.grey,
-            background: Colors.grey,
-            onSecondary: Colors.grey),
-      ),
-      navigatorKey: Get.key
-    );
+          GetPage(name: '/delivery/home', page: () => DeliveryHomePage()),
+          GetPage(
+              name: '/delivery/orders/list',
+              page: () => DeliveryOrdersListPage()),
+          GetPage(
+              name: '/delivery/orders/detail',
+              page: () => DeliveryOrdersDetailPage()),
+          GetPage(
+              name: '/delivery/orders/map',
+              page: () => DeliveryOrdersMapPage()),
+        ],
+        theme: ThemeData(
+          primaryColor: Color(0xeaea5153),
+          colorScheme: ColorScheme(
+              secondary: Colors.grey,
+              primary: Color(0xeaea5153),
+              brightness: Brightness.light,
+              onBackground: Colors.grey,
+              onPrimary: Colors.grey,
+              surface: Colors.grey,
+              onSurface: Colors.grey,
+              error: Colors.grey,
+              onError: Colors.grey,
+              background: Colors.grey,
+              onSecondary: Colors.grey),
+        ),
+        navigatorKey: Get.key);
   }
 }
