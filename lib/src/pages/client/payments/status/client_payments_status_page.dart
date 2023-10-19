@@ -13,7 +13,7 @@ class ClientPaymentsStatusPage extends StatelessWidget {
       children: [
         _backgroundCover(),
         _boxForm(context),
-        //_textFinishTransaction(context)
+        _textFinishTransaction(context)
       ],
     ));
   }
@@ -46,8 +46,8 @@ class ClientPaymentsStatusPage extends StatelessWidget {
       child: Column(
         children: [
           //Campos que se actualizarán
-          //_textTransactionDetail(),
-          //_textTransactionStatus(),
+          _textTransactionDetail(),
+          _textTransactionStatus(),
           Spacer(),
           _buttonCreate(context)
         ],
@@ -73,14 +73,13 @@ class ClientPaymentsStatusPage extends StatelessWidget {
     );
   }
 
-  /*
   Widget _textTransactionDetail() {
     return Container(
       margin: EdgeInsets.only(top: 30, bottom: 20, left: 25, right: 25),
       child: Text(
-        con.mercadoPagoPayment.status == 'approved' 
-        ? 'Tu orden fue procesada exitosamente usando (${con.mercadoPagoPayment.paymentMethodId?.toUpperCase()} **** ${con.mercadoPagoPayment.card?.lastFourDigits})'
-        : 'Tu pago fue rechazado',
+        con.mercadoPagoPayment.status == 'approved'
+            ? 'Tu orden fue procesada exitosamente usando (${con.mercadoPagoPayment.paymentMethodId?.toUpperCase()} **** ${con.mercadoPagoPayment.card?.lastFourDigits})'
+            : 'Tu pago fue rechazado',
         style: TextStyle(
           color: Colors.black,
           fontSize: 15,
@@ -88,14 +87,14 @@ class ClientPaymentsStatusPage extends StatelessWidget {
       ),
     );
   }
- 
+
   Widget _textTransactionStatus() {
     return Container(
       margin: EdgeInsets.only(bottom: 20, left: 25, right: 25),
       child: Text(
-        con.mercadoPagoPayment.status == 'approved' 
-        ? 'Mira el estado de tu compra en la seccion de mis pedidos'
-        : con.errorMessage.value,
+        con.mercadoPagoPayment.status == 'approved'
+            ? 'Mira el estado de tu compra en la seccion de mis pedidos'
+            : con.errorMessage.value,
         style: TextStyle(
           color: Colors.black,
           fontSize: 15,
@@ -103,31 +102,23 @@ class ClientPaymentsStatusPage extends StatelessWidget {
       ),
     );
   }
-  
 
   Widget _textFinishTransaction(BuildContext context) {
     return SafeArea(
       child: Container(
-        margin: EdgeInsets.only(top: 15),
-        alignment: Alignment.topCenter,
-        child: Column(
-          children: [
-            con.mercadoPagoPayment.status == 'approved' 
-            ? Icon(Icons.check_circle, size: 100, color: Colors.green)
-            : Icon(Icons.cancel, size: 100, color: Colors.black12),
-
-            Text(
-              'TRANSACCION TERMINADA',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 23
-
+          margin: EdgeInsets.only(top: 15),
+          alignment: Alignment.topCenter,
+          child: Column(
+            children: [
+              con.mercadoPagoPayment.status == 'approved'
+                  ? Icon(Icons.check_circle, size: 100, color: Colors.green)
+                  : Icon(Icons.cancel, size: 100, color: Colors.black12),
+              Text(
+                'TRANSACCION TERMINADA',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
               ),
-            ),
-          ],
-        ) 
-      ),
+            ],
+          )),
     );
   }
-  */
 }

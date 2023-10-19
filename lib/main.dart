@@ -6,7 +6,6 @@ import 'package:app1/src/pages/client/orders/detail/client_orders_detail_page.da
 import 'package:app1/src/pages/client/orders/map/client_orders_map_page.dart';
 import 'package:app1/src/pages/client/payments/create/client_payments_create_page.dart';
 import 'package:app1/src/pages/client/payments/installments/client_payments_installments_page.dart';
-import 'package:app1/src/pages/client/payments/payInCash/client_payments_payInCash_page.dart';
 import 'package:app1/src/pages/client/payments/status/client_payments_status_page.dart';
 import 'package:app1/src/pages/client/products/list/client_products_list_page.dart';
 import 'package:app1/src/pages/client/profile/info/client_profile_info_page.dart';
@@ -120,9 +119,6 @@ class _MyAppState extends State<MyApp> {
           GetPage(
               name: '/client/payments/installments',
               page: () => ClientPaymentsInstallmentsPage()),
-          GetPage(
-              name: '/client/payments/payInCash',
-              page: () => ClientPaymentsPayInCashPage()),
           GetPage(
               name: '/client/payments/status',
               page: () => ClientPaymentsStatusPage()),

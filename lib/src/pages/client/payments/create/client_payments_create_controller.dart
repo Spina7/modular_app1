@@ -27,7 +27,7 @@ class ClientPaymentsCreateController extends GetxController {
     //SELECTOR DE DOCUMENTOS MERCADO PAGO - API
     //getDocumentType();
   }
-  /*
+
   void createCardToken() async {
     //String documentNumber = documentNumberController.text;
 
@@ -59,12 +59,11 @@ class ClientPaymentsCreateController extends GetxController {
       print('Mercado Pago: ${mercadoPagoCardToken.toJson()}');
     }
   }
-  */
 
   void payInCash() {
-    Get.offNamed('/client/payments/status');
+    Get.offNamed('/client/payments/installments');
   }
-  /*
+
   bool isValidForm(/* String documentNumber */) {
     if (cardNumber.value.isEmpty) {
       Get.snackbar('Formulario no valido', 'Ingresa el numero de la targeta');
@@ -88,7 +87,6 @@ class ClientPaymentsCreateController extends GetxController {
 
     return true;
   }
-  */
 
   void onCreditCardModelChanged(CreditCardModel creditCardModel) {
     cardNumber.value = creditCardModel.cardNumber;
