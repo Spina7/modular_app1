@@ -65,6 +65,11 @@ class ClientPaymentsInstallmentsController extends GetxController {
       products = Product.fromJsonList(GetStorage().read('shopping_bag'));
     }
 
+    if (a.id == null) {
+      Get.snackbar('Formulario no valido', 'Selecciona una dirección válida');
+      return;
+    }
+
     Order order = Order(idClient: user.id, idAddress: a.id, products: products);
 
     Response response = await mercadoPagoProvider.createPayment(
