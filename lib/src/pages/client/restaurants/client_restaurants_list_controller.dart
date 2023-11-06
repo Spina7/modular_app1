@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:app1/src/models/category.dart';
@@ -17,7 +16,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class ClientRestaurantsListController extends GetxController {
-
   CategoriesProvider categoriesProvider = CategoriesProvider();
   RestaurantProvider restaurantProvider = RestaurantProvider();
   ProductsProvider productsProvider = ProductsProvider();
@@ -25,50 +23,44 @@ class ClientRestaurantsListController extends GetxController {
   List<Product> selectedProducts = [];
 
   List<Restaurant> selectedRestaurants = [];
-  
+
   List<Category> categories = <Category>[].obs;
   var items = 0.obs;
 
   List<Restaurant> restaurants = <Restaurant>[].obs;
   var restaurantsItems = 0.obs;
-  
+
   var restaurantName = ''.obs;
   Timer? searchOnStoppedTyping;
 
-  
-  ClientRestaurantsListController(){
+  ClientRestaurantsListController() {
     getCategories();
-  
-    
 
-    //LOS PRODUCTOS ALMACENADOS EN SESION 
-    if(GetStorage().read('shopping_bag') != null){
-
-      if(GetStorage().read('shopping_bag') is List<Product>){
+    //LOS PRODUCTOS ALMACENADOS EN SESION
+    if (GetStorage().read('shopping_bag') != null) {
+      if (GetStorage().read('shopping_bag') is List<Product>) {
         selectedProducts = GetStorage().read('shopping_bag');
-      }else{
-        selectedProducts = Product.fromJsonList(GetStorage().read('shopping_bag'));
+      } else {
+        selectedProducts =
+            Product.fromJsonList(GetStorage().read('shopping_bag'));
       }
 
-      selectedProducts.forEach((p) { 
+      selectedProducts.forEach((p) {
         items.value = items.value + (p.quantity!);
       });
-
     }
-
   }
-  
 
-  void onChangeText(String text){
+  void onChangeText(String text) {
     const duration = Duration(milliseconds: 800);
-    if(searchOnStoppedTyping != null){
+    if (searchOnStoppedTyping != null) {
       searchOnStoppedTyping?.cancel();
     }
 
     searchOnStoppedTyping = Timer(duration, () {
-      restaurantName.value = text; 
+      restaurantName.value = text;
       print('TEXTO COMPLETO ${text}');
-     });
+    });
   }
 
   void getCategories() async {
@@ -77,14 +69,11 @@ class ClientRestaurantsListController extends GetxController {
     categories.addAll(result);
   }
 
-
-
   //OBTENER RESTAURANTES
   Future<List<Restaurant>> getRestaurants(String restaurantName) async {
-    
-    if(restaurantName.isEmpty){
+    if (restaurantName.isEmpty) {
       return await restaurantProvider.getAll();
-    }else{
+    } else {
       return await restaurantProvider.findByName(restaurantName);
     }
   }
@@ -106,12 +95,11 @@ class ClientRestaurantsListController extends GetxController {
     Get.toNamed('/client/orders/create');
   }
   */
-  
-  void openBottomSheet(BuildContext context, Restaurant restaurant){
+
+  void openBottomSheet(BuildContext context, Restaurant restaurant) {
     showMaterialModalBottomSheet(
-      context: context, 
-      builder: (context) => ClientRestaurantsDetailPage(restaurant: restaurant)
-    );
+        context: context,
+        builder: (context) =>
+            ClientRestaurantsDetailPage(restaurant: restaurant));
   }
- 
 }

@@ -98,7 +98,6 @@ class ClientPaymentsCreatePage extends StatelessWidget {
               Column(
                 children: [
                   _buttonNext(context),
-                  _buttonNextCash(context),
                 ],
               ),
             ],
@@ -132,23 +131,6 @@ class ClientPaymentsCreatePage extends StatelessWidget {
           ),
           child: const Text(
             'CONTINUAR',
-            style: TextStyle(color: Colors.white),
-          )),
-    );
-  }
-
-  Widget _buttonNextCash(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 50,
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 40),
-      child: ElevatedButton(
-          onPressed: () => con.payInCash(),
-          style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(vertical: 15),
-          ),
-          child: const Text(
-            'Continuar Pago En Efectivo',
             style: TextStyle(color: Colors.white),
           )),
     );

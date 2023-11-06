@@ -1,35 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:app1/src/pages/client/address/create/client_address_create_controller.dart';
-
+import 'package:geolocator/geolocator.dart';
 
 class ClientAddressCreatePage extends StatelessWidget {
-
   ClientAddressCreateController con = Get.put(ClientAddressCreateController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
-          children: [
-            _backgroundCover(),
-            _boxForm(context),
-            _textNewAddress(context),
-            _iconBack()
-          ],
-        ));
+      children: [
+        _backgroundCover(),
+        _boxForm(context),
+        _textNewAddress(context),
+        _iconBack()
+      ],
+    ));
   }
 
-  Widget _iconBack(){
+  Widget _iconBack() {
     return SafeArea(
         child: Container(
-          margin: EdgeInsets.only(left: 15),
-          child: IconButton(
-              onPressed: () => Get.back(),
-              icon: Icon(Icons.arrow_back_ios, size: 30)
-          ),
-        )
-    );
+      margin: EdgeInsets.only(left: 15),
+      child: IconButton(
+          onPressed: () => Get.back(),
+          icon: Icon(Icons.arrow_back_ios, size: 30)),
+    ));
   }
 
   Widget _backgroundCover() {
@@ -61,14 +58,15 @@ class ClientAddressCreatePage extends StatelessWidget {
         ),
         child: SingleChildScrollView(
           child: Column(
-            children: [     //Campos que se actualizarán
+            children: [
+              //Campos que se actualizarán
               _textYourInfo(),
               _textFieldAddress(),
               SizedBox(height: 15),
 
               _textFieldNeighbor(),
               SizedBox(height: 15),
-              
+
               _textFieldRefPoint(context),
               SizedBox(height: 20),
               _buttonCreate(context)
@@ -90,11 +88,8 @@ class ClientAddressCreatePage extends StatelessWidget {
           ),
           child: const Text(
             'CREAR DIRECCION',
-            style: TextStyle(
-                color: Colors.white
-            ),
-          )
-      ),
+            style: TextStyle(color: Colors.white),
+          )),
     );
   }
 
@@ -115,8 +110,7 @@ class ClientAddressCreatePage extends StatelessWidget {
         controller: con.addressController,
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
-            hintText: 'Direccion',
-            prefixIcon: Icon(Icons.location_on)),
+            hintText: 'Direccion', prefixIcon: Icon(Icons.location_on)),
       ),
     );
   }
@@ -128,12 +122,12 @@ class ClientAddressCreatePage extends StatelessWidget {
         controller: con.neighborhoodController,
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
-            hintText: 'Barrio',
-            prefixIcon: Icon(Icons.location_city)),
+            hintText: 'Barrio', prefixIcon: Icon(Icons.location_city)),
       ),
     );
   }
 
+  /*
   Widget _textFieldRefPoint(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30),
@@ -149,8 +143,62 @@ class ClientAddressCreatePage extends StatelessWidget {
       ),
     );
   }
+  */
 
+  Widget _textFieldRefPoint(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 30),
+      child: FutureBuilder<LocationPermission>(
+        future: Geolocator.checkPermission(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            // Muestra un indicador de carga mientras se verifica el permiso.
+            return CircularProgressIndicator();
+          }
 
+          final locationPermission = snapshot.data;
+
+          return TextField(
+            onTap: () {
+              if (locationPermission == LocationPermission.denied) {
+                // Muestra un mensaje o realiza alguna acción cuando se toca el campo
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text("Error"),
+                      content: Text("Activa el GPS para usar esta función."),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text("Cerrar"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              } else {
+                con.openGoogleMaps(context);
+              }
+            },
+            readOnly: locationPermission ==
+                LocationPermission
+                    .denied, // Campo de texto no editable si el GPS está deshabilitado
+            controller: con.refPointController,
+            autofocus: false,
+            focusNode: AlwaysDisableFocusNode(),
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              hintText: 'Punto de referencia',
+              prefixIcon: Icon(Icons.map),
+            ),
+          );
+        },
+      ),
+    );
+  }
 
   Widget _textNewAddress(BuildContext context) {
     return SafeArea(
@@ -164,23 +212,17 @@ class ClientAddressCreatePage extends StatelessWidget {
                 size: 100,
                 color: Colors.black,
               ),
-
               Text(
                 'NUEVA DIRECCION',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 23
-
-                ),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
               ),
             ],
-          )
-      ),
+          )),
     );
   }
 }
 
-class AlwaysDisableFocusNode extends FocusNode{
+class AlwaysDisableFocusNode extends FocusNode {
   @override
   bool get hasFocus => false;
 }

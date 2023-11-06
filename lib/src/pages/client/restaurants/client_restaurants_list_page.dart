@@ -169,20 +169,18 @@ class ClientRestaurantsListPage extends StatelessWidget {
               trailing: Container(
                 height: 70,
                 width: 60,
-                /*
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  
                   child: FadeInImage(
-                    image: product.image1 != null
-                          ? NetworkImage(product.image1!)
-                          : AssetImage('assets/img/no-image.png') as ImageProvider,
+                    image: restaurant.image1 != null
+                        ? NetworkImage(restaurant.image1!)
+                        : AssetImage('assets/img/no-image.png')
+                            as ImageProvider,
                     fit: BoxFit.cover,
                     fadeInDuration: Duration(milliseconds: 50),
                     placeholder: AssetImage('assets/img/no-image.png'),
                   ),
-                  
-                ),*/
+                ),
               ),
             ),
           ),

@@ -29,8 +29,7 @@ class ClientProductsListController extends GetxController {
 
   ClientProductsListController(){
     getCategories();
-    //getRestaurantIds();
-
+    
     //LOS PRODUCTOS ALMACENADOS EN SESION 
     if(GetStorage().read('shopping_bag') != null){
 
@@ -48,14 +47,7 @@ class ClientProductsListController extends GetxController {
 
   }
 
-  /*
-  void getRestaurantIds() async {
-    // Llama a la función en ProductsProvider para obtener los IDs de los restaurantes
-    var res = await productsProvider.getRestaurantIds();
-    restaurantIds.clear();
-    restaurantIds.addAll(res);
-  }
-  */
+ 
   void onChangeText(String text){
     const duration = Duration(milliseconds: 800);
     if(searchOnStoppedTyping != null){

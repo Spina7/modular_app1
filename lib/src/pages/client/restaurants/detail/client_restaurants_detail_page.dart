@@ -47,7 +47,7 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
         ),
         body: Column(
           children: [
-            _imageSlideshow(context),
+            _imageSlideshow(context, restaurant!),
             _textAddressRestaurant(),
             _textHourDetail(),
             Expanded(
@@ -120,7 +120,7 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
+            color: Colors.white,
             spreadRadius: 1,
             blurRadius: 5,
             offset: Offset(0, 3),
@@ -157,10 +157,12 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
         ? DateFormat('HH:mm:ss').format(DateTime.parse(initialWorkingHour))
         : '';
 
+    final textToDisplay = 'Hora de Apertura: $formattedHour';
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Text(
-        formattedHour,
+        textToDisplay,
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 16,
@@ -294,7 +296,7 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _imageSlideshow(BuildContext context) {
+  Widget _imageSlideshow(BuildContext context, Restaurant restaurant) {
     return ImageSlideshow(
         width: double.infinity,
         height: MediaQuery.of(context).size.height * 0.4,
@@ -302,34 +304,27 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
         indicatorColor: Colors.redAccent,
         indicatorBackgroundColor: Colors.grey,
         children: [
-          /*
-        FadeInImage(
-          fit: BoxFit.cover,
-          fadeInDuration: Duration(milliseconds: 50),
-          placeholder: AssetImage('assets/img/no-image.png'), 
-          image: product!.image1 != null
-                ? NetworkImage(product!.image1!)
-                : AssetImage('assets/img/no-image.png') as ImageProvider
-        ),
-
-        FadeInImage(
-          fit: BoxFit.cover,
-          fadeInDuration: Duration(milliseconds: 50),
-          placeholder: AssetImage('assets/img/no-image.png'), 
-          image: product!.image2 != null
-                ? NetworkImage(product!.image2!)
-                : AssetImage('assets/img/no-image.png') as ImageProvider
-        ),
-
-        FadeInImage(
-          fit: BoxFit.cover,
-          fadeInDuration: Duration(milliseconds: 50),
-          placeholder: AssetImage('assets/img/no-image.png'), 
-          image: product!.image3 != null
-                ? NetworkImage(product!.image3!)
-                : AssetImage('assets/img/no-image.png') as ImageProvider
-        ),
-        */
+          FadeInImage(
+              fit: BoxFit.cover,
+              fadeInDuration: Duration(milliseconds: 50),
+              placeholder: AssetImage('assets/img/no-image.png'),
+              image: restaurant!.image1 != null
+                  ? NetworkImage(restaurant!.image1!)
+                  : AssetImage('assets/img/no-image.png') as ImageProvider),
+          FadeInImage(
+              fit: BoxFit.cover,
+              fadeInDuration: Duration(milliseconds: 50),
+              placeholder: AssetImage('assets/img/no-image.png'),
+              image: restaurant!.image2 != null
+                  ? NetworkImage(restaurant!.image2!)
+                  : AssetImage('assets/img/no-image.png') as ImageProvider),
+          FadeInImage(
+              fit: BoxFit.cover,
+              fadeInDuration: Duration(milliseconds: 50),
+              placeholder: AssetImage('assets/img/no-image.png'),
+              image: restaurant!.image3 != null
+                  ? NetworkImage(restaurant!.image3!)
+                  : AssetImage('assets/img/no-image.png') as ImageProvider),
         ]);
   }
 }

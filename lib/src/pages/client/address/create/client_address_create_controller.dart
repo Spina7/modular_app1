@@ -9,10 +9,9 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../map/client_address_map_page.dart';
+import 'package:geolocator/geolocator.dart';
 
-class ClientAddressCreateController extends GetxController{
-
-
+class ClientAddressCreateController extends GetxController {
   TextEditingController addressController = TextEditingController();
   TextEditingController neighborhoodController = TextEditingController();
   TextEditingController refPointController = TextEditingController();
@@ -22,19 +21,17 @@ class ClientAddressCreateController extends GetxController{
 
   User user = User.fromJson(GetStorage().read('user') ?? {});
 
-
   AddressProvider addressProvider = AddressProvider();
 
   ClientAddressListController clientAddressListController = Get.find();
 
-  
-  void openGoogleMaps(BuildContext context) async{
+  /*
+  void openGoogleMaps(BuildContext context) async {
     Map<String, dynamic> refPointMp = await showMaterialModalBottomSheet(
         context: context,
         builder: (context) => ClientAddressMapPage(),
         isDismissible: false,
-        enableDrag: false
-    );
+        enableDrag: false);
 
     print('REF POINT MAP ${refPointMp}');
     refPointController.text = refPointMp['address'];
@@ -42,26 +39,49 @@ class ClientAddressCreateController extends GetxController{
     latRefPoint = refPointMp['lat'];
     lngRefPoint = refPointMp['lng'];
   }
+  */
+
+  void openGoogleMaps(BuildContext context) async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      // El GPS está desactivado, muestra un mensaje en la consola
+      print("Activa el GPS para usar esta función.");
+      return;
+    } else {
+      Map<String, dynamic> refPointMp = await showMaterialModalBottomSheet(
+        context: context,
+        builder: (context) => ClientAddressMapPage(),
+        isDismissible: false,
+        enableDrag: false,
+      );
+
+      if (refPointMp != null) {
+        print('REF POINT MAP ${refPointMp}');
+        refPointController.text = refPointMp['address'];
+
+        latRefPoint = refPointMp['lat'];
+        lngRefPoint = refPointMp['lng'];
+      }
+    }
+  }
 
   void createAddress() async {
-
     String addressName = addressController.text;
     String neighborhood = neighborhoodController.text;
 
-    if(isValidForm(addressName, neighborhood)){
-
+    if (isValidForm(addressName, neighborhood)) {
       Address address = Address(
-        address: addressName,
-        neighborhood: neighborhood,
-        lat: latRefPoint,
-        lng: lngRefPoint,
-        idUser: user.id
-      );
+          address: addressName,
+          neighborhood: neighborhood,
+          lat: latRefPoint,
+          lng: lngRefPoint,
+          idUser: user.id);
 
       ResponseApi responseApi = await addressProvider.create(address);
-      Fluttertoast.showToast(msg: responseApi.message ?? '', toastLength: Toast.LENGTH_LONG);
-      
-      if(responseApi.success == true){
+      Fluttertoast.showToast(
+          msg: responseApi.message ?? '', toastLength: Toast.LENGTH_LONG);
+
+      if (responseApi.success == true) {
         address.id = responseApi.data;
         GetStorage().write('address', address.toJson());
 
@@ -69,37 +89,30 @@ class ClientAddressCreateController extends GetxController{
 
         Get.back();
       }
-
- 
     }
-
   }
 
-
-  bool isValidForm(String address, String neighborhood){
-
-    if(address.isEmpty){
+  bool isValidForm(String address, String neighborhood) {
+    if (address.isEmpty) {
       Get.snackbar('Formulario no valido', 'Ingresa la direccion');
       return false;
     }
 
-    if(neighborhood.isEmpty){
+    if (neighborhood.isEmpty) {
       Get.snackbar('Formulario no valido', 'Ingresa el barrio');
       return false;
     }
 
-    if(latRefPoint == 0){
+    if (latRefPoint == 0) {
       Get.snackbar('Formulario no valido', 'Selecciona el punto de referencia');
       return false;
     }
 
-    if(lngRefPoint == 0){
+    if (lngRefPoint == 0) {
       Get.snackbar('Formulario no valido', 'Selecciona el punto de referencia');
       return false;
     }
 
     return true;
   }
-
-
 }
