@@ -46,6 +46,10 @@ class RestaurantOrdersDetailController extends GetxController {
     users.addAll(result);
   }
 
+  void goToOrderMap() async {
+    Get.toNamed('/restaurant/orders/map', arguments: {'order': order.toJson()});
+  }
+
   void getTotal() {
     total.value = 0.0;
     order.products!.forEach((product) {

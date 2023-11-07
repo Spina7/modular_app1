@@ -19,6 +19,7 @@ import 'package:app1/src/pages/home/home_page.dart';
 import 'package:app1/src/pages/restaurant/home/restaurant_home_page.dart';
 import 'package:app1/src/pages/restaurant/orders/detail/restaurant_orders_detail_page.dart';
 import 'package:app1/src/pages/restaurant/orders/list/restaurant_orders_list_page.dart';
+import 'package:app1/src/pages/restaurant/orders/map/restaurant_orders_map_page.dart';
 import 'package:app1/src/pages/roles/roles_page.dart';
 import 'package:app1/src/providers/push_notifications_provider.dart';
 import 'package:app1/src/utils/firebase_config.dart';
@@ -133,6 +134,10 @@ class _MyAppState extends State<MyApp> {
           GetPage(
               name: '/restaurant/orders/detail',
               page: () => RestaurantOrdersDetailPage()),
+
+          GetPage(
+              name: '/restaurant/orders/map',
+              page: () => RestaurantOrdersMapPage()),
 
           GetPage(name: '/delivery/home', page: () => DeliveryHomePage()),
           GetPage(

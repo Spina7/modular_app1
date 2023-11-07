@@ -11,111 +11,96 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RestaurantOrdersDetailPage extends StatelessWidget {
-
-
-  RestaurantOrdersDetailController con = Get.put(RestaurantOrdersDetailController());
+  RestaurantOrdersDetailController con =
+      Get.put(RestaurantOrdersDetailController());
 
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
-
-      bottomNavigationBar: Container(
-        color: Color.fromRGBO(245, 245, 245, 1),
-        height: con.order.status == 'PAGADO' 
-          ? MediaQuery.of(context).size.height * 0.53
-          : MediaQuery.of(context).size.height * 0.48,
-        padding: EdgeInsets.only(top: 15),
-        child: Column(
-          children: [
-            
-            _dataDate(),
-            _dataClient(),
-            _dataAddress(),
-            _dataDelivery(),
-            _totalToPay(context),
-          ],
-        ),
-      ),
-
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.black
-        ),
-
-        title: Text(
-          'Orden #${con.order.id}',
-          style: TextStyle(
-            color: Colors.black
+          bottomNavigationBar: Container(
+            color: Color.fromRGBO(245, 245, 245, 1),
+            height: con.order.status == 'PAGADO'
+                ? MediaQuery.of(context).size.height * 0.53
+                : MediaQuery.of(context).size.height * 0.50,
+            padding: EdgeInsets.only(top: 10),
+            child: Column(
+              children: [
+                _dataDate(),
+                _dataClient(),
+                _dataAddress(),
+                _dataDelivery(),
+                _totalToPay(context),
+              ],
+            ),
           ),
-        ),
-      ),
-
-      body: con.order.products!.isNotEmpty
-        ? ListView(
-            children: con.order.products!.map((Product product) {
-              return _cardProduct(product);
-            }).toList(),
-        )
-        : Center(
-            child: NoDataWidget(text: 'No hay ningun producto agragado aun'),
-        ),
-    ));
+          appBar: AppBar(
+            iconTheme: IconThemeData(color: Colors.black),
+            title: Text(
+              'Orden #${con.order.id}',
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+          body: con.order.products!.isNotEmpty
+              ? ListView(
+                  children: con.order.products!.map((Product product) {
+                    return _cardProduct(product);
+                  }).toList(),
+                )
+              : Center(
+                  child:
+                      NoDataWidget(text: 'No hay ningun producto agragado aun'),
+                ),
+        ));
   }
 
-  Widget _dataClient(){
+  Widget _dataClient() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: ListTile(
         title: Text('Cliente'),
-        subtitle: Text('${con.order.client?.name ?? ''} ${con.order.client?.lastname ?? ''} - ${con.order.client?.phone ?? ''}'),
-        trailing: Icon(
-          Icons.person
-        ),
+        subtitle: Text(
+            '${con.order.client?.name ?? ''} ${con.order.client?.lastname ?? ''} - ${con.order.client?.phone ?? ''}'),
+        trailing: Icon(Icons.person),
       ),
     );
   }
 
-  Widget _dataDelivery(){
-    return con.order.status != 'PAGADO' 
-    ? Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      child: ListTile(
-        title: Text('Repartidor Asignado'),
-        subtitle: Text('${con.order.delivery?.name ?? ''} ${con.order.delivery?.lastname ?? ''} - ${con.order.delivery?.phone ?? ''}'),
-        trailing: Icon(
-          Icons.delivery_dining
-        ),
-      ),
-    )
-    : Container();
+  Widget _dataDelivery() {
+    return con.order.status != 'PAGADO'
+        ? Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            child: ListTile(
+              title: Text('Repartidor Asignado'),
+              subtitle: Text(
+                  '${con.order.delivery?.name ?? ''} ${con.order.delivery?.lastname ?? ''} - ${con.order.delivery?.phone ?? ''}'),
+              trailing: Icon(Icons.delivery_dining),
+            ),
+          )
+        : Container();
   }
 
-   Widget _dataAddress(){
+  Widget _dataAddress() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: ListTile(
         title: Text('Direccion de entrega'),
         subtitle: Text(con.order.address?.address ?? ''),
-        trailing: Icon(
-          Icons.location_on
-        ),
+        trailing: Icon(Icons.location_on),
       ),
     );
   }
 
-   Widget _dataDate(){
+  Widget _dataDate() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: ListTile(
         title: Text('Fecha del pedido'),
-        subtitle: Text('${RelativeTimeUtil.getRelativeTime(con.order.timestamp ?? 0)}'),
-        trailing: Icon(
-          Icons.timer
-        ),
+        subtitle: Text(
+            '${RelativeTimeUtil.getRelativeTime(con.order.timestamp ?? 0)}'),
+        trailing: Icon(Icons.timer),
       ),
     );
   }
-
 
   Widget _cardProduct(Product product) {
     return Container(
@@ -129,16 +114,12 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
             children: [
               Text(
                 product.name ?? '',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold
-                ),
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 7),
               Text(
                 'Cantidad:  ${product.quantity}',
-                style: TextStyle(
-                  fontSize: 13
-                ),
+                style: TextStyle(fontSize: 13),
               ),
             ],
           ),
@@ -146,7 +127,6 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
       ),
     );
   }
-
 
   Widget _imageProduct(Product product) {
     return Container(
@@ -166,71 +146,69 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
     );
   }
 
-   Widget _totalToPay(BuildContext context){
+  Widget _totalToPay(BuildContext context) {
     return Column(
       children: [
         Divider(height: 1, color: Colors.grey[400]),
-
-        con.order.status == 'PAGADO' 
-        ? Container(
-          width: double.infinity,
-          alignment: Alignment.centerLeft,
-          margin: EdgeInsets.only(left: 30, top: 10),
-          child: Text(
-            'ASIGNAR REPARTIDOR',
-            style: TextStyle(
-              fontStyle: FontStyle.italic,
-              color: Colors.redAccent
-            ),
-          ),
-        )
-        : Container(),
-        
-        con.order.status == 'PAGADO' 
-        ? _dropDownDeliveryMen(con.users) 
-        : Container(),
-
+        con.order.status == 'PAGADO'
+            ? Container(
+                width: double.infinity,
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.only(left: 30, top: 10),
+                child: Text(
+                  'ASIGNAR REPARTIDOR',
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic, color: Colors.redAccent),
+                ),
+              )
+            : Container(),
+        con.order.status == 'PAGADO'
+            ? _dropDownDeliveryMen(con.users)
+            : Container(),
         Container(
-          margin: EdgeInsets.only(left: 15, top: 25),
+          margin: EdgeInsets.only(left: 15, top: 8),
           child: Row(
-            mainAxisAlignment: con.order.status == 'PAGADO' 
-              ? MainAxisAlignment.center
-              : MainAxisAlignment.start,
+            mainAxisAlignment: con.order.status == 'PAGADO'
+                ? MainAxisAlignment.center
+                : MainAxisAlignment.start,
             children: [
               Text(
                 'TOTAL: \$${con.total.value}',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18
-                ),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
-              con.order.status == 'PAGADO' 
-              ? Container(
-                margin: EdgeInsets.symmetric(horizontal: 30),
-                
-                child: ElevatedButton(
-                  onPressed: () => con.updateOrder(), 
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.all(10)
-                  ),
-                  child: Text(
-                    'TOMAR ORDEN',
-                    style: TextStyle(
-                      color: Colors.black
-                    ),
-                  )
-                )
-              )
-              : Container()
+              con.order.status == 'PAGADO'
+                  ? Container(
+                      margin: EdgeInsets.symmetric(horizontal: 30),
+                      child: ElevatedButton(
+                        onPressed: () => con.updateOrder(),
+                        style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.all(10)),
+                        child: Text(
+                          'TOMAR ORDEN',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    )
+                  : Container(),
             ],
           ),
-        )
-        
+        ),
+        con.order.status != 'PAGADO'
+            ? Container(
+                margin: EdgeInsets.symmetric(horizontal: 30),
+                child: Row(
+                  children: [
+                    Spacer(),
+                    _buttonGoToOrderMap(),
+                  ],
+                ),
+              )
+            : Container(),
       ],
     );
   }
 
-  Widget _dropDownDeliveryMen(List<User> users){
+  Widget _dropDownDeliveryMen(List<User> users) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 35),
       margin: EdgeInsets.only(top: 15),
@@ -239,22 +217,20 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: Icon(
             Icons.arrow_drop_down_circle,
-            color: Color(0xeaea5153),    
+            color: Color(0xeaea5153),
           ),
         ),
         elevation: 3,
         isExpanded: true,
         hint: Text(
-
           'Seleccionar repartidor',
           style: TextStyle(
-            //color: Colors.black,
-            fontSize: 15
-          ),
+              //color: Colors.black,
+              fontSize: 15),
         ),
         items: _dropDownItems(users),
         value: con.idDelivery.value == '' ? null : con.idDelivery.value,
-        onChanged: (option){
+        onChanged: (option) {
           print('opcion seleccionada ${option}');
           con.idDelivery.value = option.toString();
         },
@@ -262,10 +238,10 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
     );
   }
 
-  List<DropdownMenuItem<String>> _dropDownItems(List<User> users){
+  List<DropdownMenuItem<String>> _dropDownItems(List<User> users) {
     List<DropdownMenuItem<String>> list = [];
 
-    users.forEach((user) { 
+    users.forEach((user) {
       list.add(DropdownMenuItem(
         child: Row(
           children: [
@@ -274,8 +250,8 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
               width: 40,
               child: FadeInImage(
                 image: user.image != null
-                      ? NetworkImage(user.image!)
-                      : AssetImage('assets/img/no-image.png') as ImageProvider,
+                    ? NetworkImage(user.image!)
+                    : AssetImage('assets/img/no-image.png') as ImageProvider,
                 fit: BoxFit.cover,
                 fadeInDuration: Duration(milliseconds: 50),
                 placeholder: AssetImage('assets/img/no-image.png'),
@@ -292,5 +268,17 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
     return list;
   }
 
-
+  Widget _buttonGoToOrderMap() {
+    return Container(
+        margin: EdgeInsets.symmetric(horizontal: 65),
+        alignment: Alignment.centerLeft, // ALINEACION A LA IZQUIERDA
+        child: ElevatedButton(
+            onPressed: () => con.goToOrderMap(),
+            style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.all(10), primary: Colors.blue),
+            child: Text(
+              'IR A LA RUTA',
+              style: TextStyle(color: Colors.black),
+            )));
+  }
 }

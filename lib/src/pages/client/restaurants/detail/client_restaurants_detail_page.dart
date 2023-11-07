@@ -47,7 +47,7 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
         ),
         body: Column(
           children: [
-            _imageSlideshow(context, restaurant!),
+            _imageSlideshow(context),
             _textAddressRestaurant(),
             _textHourDetail(),
             Expanded(
@@ -296,7 +296,7 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _imageSlideshow(BuildContext context, Restaurant restaurant) {
+  Widget _imageSlideshow(BuildContext context) {
     return ImageSlideshow(
         width: double.infinity,
         height: MediaQuery.of(context).size.height * 0.4,
