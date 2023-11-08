@@ -143,7 +143,13 @@ class ClientRestaurantsListPage extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(top: 15, left: 7, right: 7),
             child: ListTile(
-              title: Text(restaurant.name ?? ''),
+              title: Text(
+                restaurant.name ?? '',
+                style: TextStyle(
+                  fontSize: 18, // Tamaño de la fuente
+                  fontWeight: FontWeight.bold, // Negritas
+                ),
+              ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -154,16 +160,6 @@ class ClientRestaurantsListPage extends StatelessWidget {
                     style: TextStyle(fontSize: 12),
                   ),
                   SizedBox(height: 10),
-                  /*
-                  Text(
-                    '\$${product.price.toString()}', //PARA MOSTRAR SINGO DE PESOS
-                    style: TextStyle(
-                      color: Colors.redAccent,
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  */
-                  SizedBox(height: 20),
                 ],
               ),
               trailing: Container(

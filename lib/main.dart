@@ -151,10 +151,10 @@ class _MyAppState extends State<MyApp> {
               page: () => DeliveryOrdersMapPage()),
         ],
         theme: ThemeData(
-          primaryColor: Color(0xeaea5153),
+          primaryColor: Colors.redAccent,
           colorScheme: ColorScheme(
               secondary: Colors.grey,
-              primary: Color(0xeaea5153),
+              primary: Colors.redAccent,
               brightness: Brightness.light,
               onBackground: Colors.grey,
               onPrimary: Colors.grey,

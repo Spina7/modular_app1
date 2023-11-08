@@ -16,8 +16,7 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
   Product? product;
   Restaurant? restaurant;
 
-  ClientProductsListController conProduct =
-      Get.put(ClientProductsListController());
+  ClientProductsListController conProduct = Get.put(ClientProductsListController());
 
   late ClientProductsDetailController con;
 
@@ -32,10 +31,17 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
       length: conProduct.categories.length,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(restaurant?.name ?? ''),
+          title: Text(
+            restaurant?.name ?? '',
+            style: TextStyle(
+              fontSize: 25, // Tamaño de la fuente
+              fontWeight: FontWeight.bold, // Negritas
+              color: Colors.grey[700],
+            ),
+          ),
           bottom: TabBar(
             isScrollable: true,
-            indicatorColor: Colors.white,
+            indicatorColor: Colors.grey,
             labelColor: Colors.black,
             unselectedLabelColor: Colors.grey[400],
             tabs: conProduct.categories.map((Category category) {
@@ -120,7 +126,7 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: Colors.white,
+            color: Color(0xFF333333), // Tonalidad de gris más oscura
             spreadRadius: 1,
             blurRadius: 5,
             offset: Offset(0, 3),
@@ -140,12 +146,12 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
 
   Widget _textAddressRestaurant() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       child: Text(
         restaurant?.address ?? '',
         style: TextStyle(
           fontSize: 16,
-          color: Colors.grey,
+          color: Color(0xFF333333), // Tonalidad de gris más oscura
         ),
       ),
     );
@@ -160,7 +166,7 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
     final textToDisplay = 'Hora de Apertura: $formattedHour';
 
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: Text(
         textToDisplay,
         style: TextStyle(
@@ -180,7 +186,7 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
           color: Colors.grey[400],
         ),
         Container(
-          margin: EdgeInsets.only(left: 20, right: 20, top: 25),
+          margin: EdgeInsets.only(left: 20, right: 20, top: 20),
           child: Row(
             children: [
               ElevatedButton(
@@ -251,9 +257,15 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(top: 15, left: 7, right: 7),
+            margin: EdgeInsets.only(top: 25, left: 7, right: 7),
             child: ListTile(
-              title: Text(product.name ?? ''),
+              title: Text(
+                product.name ?? '',
+                style: TextStyle(
+                  fontSize: 16, // Tamaño de la fuente
+                  fontWeight: FontWeight.bold, // Negritas
+                ),
+              ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

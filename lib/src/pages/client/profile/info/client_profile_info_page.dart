@@ -34,7 +34,7 @@ class ClientProfileInfoPage extends StatelessWidget {
       width: double.infinity,
       height: double.infinity,
       // #fef0e7
-      color: const Color(0xfefef0e7),
+      color: Colors.grey[230],
     );
   }
 
@@ -46,7 +46,7 @@ class ClientProfileInfoPage extends StatelessWidget {
             left: 40,
             right: 40),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: const Color(0xfefef0e7),
           borderRadius: BorderRadius.circular(3),
           boxShadow: const <BoxShadow>[
             BoxShadow(

@@ -37,7 +37,7 @@ class ClientHomePage extends StatelessWidget {
   Widget _bottomBar() {
     return Obx(() => CustomAnimatedBottomBar(
           containerHeight: 70,
-          backgroundColor: Color(0xeaea5153),
+          backgroundColor: Colors.redAccent,
           showElevation: true, //Sombra
           itemCornerRadius: 24, //bordes redondeados
           curve: Curves.easeIn,
@@ -47,7 +47,7 @@ class ClientHomePage extends StatelessWidget {
             //ELEMENTOS REFLEJADOS DENTRO DEL BOTTOM BAR
             BottomNavyBarItem(
               icon: Icon(Icons.apps),
-              title: Text('Restaurants'),
+              title: Text('Restaurantes'),
               activeColor: Colors.white,
               inactiveColor: Colors.black,
             ),

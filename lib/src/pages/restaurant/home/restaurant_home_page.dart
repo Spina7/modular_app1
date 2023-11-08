@@ -50,7 +50,7 @@ class RestaurantHomePage extends StatelessWidget {
   Widget _bottomBar(){
     return Obx(() => CustomAnimatedBottomBar(
       containerHeight: 70,
-      backgroundColor: Color(0xeaea5153),
+      backgroundColor: Colors.redAccent,
       showElevation: true,  //Sombra 
       itemCornerRadius: 24, //bordes redondeados 
       curve: Curves.easeIn,

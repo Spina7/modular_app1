@@ -37,7 +37,11 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
             iconTheme: IconThemeData(color: Colors.black),
             title: Text(
               'Orden #${con.order.id}',
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold
+              ),
             ),
           ),
           body: con.order.products!.isNotEmpty
@@ -114,12 +118,17 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
             children: [
               Text(
                 product.name ?? '',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16, 
+                ),
               ),
               SizedBox(height: 7),
               Text(
                 'Cantidad:  ${product.quantity}',
-                style: TextStyle(fontSize: 13),
+                style: TextStyle(
+                  fontSize: 13
+                ),
               ),
             ],
           ),
@@ -158,7 +167,10 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
                 child: Text(
                   'ASIGNAR REPARTIDOR',
                   style: TextStyle(
-                      fontStyle: FontStyle.italic, color: Colors.redAccent),
+                      fontStyle: FontStyle.italic, 
+                      fontWeight: FontWeight.bold, // Negritas
+                      color: Colors.redAccent
+                  ),
                 ),
               )
             : Container(),

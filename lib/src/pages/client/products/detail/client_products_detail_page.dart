@@ -29,6 +29,7 @@ class ClientProductsDetailPage extends StatelessWidget {
 
       bottomNavigationBar: Container(
         color: const Color.fromRGBO(245, 245, 245, 1.0),  //FARTA AJUSTAR COLOR 
+        //color: Color(0xFFF3E0C5), // Tonalidad de crema
         height: 100,
         child: _buttonsAddToBag(),
       ),
@@ -55,8 +56,8 @@ class ClientProductsDetailPage extends StatelessWidget {
         product?.name  ?? '',
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: 22,
-          color: Colors.black
+          fontSize: 25,
+          color: Colors.black87
         ),
       ),
     );
@@ -73,7 +74,7 @@ class ClientProductsDetailPage extends StatelessWidget {
         style: TextStyle(
           //fontWeight: FontWeight.bold,
           fontSize: 16,
-          //color: Colors.black
+          color: Colors.black
         ),
       ),
     );
