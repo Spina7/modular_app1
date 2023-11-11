@@ -18,9 +18,9 @@ class OrdersProvider extends GetConnect {
 
   
   //MOSTRAR  
-  Future<List<Order>> findByStatus(String status) async {
+  Future<List<Order>> findByStatus(String idRestaurant, String status) async {
     Response response = await get(
-        '$url/findByStatus/$status',
+        '$url/findByStatus/$idRestaurant/$status',
         
         headers: {
           'Content-Type': 'application/json',

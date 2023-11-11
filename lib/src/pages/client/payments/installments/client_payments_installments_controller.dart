@@ -7,6 +7,7 @@ import 'package:app1/src/models/mercado_pago_payment.dart';
 import 'package:app1/src/models/mercado_pago_payment_method_installments.dart';
 import 'package:app1/src/models/order.dart';
 import 'package:app1/src/models/response_api.dart';
+import 'package:app1/src/models/restaurant.dart';
 import 'package:app1/src/models/user.dart';
 import 'package:app1/src/providers/mercado_pago_provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -70,7 +71,7 @@ class ClientPaymentsInstallmentsController extends GetxController {
       return;
     }
 
-    Order order = Order(idClient: user.id, idAddress: a.id, products: products);
+    Order order = Order(idClient: user.id, idRestaurant: products[0].id_restaurant, idAddress: a.id, products: products);
 
     Response response = await mercadoPagoProvider.createPayment(
         token: cardToken.id,
