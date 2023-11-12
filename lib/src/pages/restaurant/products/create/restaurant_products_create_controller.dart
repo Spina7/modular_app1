@@ -7,6 +7,8 @@ import 'package:app1/src/providers/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:app1/src/models/category.dart';
 import 'package:app1/src/models/response_api.dart';
+import 'package:app1/src/models/user.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:app1/src/providers/categories_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -14,6 +16,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
 class RestaurantProductsCreateController extends GetxController {
+
+  User user = User.fromJson(GetStorage().read('user') ?? {});
   
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -60,7 +64,8 @@ class RestaurantProductsCreateController extends GetxController {
         name: name,
         description: description,
         price: double.parse(price),
-        idCategory: idCategory.value
+        idCategory: idCategory.value,
+        idRestaurant: user.id_restaurant ?? '0',
       );
 
     progressDialog.show(max: 100, msg: 'Espere un momento...');

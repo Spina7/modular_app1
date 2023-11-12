@@ -71,7 +71,7 @@ class ClientPaymentsInstallmentsController extends GetxController {
       return;
     }
 
-    Order order = Order(idClient: user.id, idRestaurant: products[0].id_restaurant, idAddress: a.id, products: products);
+    Order order = Order(idClient: user.id, idRestaurant: products[0].idRestaurant, idAddress: a.id, products: products);
 
     Response response = await mercadoPagoProvider.createPayment(
         token: cardToken.id,
