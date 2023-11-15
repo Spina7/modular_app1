@@ -20,8 +20,7 @@ class ClientProfileInfoPage extends StatelessWidget {
           
           Column(
             children: [
-              _buttonSignOut(),
-              _buttonRoles()
+              _buttonSignOut()
             ],
           ),
         ],
