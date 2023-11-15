@@ -15,7 +15,7 @@
       <string>tel</string>
     </array>
     <key>CFBundleDisplayName</key>
-    <string>DeliveryClient</string>
+    <string>DClient</string>
     <key>CFBundleExecutable</key>
     <string>$(EXECUTABLE_NAME)</string>
     <key>CFBundleIdentifier</key>
