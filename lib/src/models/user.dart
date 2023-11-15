@@ -9,7 +9,7 @@ String userToJson(User data) => json.encode(data.toJson());
 class User {
 
   String? id; //NULL SAFETY
-  String? id_restaurant;
+  String? idRestaurant;
   String? email;
   String? name;
   String? lastname;
@@ -21,7 +21,7 @@ class User {
 
   User({
       this.id,
-      this.id_restaurant,
+      this.idRestaurant,
       this.email,
       this.name,
       this.lastname,
@@ -34,7 +34,7 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
-        id_restaurant: json["id_restaurant"],
+        idRestaurant: json["id_restaurant"],
         email: json["email"],
         name: json["name"],
         lastname: json["lastname"],
@@ -58,7 +58,7 @@ class User {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "id_restaurant": id_restaurant,
+        "id_restaurant": idRestaurant,
         "email": email,
         "name": name,
         "lastname": lastname,

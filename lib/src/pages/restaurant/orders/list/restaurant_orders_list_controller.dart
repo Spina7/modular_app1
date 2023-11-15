@@ -12,7 +12,7 @@ class RestaurantOrdersListController extends GetxController {
   User user = User.fromJson(GetStorage().read('user') ?? {});
 
   Future<List<Order>> getOrders(String status) async {
-    return await ordersProvider.findByStatus(user.id_restaurant ?? '0', status);
+    return await ordersProvider.findByStatus(user.idRestaurant ?? '0', status);
   }
 
   void goToOrdersDetail(Order order) {

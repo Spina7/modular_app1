@@ -21,44 +21,51 @@ class LoginController extends GetxController {
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
 
-    print('Email ${email}');
-    print('Password ${password}');
+    print('Email $email');
+    print('Password $password');
 
     if (isValidForm(email, password)) {
-
       ResponseApi responseApi = await usersProvider.login(email, password);
-
       print('Response Api: ${responseApi.toJson()}');
 
       if (responseApi.success == true) {
-
-        GetStorage().write('user', responseApi.data); // DATOS DEL USUARIO EN SESION
+        GetStorage().write('user', responseApi.data); // Store user session data
         User myUser = User.fromJson(GetStorage().read('user') ?? {});
 
-        if(myUser.roles!.length > 1){
-          goToRolesPage();
-
-        }else{  //SI TIENE SOLO UN ROL
-
-          goToClientHomePage();
-
+        if (myUser.roles != null) {
+          if (myUser.roles!.length > 1) {
+            goToRolesPage();
+          } else {
+            goToHomePageBasedOnRole(myUser.roles!.first.id);
+          }
+        } else {
+          Get.snackbar('Login fallido', 'No se pudo obtener información del rol');
         }
-        
-
       } else {
         Get.snackbar('Login fallido', responseApi.message ?? '');
       }
     }
   }
 
-  void goToClientHomePage() {
-    Get.offNamedUntil('/client/home', (route) => false);
+  void goToHomePageBasedOnRole(String? roleId) {
+    switch (roleId) {
+      case '1':
+        Get.offNamedUntil('/restaurant/home', (route) => false);
+        break;
+      case '2':
+        Get.offNamedUntil('/delivery/home', (route) => false);
+        break;
+      case '3':
+        Get.offNamedUntil('/client/home', (route) => false);
+        break;
+      default:
+        Get.snackbar('Error', 'Rol no reconocido');
+    }
   }
 
   void goToRolesPage() {
     Get.offNamedUntil('/roles', (route) => false);
   }
-
 
   bool isValidForm(String email, String password) {
     if (email.isEmpty) {

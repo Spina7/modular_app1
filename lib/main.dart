@@ -1,3 +1,4 @@
+import 'package:app1/src/models/user.dart';
 import 'package:app1/src/pages/client/address/create/client_address_create_page.dart';
 import 'package:app1/src/pages/client/address/list/client_address_list_page.dart';
 import 'package:app1/src/pages/client/home/client_home_page.dart';
@@ -16,6 +17,8 @@ import 'package:app1/src/pages/delivery/orders/detail/delivery_orders_detail_pag
 import 'package:app1/src/pages/delivery/orders/list/delivery_orders_list_page.dart';
 import 'package:app1/src/pages/delivery/orders/map/delivery_orders_map_page.dart';
 import 'package:app1/src/pages/home/home_page.dart';
+import 'package:app1/src/pages/login/login_page.dart';
+import 'package:app1/src/pages/register/register_page.dart';
 import 'package:app1/src/pages/restaurant/home/restaurant_home_page.dart';
 import 'package:app1/src/pages/restaurant/orders/detail/restaurant_orders_detail_page.dart';
 import 'package:app1/src/pages/restaurant/orders/list/restaurant_orders_list_page.dart';
@@ -28,20 +31,13 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:app1/src/models/user.dart';
-import 'package:app1/src/pages/login/login_page.dart';
-import 'package:app1/src/pages/register/register_page.dart';
 
 User userSession = User.fromJson(GetStorage().read('user') ?? {});
-PushNotificationsProvider pushNotificationsProvider =
-    PushNotificationsProvider();
+PushNotificationsProvider pushNotificationsProvider = PushNotificationsProvider();
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: FirebaseConfig.currentPlatform);
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
   print('Recibiendo notificacion en segundo plano ${message.messageId}');
-  //pushNotificationsProvider.showNotification(message);
 }
 
 void main() async {
@@ -51,11 +47,32 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   pushNotificationsProvider.initPushNotifications();
 
-  runApp(const MyApp());
+  String initialRoute = determineInitialRoute();
+  
+  runApp(MyApp(initialRoute: initialRoute));
+}
+
+String determineInitialRoute() {
+  if (userSession.id != null && userSession.roles != null) {
+    // Check if there is exactly one role
+    if (userSession.roles!.length == 1) {
+      // Assuming each role has a 'route' property which is a String
+      var roleRoute = userSession.roles!.first.route;
+      if (roleRoute is String) {
+        return roleRoute;
+      }
+    }
+    // If more than one role or no role route is found
+    return '/roles';
+  }
+  // If no user session
+  return '/';
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  final String initialRoute;
+
+  const MyApp({super.key, required this.initialRoute});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -64,7 +81,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print('EL TOKEN DE SESION DEL USUARIO: ${userSession.sessionToken}');
     pushNotificationsProvider.onMessageListener();
@@ -73,16 +89,10 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        title: 'Delivery Udemy',
-        debugShowCheckedModeBanner: false,
-        //Inicializacion de inicio de sesion
-        initialRoute: userSession.id != null
-            ? userSession.roles!.length > 1
-                ? '/roles'
-                : '/client/home'
-            : '/',
-        //initialRoute: '/client/payments/create',
-        getPages: [
+      title: 'Delivery',
+      debugShowCheckedModeBanner: false,
+      initialRoute: widget.initialRoute,
+      getPages: [
           GetPage(name: '/', page: () => LoginPage()),
           GetPage(name: '/register', page: () => RegisterPage()),
           GetPage(name: '/home', page: () => HomePage()),

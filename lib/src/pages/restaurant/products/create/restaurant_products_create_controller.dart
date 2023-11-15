@@ -65,7 +65,7 @@ class RestaurantProductsCreateController extends GetxController {
         description: description,
         price: double.parse(price),
         idCategory: idCategory.value,
-        idRestaurant: user.id_restaurant ?? '0',
+        idRestaurant: user.idRestaurant ?? '0',
       );
 
     progressDialog.show(max: 100, msg: 'Espere un momento...');
