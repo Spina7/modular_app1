@@ -22,7 +22,7 @@ class DeliveryOrdersDetailPage extends StatelessWidget {
 
       bottomNavigationBar: Container(
         color: Color.fromRGBO(245, 245, 245, 1),
-        height: MediaQuery.of(context).size.height *0.4,
+        height: MediaQuery.of(context).size.height *0.45,
         padding: EdgeInsets.only(top: 15),
         child: Column(
           children:  [

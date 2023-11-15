@@ -35,7 +35,7 @@ class RestaurantHomePage extends StatelessWidget {
           index: con.indexTab.value,
           children: [
             RestaurantOrdersListPage(),
-            RestaurantCategoriesCreatePage(),
+            //RestaurantCategoriesCreatePage(),
             RestaurantProductsCreatePage(),
             ClientProfileInfoPage(),
             
@@ -65,12 +65,14 @@ class RestaurantHomePage extends StatelessWidget {
           inactiveColor: Colors.black,
         ),
 
+        /*
         BottomNavyBarItem(
           icon: Icon(Icons.category), 
           title: Text('Categorias'),
           activeColor: Colors.white,
           inactiveColor: Colors.black,
         ),
+        */
 
         BottomNavyBarItem(
           icon: Icon(Icons.restaurant), 

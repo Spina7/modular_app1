@@ -257,7 +257,7 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(top: 25, left: 7, right: 7),
+            margin: EdgeInsets.only(top: 15, left: 7, right: 7),
             child: ListTile(
               title: Text(
                 product.name ?? '',
@@ -285,7 +285,7 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
                 ],
               ),
               trailing: Container(
-                height: 70,
+                height: 50,
                 width: 60,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
@@ -311,7 +311,7 @@ class ClientRestaurantsDetailPage extends StatelessWidget {
   Widget _imageSlideshow(BuildContext context) {
     return ImageSlideshow(
         width: double.infinity,
-        height: MediaQuery.of(context).size.height * 0.4,
+        height: MediaQuery.of(context).size.height * 0.39,
         initialPage: 0,
         indicatorColor: Colors.redAccent,
         indicatorBackgroundColor: Colors.grey,

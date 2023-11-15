@@ -21,7 +21,7 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
             color: Color.fromRGBO(245, 245, 245, 1),
             height: con.order.status == 'PAGADO'
                 ? MediaQuery.of(context).size.height * 0.53
-                : MediaQuery.of(context).size.height * 0.50,
+                : MediaQuery.of(context).size.height * 0.55,
             padding: EdgeInsets.only(top: 10),
             child: Column(
               children: [
